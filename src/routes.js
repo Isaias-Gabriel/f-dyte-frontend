@@ -16,6 +16,11 @@ import Feed from './components/Profile/Feed.component';
 import Posts from './components/Profile/Posts.component';
 import RedirectToProfile from './components/RedirectToProfile/RedirectToProfile.component';
 
+
+import NonSignInFeed from './components/ProfileNonSignedIn/NonSignedInFeed.component';
+// import Posts from './components/Profile/Posts.component';
+// import RedirectToProfile from './components/RedirectToProfile/RedirectToProfile.component';
+
 import Queima from './components/Profile/Queima.component';
 import Belle from './components/Profile/Belle.component'; 
 
@@ -27,6 +32,7 @@ import RedirectToComment from './components/RedirectToComment/RedirectToComment.
 import Promote from './components/Promote/Promote.component';
 
 export default function Routes() {
+    console.log(localStorage.getItem('e'));
     return(
         <Router basename="/">
             <Route path="/" exact component={Home} />
@@ -39,7 +45,18 @@ export default function Routes() {
             <Route path="/object/:nickname" component={FdObject} />
             <Route path="/redirect_to_object/:nickname" component={RedirectToObject} />
 
-            <Route path="/profile/:username" exact component={Feed} />
+            {
+                (localStorage.getItem('e'))
+                ?
+                (
+                    <Route path="/profile/:username" exact component={Feed} />
+                )
+                :
+                (
+                    <Route path="/profile/:username" exact component={NonSignInFeed} />
+                )
+            }
+
             <Route path="/post/:id" exact component={Posts} />
             <Route path="/redirect_to_profile/:nickname" component={RedirectToProfile} />
 

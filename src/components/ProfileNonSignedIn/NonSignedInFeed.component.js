@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-import GoHome from '../GoHome/GoHome.component';
-import LogOut from '../LogOut/LogOut.component';
+import LogIn from '../LogIn/LogIn.component';
 
-import Posts from './Posts.component';
+import GoHome from '../GoHome/GoHome.component';
+
 import FollowUser from '../FollowUser/FollowUser.component';
 
-import NonSignedInPosts from '../ProfileNonSignedIn/NonSignedInPosts.component';
+import NonSignedInPosts from './NonSignedInPosts.component';
 
-import Notification from '../Notification/Notification.component';
-
-import './FeedStyles.css';
+import './NonSignedInStyles.css';
 
 require('dotenv/config');
 
@@ -38,6 +36,8 @@ export default class Feed extends Component {
             canBeRated: false,
 
             userFound: true,
+
+            showLogInModal: false,
         }
     }
 
@@ -157,12 +157,55 @@ export default class Feed extends Component {
         const { userFound } = this.state;
         if(userFound) {
             const { name, username, rate, rateNumber } = this.state.evaluator;
-
+            const { showLogInModal } = this.state;
+            console.log(showLogInModal)
             return(
                 <div id="profile-container">
                     <GoHome/>
-                    <Notification />
-                    <LogOut/>
+                    <button onClick={
+                        () => {
+                            this.setState({
+                                showLogInModal: true,
+                            })
+                        }
+                    }>
+                        Log in
+                    </button>
+
+                    {
+                        (showLogInModal)
+                        ?
+                        (
+                            <div class="log-in-modal-outter-container">
+                                <div className="log-in-modal-message">
+                                    <p>
+                                        Log in or sign up 
+                                        so you can rate, comment, post, 
+                                        create objects ^^ and more °-°
+                                    </p>
+                                </div>
+                                <div className="log-in-modal">
+                                    <LogIn />
+                                </div>
+
+                                <div
+                                    className="log-in-modal-aux-background-div"
+                                    onClick={
+                                        () => {
+                                            this.setState({
+                                                showLogInModal: false,
+                                            })
+                                        }
+                                    }
+                                >
+                                </div>
+                            </div>
+                        )
+                        :
+                        (
+                            ''
+                        )
+                    }
 
                     <div>
                         <h1>
@@ -200,7 +243,7 @@ export default class Feed extends Component {
                     
                     <section>
                         <div>
-                            <Posts
+                            <NonSignedInPosts
                                 username={ this.props.match.params.username }
                             />
                         </div>

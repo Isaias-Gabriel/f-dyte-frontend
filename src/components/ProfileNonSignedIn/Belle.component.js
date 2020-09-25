@@ -1,22 +1,19 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+import IsLogged from '../IsLogged/IsLogged.component';
 import GoHome from '../GoHome/GoHome.component';
 import LogOut from '../LogOut/LogOut.component';
 
-import Posts from './Posts.component';
+import BellePosts from './BellePosts.component';
 import FollowUser from '../FollowUser/FollowUser.component';
 
-import NonSignedInPosts from '../ProfileNonSignedIn/NonSignedInPosts.component';
-
-import Notification from '../Notification/Notification.component';
-
-import './FeedStyles.css';
+import './BelleStyles.css';
 
 require('dotenv/config');
 
-export default class Feed extends Component {
+export default class Belle extends Component {
 
     constructor(props) {
         super(props);
@@ -36,16 +33,12 @@ export default class Feed extends Component {
             rateToSubmit: 0,
 
             canBeRated: false,
-
-            userFound: true,
         }
     }
 
     componentDidMount() {
         axios.get(process.env.REACT_APP_SERVER_ADDRESS + '/complete_evaluator_info/' + this.props.match.params.username)
             .then(response => {
-                document.getElementsByTagName('title')[0].innerText = response.data.evaluator.name + ' - profile';
-                
                 this.setState({
                     evaluator: response.data.evaluator,
                     followersNumber: response.data.followersNumber,
@@ -67,16 +60,8 @@ export default class Feed extends Component {
 
                 })
             })
-            .catch(err => {
-                this.setState({
-                    userFound: false,
-                })
-            });
+            .catch(err => console.log(err));
 
-    }
-
-    componentWillUnmount() {
-        document.getElementsByTagName('title')[0].innerText = 'f Dyte';
     }
 
     handleChange = e => {
@@ -117,7 +102,6 @@ export default class Feed extends Component {
         const { name, username } = this.state.evaluator;
         const { followersNumber, isFollowed } = this.state;
 
-
         if(username && name && (typeof isFollowed !== typeof undefined) && 
             (typeof followersNumber !== typeof undefined)) {
             return(
@@ -154,67 +138,57 @@ export default class Feed extends Component {
     }
 
     render() {
-        const { userFound } = this.state;
-        if(userFound) {
-            const { name, username, rate, rateNumber } = this.state.evaluator;
+        const { name, username, rate, rateNumber } = this.state.evaluator;
 
-            return(
-                <div id="profile-container">
-                    <GoHome/>
-                    <Notification />
-                    <LogOut/>
+        return(
+            <div id="profile-container">
+                <IsLogged/>
+                <GoHome/>
+                <LogOut/>
 
-                    <div>
-                        <h1>
-                            { name }
-                        </h1>
-                        
-                        <p>
-                                @{ username }
-                        </p>
-
-                        <span>
-                            Rate: { Number(rate.$numberDecimal).toFixed(2) }
-                        </span>
-                        
-                        <p>
-                            Number of rates: { rateNumber }
-                        </p>
-                    </div>
-                    
-                    {
-                        this.showRatingSlider()
-                    }
-
-                    {
-                        this.showFollowButton()
-                    }
-
-                    <Link to={"/profile/" + this.props.match.params.username + "/queima"}>
-                        Queima
-                    </Link>
-
-                    <Link to={"/profile/" + this.props.match.params.username + "/belle"}>
-                        Belle
-                    </Link>
-                    
-                    <section>
-                        <div>
-                            <Posts
-                                username={ this.props.match.params.username }
-                            />
-                        </div>
-                    </section>
-                </div>
-            );
-        }
-
-        else {
-            return(
                 <div>
-                    USER NOT FOUND '-'
+                    <h1>
+                        { name }
+                    </h1>
+                    
+                    <p>
+                        @{ username }
+                    </p>
+
+                    <span>
+                        Rate: { Number( rate.$numberDecimal).toFixed(2) }
+                    </span>
+                    
+                    <p>
+                        Number of rates: { rateNumber }
+                    </p>
                 </div>
-            )
-        }
+                
+                {
+                    this.showRatingSlider()
+                }
+
+                {
+                    this.showFollowButton()
+                }
+
+                <Link to={"/profile/" + this.props.match.params.username}>
+                    Feed
+                </Link>
+
+                <Link to={"/profile/" + this.props.match.params.username + "/queima"}>
+                    Queima
+                </Link>
+                
+                <section>
+                    <div id="add-post">
+                        <BellePosts
+                            username={ this.props.match.params.username }
+                        />  
+                        
+                    </div>
+                </section>
+            </div>
+        );
     }
 }

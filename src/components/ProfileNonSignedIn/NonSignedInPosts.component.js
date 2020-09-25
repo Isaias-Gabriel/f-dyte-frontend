@@ -13,23 +13,20 @@ import Linkify from 'react-linkify';
 import ReturnReferenceAsLink from 
     '../ReturnReferenceAsLink/ReturnReferenceAsLink.component';
 
-import LogOut from '../LogOut/LogOut.component';
+import LogIn from '../LogIn/LogIn.component';
 
 import GoHome from '../GoHome/GoHome.component';
-import Notification from '../Notification/Notification.component';
 
 import ShowMedia from '../ShowMedia/ShowMedia.component';
 import PostSegredinho from '../PostSegredinho/PostSegredinho.component';
 
 import CommentOnPQBS from '../Comment/CommentOnPQBS.component';
 
-import getUserUsername from '../../functions/getUserUsername';
-
-import './PostsStyles.css';
+import './NonSignedInStyles.css';
 
 require('dotenv/config');
 
-export default class Posts extends Component {
+export default class NonSignedInPosts extends Component {
     constructor(props) {
         super(props);
 
@@ -81,7 +78,7 @@ export default class Posts extends Component {
         }
     }
 
-    async componentDidMount() {
+    async componentDidMount() {       
         //console.log(this.props)
         // let sp = undefined;
         
@@ -89,10 +86,6 @@ export default class Posts extends Component {
         //     sp = ( this.props.match.params.sp === "true" ? true : false);
         // }
         //console.log(this.props);
-        
-        this.setState({
-            userUsername: await getUserUsername(),
-        })
 
         //if the post is shown within a 'comment' page
         if(this.props.data) {
@@ -127,25 +120,16 @@ export default class Posts extends Component {
                     document.getElementsByTagName("hr")[0].style.display = "none";
                     document.getElementById("add-new-post-button").style.display = "none";
 
-                    const fInfo = {
+                    const formInfo = {
                         id: this.props.match.params.id,
                         sessionId: localStorage.getItem('e'),
                     };
     
-                    axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/get_post', fInfo)
+                    axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/get_post_no_user', formInfo)
                         .then(response => {
-                            
-                            if(response.data.postIsRated) {
-                                this.state.ratedPosts.push(response.data.post._id);
-                            }
-
-                            else {
-                                this.setState({
-                                    [ response.data.post._id ]: 0,
-                                })
-                            }
-
+                        
                             this.setState({
+                                [ response.data.post._id ]: 0,
                                 post: response.data.post,
                                 showPostComments: true,
                             })
@@ -158,18 +142,15 @@ export default class Posts extends Component {
                 else {
                     const formInfo = {
                         username: this.props.username,
-                        sessionId: localStorage.getItem('e'),
                     };
             
-                    axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/get_all_posts', formInfo)
+                    axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/get_all_posts_no_user', formInfo)
                         .then(response => {
-                            
+                            console.log(response.data);
                             this.setState({
                                 posts: response.data.posts,
-                                ratedPosts: response.data.ratedPosts,
                             }, () => {
                                 this.state.posts.map(post => {
-            
                                     this.setState({
                                         [ post._id ]: 0,
                                     });
@@ -267,8 +248,15 @@ export default class Posts extends Component {
             return(
                 <div>
                     <GoHome />
-                    <Notification />
-                    <LogOut />
+                    <button onClick={
+                        () => {
+                            this.setState({
+                                showLogInModal: true,
+                            })
+                        }
+                    }>
+                        Log in
+                    </button>
                 </div>
             )
         }
@@ -699,7 +687,9 @@ export default class Posts extends Component {
 
                         <p>Value: <span>{ Number(postRate / 1000000).toFixed(2) }</span></p>
 
-                        <button type="submit">Rate this post</button>
+                        <button type="submit">
+                            Rate this post
+                        </button>
                     </form>
                 </div>
             )
@@ -709,53 +699,9 @@ export default class Posts extends Component {
     submitRate(e, id, isSegredinho) {
         e.preventDefault();
 
-        const formInfo = {
-            id: id,
-            rate: this.state[id] / 1000000,
-            sessionId: localStorage.getItem('e'),
-        };
-
-        let onWhich;
-        //if isSegredinho is defined, then is a segredinho post k '-'
-        if(isSegredinho) {
-            onWhich = 'segredinho';
-        }
-        else {
-            onWhich = 'post';
-        }
-        
-        axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/update_' + onWhich + '_rate', formInfo)
-            .then(res => {
-                
-                this.state.ratedPosts.unshift(id);
-
-                if(this.state.showPostComments) {
-                    const { post } = this.state;
-
-                    post.rate = res.data;
-                    post.rateNumber = post.rateNumber + 1;
-
-                    this.setState({
-                        post: post,
-                    })
-                }
-
-                else {
-                    this.setState({
-                        posts: this.state.posts.filter(post => {
-                            if(post._id === id) {
-                                post.rate = res.data;
-                                post.rateNumber = post.rateNumber + 1;
-                                return post
-                            }
-                            else {
-                                return post
-                            }
-                        })
-                    })
-                }
-            })
-            .catch(err => console.log(err));
+        this.setState({
+            showLogInModal: true,
+        })
     }
 
     submitPost(e) {
@@ -811,8 +757,46 @@ export default class Posts extends Component {
     }
 
     render() {
+        const { showLogInModal } = this.state;
+
         return(
             <div id="profile-post-container">
+
+                    {
+                        (showLogInModal)
+                        ?
+                        (
+                            <div class="log-in-modal-outter-container">
+                                <div className="log-in-modal-message">
+                                    <p>
+                                        Log in or sign up 
+                                        so you can rate, comment, post, 
+                                        create objects ^^ and more °-°
+                                    </p>
+                                </div>
+                                <div className="log-in-modal">
+                                    <LogIn />
+                                </div>
+
+                                <div
+                                    className="log-in-modal-aux-background-div"
+                                    onClick={
+                                        () => {
+                                            this.setState({
+                                                showLogInModal: false,
+                                            })
+                                        }
+                                    }
+                                >
+                                </div>
+                            </div>
+                        )
+                        :
+                        (
+                            ''
+                        )
+                    }
+
                 <div>
                     <div id="add-new-post-button" onClick={this.showForm}>
                         +
