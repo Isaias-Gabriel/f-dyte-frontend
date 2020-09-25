@@ -1,0 +1,31 @@
+#create-object-page-container img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+#create-object-page-container video {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+label#files-label {
+    background: rgb(255, 208, 232);
+    
+    cursor: pointer;
+    border: solid 3px rgb(255, 208, 232);
+}
+
+input {
+    display: block;
+}
+
+input#files {
+    display: none;
+}
+
+.create-object-category {
+    padding: 3px;
+
+    border: solid 1px rgb(83, 74, 67);
+    border-radius: 1px;
+}

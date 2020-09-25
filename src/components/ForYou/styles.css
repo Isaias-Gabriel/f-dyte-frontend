@@ -1,0 +1,25 @@
+#sc-co-div {
+    width: 50%;
+    height: 600px;
+
+    border: solid 3px white;
+
+    background: rgb(255, 222, 241);
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+    
+}
+
+#sc-co-div::-webkit-scrollbar {
+    display: none;
+}
+
+.rc-rsrc-fy-div {
+    cursor: pointer;
+}
+
+.for-you-recommendation-outter-container {
+    padding-top: 7px;
+    padding-bottom: 7px;
+}

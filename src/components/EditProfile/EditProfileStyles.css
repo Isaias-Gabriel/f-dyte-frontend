@@ -1,0 +1,14 @@
+label#profile-picture-label {
+    background: rgb(255, 208, 232);
+    
+    cursor: pointer;
+    border: solid 3px rgb(255, 208, 232);
+}
+
+input {
+    display: block;
+}
+
+input.profile-input-file {
+    display: none;
+}

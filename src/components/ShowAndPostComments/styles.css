@@ -1,0 +1,189 @@
+
+.ccn-spcts {
+    width: 21px;
+    height: 21px;
+    padding: 0;
+}
+
+.cmmwprgnrspc-fy {
+    cursor: pointer;
+}
+
+.mdzcmnt-container {
+    position: fixed;
+    z-index: 81;
+    background-color: white;
+
+    top: 10vh;
+    left: 10vw;
+
+    width: 80vw;
+    height: 80vh;
+
+    border: solid 1px gainsboro;
+    border-radius: 1.37px;
+    box-shadow: 0px 0px 100vh 1vw rgba(220, 220, 220, 0.712);
+}
+
+.delete-warning-container {
+    display: none;
+    position: fixed;
+    z-index: 82;
+
+    box-sizing: border-box;
+
+    width: 360px;
+    height: 100px;
+
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -180px;
+
+    padding: 13.7px;
+
+    background-color: white;
+    border: solid 1px gainsboro;
+}
+
+.cmm-n-cmm-shwandpst-container {
+    margin-left: 33.7px;
+}
+
+.tbspcd-container {
+    margin: 33.7px;
+
+    height: 70vh;
+
+    background-color: rgb(253.5, 253.5, 254);
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.tbspcd-container::-webkit-scrollbar {
+    display: none;
+}
+
+.rtstr-button.cl {
+    position: absolute;
+    /* position: sticky; */
+
+    top: 7.23px;
+    right: 7.23px;
+    
+}
+
+.ddccmm {
+    width: 21px;
+    height: 21px;
+    padding: 0;
+    
+    position: absolute;
+    /* position: sticky; */
+
+    bottom: 7.23px;
+    left: 39vw;
+}
+
+.editbl-ccfmdu-div-container {
+    display: none;
+
+    /* min-height: 140px;
+    height: 20vh; */
+
+    /* padding: 13px; */
+    
+    position: absolute;
+
+    bottom: 33.7px;
+    left: 33.7px;
+    right: 33.7px;
+}
+
+.editbl-ccfmdu-div-caption {
+    height: 32px;
+
+    background-color: rgb(240, 240, 255);
+}
+
+.editbl-ccfmdu-div {
+    /* min-height: 120px; */
+    /* height: 80%; */
+    min-height: 10vh;
+    max-height: 25vh;
+
+    padding-right: 27.7px;
+
+    background-color: rgb(253.5, 253.5, 254);
+
+    outline: none;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.editbl-ccfmdu-div::-webkit-scrollbar {
+    display: none;
+}
+
+.send-cm-button {
+    position: absolute;
+    width: 21px;
+    height: 21px;
+    /* position: sticky; */
+    /* top: 7.23px; */
+    right: 7.23px;
+
+    background: none;
+    border: none;
+    margin: none;
+    outline: none;
+
+    bottom: 7.23px;
+}
+
+.send-cm-icon {
+    width: 21px;
+    height: 21px;
+
+    cursor: pointer;
+}
+
+.fy-cmmnt-container {
+    position: relative;
+}
+
+.dlt-cmmnt-bt-fy {
+    position: absolute;
+
+    background: none;
+    border: none;
+    margin: none;
+    outline: none;
+
+    top: 7.23px;
+    right: 7.23px;
+
+    cursor: pointer;
+
+    /* top: 7.23px;
+    right: 7.23px; */
+    /* width: 21px;
+    height: 21px;
+    right: 7.23px;
+
+    background: none;
+    border: none;
+    margin: none;
+    outline: none;
+
+    top: 7.23px; */
+}
+
+.dlt-cmmnt-ico-fy {
+    width: 21px;
+    height: 21px;
+}
+
+

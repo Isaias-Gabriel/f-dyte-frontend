@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+a {
+    text-decoration: none;
+}
+
+hr {
+    margin: 0;
+}
+
+#object-container a {
+    text-decoration: none;
+}
+
+#object-container img {
+    max-height: 50vh;
+}
+
+#object-container video {
+    max-height: 45vh;
+}
+
+#shw-bjct {
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 4vh;
+    font-family: 'Noto Sans', sans-serif;
+}
+
+#add-comment-on-comment {
+    display: none   ;
+    position: fixed;
+    top: 300px;
+    left: 200px;
+    z-index: 1;
+    background: rgb(238, 222, 253);
+}
+
+.object-category-span {
+    padding: 3px;
+
+    border: solid 1px rgb(83, 74, 67);
+    border-radius: 1px;
+}

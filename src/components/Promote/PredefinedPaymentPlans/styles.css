@@ -1,0 +1,13 @@
+.plan-outter-container {
+    padding: 7px;
+
+    cursor: pointer;
+}
+
+.plan-outter-container:hover {
+    background-color: rgb(255, 244, 244);
+}
+
+.plan-outter-container p {
+    margin: 0;
+}

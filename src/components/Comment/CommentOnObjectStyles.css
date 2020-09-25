@@ -1,0 +1,122 @@
+div#bjct-cmmnts-container {
+    position: relative;
+    margin: 0 20vw 0;
+
+    background: #fff6f6;
+}
+
+div#bjct-cmmnts-container img {
+    max-height: 100%;
+    max-width: 100%;
+
+    border-radius: 1.5px;
+}
+
+div#bjct-cmmnts-container video {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+#rcl-selection-section {
+    display: flex;
+
+    justify-content: space-between;
+}
+
+#rcl-selection-section span {
+    cursor: pointer;
+    color: rgb(215, 215, 253);
+    font-size: 18px;
+}
+
+#common-comments-presentation-container {
+    visibility: hidden;
+    position: absolute;
+
+    top: 0;
+
+    width: 150px;
+    height: 50px;
+
+    background: rgba(222, 255, 255, 0.986);
+
+    animation: fadeOut 2400ms ease-in 0ms;
+    font-size: 22px
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    40% {
+        opacity: 1;
+        visibility: visible;
+    }
+
+	100% {
+        opacity: 0;
+        visibility: hidden;
+	}
+}
+
+div#media-preview-comment-on-object {
+    max-height: 50vh;
+}
+
+div#sbmt-comment img {
+    max-height: 40vh;
+}
+
+div#sbmt-comment video {
+    max-height: 30vh;
+}
+
+div#add-new-comment-button {
+    width: 20px;
+    height: 20px;
+
+    padding: 5px;
+
+    cursor: pointer;
+
+    position: relative;
+    top: -50px;
+
+    background: rgb(114, 136, 255);
+
+    border-radius: 2px;
+
+    color: white;
+}
+
+div#add-new-comment-form-container {
+    display: none;
+    position: fixed;
+
+    width: 310px;
+
+    top: 2vh;
+    left: 35vw;
+
+    background: rgb(255, 223, 239);
+
+    border: solid 2px rgb(117, 246, 255);
+    border-radius: 2px;
+}
+
+div#add-new-comment-form-container span {
+    cursor: pointer;
+}
+
+div#add-new-comment-form-container div#text-content-input-comment-on-object {
+    width: 300px;
+    height: 200px;
+
+    background: #fff6f6;
+
+    border: none;
+    outline: none;
+    text-align: justify;
+}

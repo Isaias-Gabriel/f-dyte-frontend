@@ -3,12 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@aws-amplify/ui-react": "^0.2.18",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "aws-amplify": "^3.1.1",
+    "axios": "^0.20.0",
+    "dotenv": "^8.2.0",
     "react": "^16.13.1",
+    "react-adsense": "^0.1.0",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3"
+    "react-icons": "^3.11.0",
+    "react-linkify": "^1.0.0-alpha",
+    "react-player": "^2.6.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.3",
+    "websocket": "^1.0.32"
   },
   "scripts": {
     "start": "react-scripts start",
