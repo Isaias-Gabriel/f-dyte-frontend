@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
 
+import './styles.css';
+
 const ShowMedia = props => {
     const url = props.url;
 

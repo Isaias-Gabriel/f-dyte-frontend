@@ -288,7 +288,7 @@ export default class SignUp extends Component {
                             <div>
                                 <input 
                                     type="email" 
-                                    placeholder="Email or phone number"
+                                    placeholder="Email"
                                     name="email"
 
                                     value={email}

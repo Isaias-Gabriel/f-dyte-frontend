@@ -224,6 +224,8 @@ export default class Posts extends Component {
 
         this.setState({
             files: files_temp,
+        }, () => {
+            console.log(this.state.files);
         })
     }
 
@@ -768,13 +770,16 @@ export default class Posts extends Component {
 
         fileData.append("sessionId", localStorage.getItem('e'));
         fileData.append("content", document.getElementById('text-content-input-comment-on-object').innerText);
+        // const formInfo = {
+        //     "sessionId": localStorage.getItem('e'),
+        //     "content": document.getElementById('text-content-input-comment-on-object').innerText,
+        // }
 
-        axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/post', fileData, {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        })
+        console.log(fileData);
+
+        axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/post', fileData)
             .then(response => {
+                console.log('a');
 
                 if(this.props.username === response.data.post.userUsername) {
                     this.state.posts.unshift(response.data.post)
@@ -800,7 +805,10 @@ export default class Posts extends Component {
                     this.hideForm();
                 })
             })
-            .catch(err => console.log(err));
+            .catch(err => {
+                console.log('b');
+                console.log(err);
+            });
         
     }
 
@@ -822,7 +830,7 @@ export default class Posts extends Component {
                         x
                     </span>
                     
-                    <form onSubmit={this.submitPost} encType="multipart/form-data">
+                    <form onSubmit={this.submitPost}>
                         <Linkify>
                             <div
                                 id="text-content-input-comment-on-object"
