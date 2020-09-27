@@ -23,6 +23,10 @@ export default class Home extends Component {
         }
     }
 
+    componentDidMount() {
+        
+    }
+
     handleChange = e => {
         this.setState({
             [ e.target.name ]: e.target.value
@@ -39,10 +43,10 @@ export default class Home extends Component {
 
         axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/log_in', formInfo)
             .then(async res => {
-                console.log(res.data);
+                
                 if(typeof res.data === typeof {}){
 
-                    const client = new W3CWebSocket('ws://127.0.0.1:8000/');
+                    const client = new W3CWebSocket('ws://www.fdytebackend.com:8000/');
 
                     client.onopen = () => {
                         client.send(JSON.stringify({
@@ -56,8 +60,19 @@ export default class Home extends Component {
                     localStorage.setItem('e', res.data.sessionId);
                     //localStorage.setItem('uu', res.data.username);
 
+                    let url = '/';
+
+                    if(this.props.url) {
+                        const temp_url = this.props.url;
+                        
+                        if(temp_url.includes('/profile/')) {
+                            url = '/redirect_to_profile/' + temp_url.substring(9, temp_url.length);
+                        }
+                        //url = this.props.url;
+                    }
+
                     this.setState({
-                        logged: '/'
+                        logged: url,
                     });
                 }
 
@@ -72,7 +87,7 @@ export default class Home extends Component {
         const { email, password } = this.state;
 
         if(localStorage.getItem(localStorage.getItem('e')) || this.state.logged) {
-            return <Redirect to="/" />
+            return <Redirect to={this.state.logged} />
         }
         return(
             <div id="log-in-container">

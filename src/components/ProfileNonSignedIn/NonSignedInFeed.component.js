@@ -101,7 +101,6 @@ export default class Feed extends Component {
                             value={rateToSubmit}
                             onChange={this.handleChange}
 
-                            id="myRange"
                             className="slider"
                         />
 
@@ -158,7 +157,7 @@ export default class Feed extends Component {
         if(userFound) {
             const { name, username, rate, rateNumber } = this.state.evaluator;
             const { showLogInModal } = this.state;
-            console.log(showLogInModal)
+            
             return(
                 <div id="profile-container">
                     <GoHome/>
@@ -176,7 +175,7 @@ export default class Feed extends Component {
                         (showLogInModal)
                         ?
                         (
-                            <div class="log-in-modal-outter-container">
+                            <div className="log-in-modal-outter-container">
                                 <div className="log-in-modal-message">
                                     <p>
                                         Log in or sign up 
@@ -185,7 +184,9 @@ export default class Feed extends Component {
                                     </p>
                                 </div>
                                 <div className="log-in-modal">
-                                    <LogIn />
+                                    <LogIn
+                                        url={this.props.match.url}
+                                    />
                                 </div>
 
                                 <div

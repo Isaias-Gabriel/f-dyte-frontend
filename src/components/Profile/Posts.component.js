@@ -693,7 +693,6 @@ export default class Posts extends Component {
                             value={postRate || 0}
                             onChange={(e) => this.onChangePostRate(e, id)}
 
-                            id="myRange"
                             className="slider"
                         />
 
