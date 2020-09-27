@@ -46,7 +46,7 @@ export default class Home extends Component {
                 
                 if(typeof res.data === typeof {}){
 
-                    const client = new W3CWebSocket('ws://www.fdytebackend.com:8000/');
+                    const client = new W3CWebSocket('ws://127.0.0.1:8000/');
 
                     client.onopen = () => {
                         client.send(JSON.stringify({
