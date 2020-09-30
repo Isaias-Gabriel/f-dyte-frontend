@@ -36,6 +36,11 @@
     overflow-y: auto;
 }
 
+.log-in-modal iframe {
+    width: 100%;
+    height: 100%;
+}
+
 .log-in-modal::-webkit-scrollbar {
     display: none;
 }

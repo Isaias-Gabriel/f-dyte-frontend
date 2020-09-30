@@ -184,9 +184,8 @@ export default class Feed extends Component {
                                     </p>
                                 </div>
                                 <div className="log-in-modal">
-                                    <LogIn
-                                        url={this.props.match.url}
-                                    />
+                                    <iframe src="/log_in">
+                                    </iframe>
                                 </div>
 
                                 <div
