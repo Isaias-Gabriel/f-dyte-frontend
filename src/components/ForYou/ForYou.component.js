@@ -83,9 +83,9 @@ export default class ForYou extends Component {
                     console.log({
                         recLen: this.state.recommendations.length,
                     })
-                    //console.log(document.getElementById('sc-co-div').scrollTop);
-                    //document.getElementById('sc-co-div').scrollTop = document.getElementById('sc-co-div').scrollTop + diff;
-                    //console.log(document.getElementById('sc-co-div').scrollTop);
+                    //console.log(document.getElementById('scrollable-outter-div').scrollTop);
+                    //document.getElementById('scrollable-outter-div').scrollTop = document.getElementById('scrollable-outter-div').scrollTop + diff;
+                    //console.log(document.getElementById('scrollable-outter-div').scrollTop);
                     this.setState({
                         scrolledTooHighExecuted: true,
                     })
@@ -149,9 +149,9 @@ export default class ForYou extends Component {
                     console.log({
                         recLen: this.state.recommendations.length,
                     })
-                    //console.log(document.getElementById('sc-co-div').scrollTop);
-                    //document.getElementById('sc-co-div').scrollTop = document.getElementById('sc-co-div').scrollTop + diff;
-                    //console.log(document.getElementById('sc-co-div').scrollTop);
+                    //console.log(document.getElementById('scrollable-outter-div').scrollTop);
+                    //document.getElementById('scrollable-outter-div').scrollTop = document.getElementById('scrollable-outter-div').scrollTop + diff;
+                    //console.log(document.getElementById('scrollable-outter-div').scrollTop);
                     this.setState({
                         scrolledTooLowExecuted: true,
                     })
@@ -165,7 +165,7 @@ export default class ForYou extends Component {
 
     componentDidMount() {
         
-        document.getElementById('sc-co-div').addEventListener("scroll", (e) => {
+        document.getElementById('scrollable-outter-div').addEventListener("scroll", (e) => {
             const el = e.target;
             // console.log(document.getElementById(this.state.ancTopId).offsetTop);
             // console.log({
@@ -226,7 +226,7 @@ export default class ForYou extends Component {
                 this.setState({
                     recommendations: response.data.rec,
                 }, () => {
-                    document.getElementById('sc-co-div').scrollTop = document.getElementById('sc-co-div').scrollHeight / 2;
+                    document.getElementById('scrollable-outter-div').scrollTop = document.getElementById('scrollable-outter-div').scrollHeight / 2;
                 })
             })
             .catch(err => console.log(err));
@@ -255,8 +255,8 @@ export default class ForYou extends Component {
             return <Redirect to={this.state.redirectTo} />
         }
         return(
-            <div id="for-you-container">
-                <div id="sc-co-div">
+            <div id="for-you-container-outter-container">
+                <div id="scrollable-outter-div">
                     <div>
                         <div>
                             <div id="sc-co-recs-c-div">

@@ -1,17 +1,17 @@
-#sc-co-div {
-    width: 50%;
-    height: 600px;
+#scrollable-outter-div {
+    /* width: 50%; */
+    height: 93vh;
 
     border: solid 3px white;
 
-    background: rgb(255, 222, 241);
+    background: rgb(255, 247, 247);
 
     overflow-y: scroll;
     overflow-x: hidden;
     
 }
 
-#sc-co-div::-webkit-scrollbar {
+#scrollable-outter-div::-webkit-scrollbar {
     display: none;
 }
 
@@ -20,6 +20,8 @@
 }
 
 .for-you-recommendation-outter-container {
-    padding-top: 7px;
-    padding-bottom: 7px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+
+    padding: 7px;
 }

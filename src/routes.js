@@ -32,7 +32,6 @@ import RedirectToComment from './components/RedirectToComment/RedirectToComment.
 import Promote from './components/Promote/Promote.component';
 
 export default function Routes() {
-    console.log(localStorage.getItem('e'));
     return(
         <Router basename="/">
             <Route path="/" exact component={Home} />

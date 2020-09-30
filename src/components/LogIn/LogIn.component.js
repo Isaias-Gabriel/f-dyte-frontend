@@ -3,7 +3,9 @@ import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { w3cwebsocket as W3CWebSocket } from 'websocket';
 
-import logoImg from '../../assets/temp_logo.gif';
+import  dailyOrNightly from '../../functions/dailyOrNightlyStyle';
+
+import logoImg from '../../assets/complete_daily_logo.svg';
 
 import './styles.css';
 
@@ -16,15 +18,26 @@ export default class Home extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
+        this.submitButton = React.createRef();
+
         this.state = {
             email: '',
             password: '',
             logged: null,
+            currentStyle: null,
         }
     }
 
+    //'nightly'
+    //'daily'
+
     componentDidMount() {
-        
+        // this.submitButton.current.disabled = true;
+        // console.log(new Date().getHours().toString() + ':' + new Date().getMinutes().toString());
+
+        this.setState({
+            currentStyle: dailyOrNightly(),
+        })
     }
 
     handleChange = e => {
@@ -37,9 +50,14 @@ export default class Home extends Component {
         e.preventDefault();
 
         const formInfo = {
-            email: this.state.email,
-            password: this.state.password   
+            email: this.state.email.trim(),
+            password: this.state.password.trim(),  
         }
+
+        this.setState({
+            email: this.state.email.trim(),
+            password: this.state.password.trim(),
+        })
 
         axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/log_in', formInfo)
             .then(async res => {
@@ -84,51 +102,87 @@ export default class Home extends Component {
     }
 
     render() {
-        const { email, password } = this.state;
+        const { email, password, currentStyle } = this.state;
 
         if(localStorage.getItem(localStorage.getItem('e')) || this.state.logged) {
             return <Redirect to={this.state.logged} />
         }
         return(
-            <div id="log-in-container">
-                <div id="main-log-in-section">
-                    <section className="header">
-                        <img src={logoImg} alt="logo"/>
-                        <h1>The ***** social network</h1>
-                    </section>
+            <div id={
+                (currentStyle) ? currentStyle + "-log-in-outter-container" : "daily-log-in-outter-container"
+            }>
+                <div id={
+                    (currentStyle) ? currentStyle + "-log-in-inner-container" : "daily-log-in-inner-container"
+                }>
+                    <div id="main-log-in-section">
+                        <section className="logo-and-phrase-outter-container">
+                            <div className="logo-outter-container">
+                                <img src={logoImg} alt="logo"/>
+                            </div>
 
-                    <section className="login-form">
-                        <form id="user-password" onSubmit={this.onSubmit}>
+                            <div>
+                                <h1>The ***** social network</h1>
+                            </div>
+                        </section>
 
-                            <input 
-                                type="text"
-                                name="email"
+                        <section className="login-form">
+                            <form id="user-password" onSubmit={this.onSubmit}>
+                                <div>
+                                    <div className="log-in-input-outter-container">
+                                        <input 
+                                            type="text"
+                                            name="email"
 
-                                placeholder="Email, phone number or user name"
-                                value={email}
-                                onChange={this.handleChange}
-                            />
-                            <input 
-                                type="password"
-                                name="password"
+                                            minLength="1"
+                                            maxLength="100"
 
-                                placeholder="Password"
-                                value={password}
-                                onChange={this.handleChange}
-                            />
+                                            required
 
-                            <button type="submit">Log in</button>
-                        </form>
-                    </section>
+                                            placeholder="Email or username"
+                                            value={email}
+                                            onChange={this.handleChange}
+                                        />
+                                    </div>
 
-                    <p>
-                        Don’t have an account? Let’s solve this!
-                        <span> </span>
+                                    <div className="log-in-input-outter-container">
+                                        <input
+                                            type="password"
+                                            name="password"
 
-                        <Link className="sign-up-link" to="/sign_up">
-                            Sign up
-                        </Link>
-                    </p>
+                                            minLength="6"
+                                            maxLength="100"
+                                            required
+
+                                            placeholder="Password"
+                                            value={password}
+                                            onChange={this.handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                
+                                <div className="log-in-submit-button-outter-container">
+                                    <button
+                                        type="submit"
+                                        ref={this.submitButton}
+                                    >
+                                        Log in
+                                    </button>
+                                </div>
+                            </form>
+                        </section>
+
+                        <div className="to-sign-up-paragraph-outter-container">
+                            <Link className="sign-up-link" to="/sign_up">
+                                <p>
+                                    Don’t have an account? Let’s solve this! 
+                                    {` `}
+                                    <span>
+                                        Sign up
+                                    </span>
+                                </p>
+                            </Link>
+                        </div>
+                    </div>
                 </div>
             </div>
         )

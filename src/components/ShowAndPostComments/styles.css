@@ -86,7 +86,7 @@
     left: 39vw;
 }
 
-.editbl-ccfmdu-div-container {
+.comment-on-for-you-editable-container {
     display: none;
 
     /* min-height: 140px;
@@ -101,21 +101,26 @@
     right: 33.7px;
 }
 
-.editbl-ccfmdu-div-caption {
+.comment-on-for-you-editable-caption {
     height: 32px;
 
     background-color: rgb(240, 240, 255);
 }
 
-.editbl-ccfmdu-div {
+.comment-on-for-you-textarea {
     /* min-height: 120px; */
     /* height: 80%; */
-    min-height: 10vh;
+    min-height: 12vh;
     max-height: 25vh;
+
+    width: 100%;
+
+    box-sizing: border-box;
 
     padding-right: 27.7px;
 
     background-color: rgb(253.5, 253.5, 254);
+    border: rgb(253.5, 253.5, 254);
 
     outline: none;
 
@@ -123,7 +128,7 @@
     overflow-x: hidden;
 }
 
-.editbl-ccfmdu-div::-webkit-scrollbar {
+.comment-on-for-you-textarea::-webkit-scrollbar {
     display: none;
 }
 
@@ -141,6 +146,26 @@
     outline: none;
 
     bottom: 7.23px;
+
+    color: rgb(223, 57, 28);
+}
+
+.send-cm-button:hover {
+    position: absolute;
+    width: 21px;
+    height: 21px;
+    /* position: sticky; */
+    /* top: 7.23px; */
+    right: 7.23px;
+
+    background: none;
+    border: none;
+    margin: none;
+    outline: none;
+
+    bottom: 7.23px;
+
+    color: rgb(83, 15, 3);
 }
 
 .send-cm-icon {

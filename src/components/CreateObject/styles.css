@@ -23,9 +23,68 @@ input#files {
     display: none;
 }
 
+.create-object-media-preview img {
+    max-height: 30vh;
+}
+
 .create-object-category {
     padding: 3px;
 
     border: solid 1px rgb(83, 74, 67);
     border-radius: 1px;
+}
+
+.create-object-text-area {
+    outline: none;
+    resize: unset;
+
+    border: solid 1px tomato;
+
+    overflow-y: auto;
+}
+
+.create-object-text-area::-webkit-scrollbar {
+    display: none;
+}
+
+.create-object-sucess-message-outter-container {
+    display: none;
+}
+
+.create-object-sucess-message-div {
+    position: fixed;
+    top: 40vh;
+    right: 30vw;
+
+    padding: 19px;
+
+    box-sizing: border-box;
+    word-wrap: break-word;
+
+    height: 20vh;
+    width: 40vw;
+
+    background: rgb(255, 155, 137);
+    background: linear-gradient(180deg, 
+        rgb(248, 223, 220) 0%,
+        rgb(253, 233, 230) 9%, 
+        rgb(252, 243, 249) 20%,
+        rgb(255, 255, 255) 100%);
+    border: solid 1px tomato;
+    border-radius: 1px;
+
+    z-index: 19;
+}
+
+.create-object-sucess-message-div-aux {
+    position: fixed;
+    top: 0;
+    right: 0;
+
+    height: 100vh;
+    width: 100vw;
+
+    background-color: rgba(247, 243, 235, 0.37);
+
+    z-index: 11;
 }

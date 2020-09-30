@@ -23,8 +23,13 @@ export default class SignUp extends Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.verify = this.verify.bind(this);
 
+        this.showPassword = this.showPassword.bind(this);
+
         this.verificationInput = React.createRef();
         this.messageDiv = React.createRef();
+
+        this.passwordInput = React.createRef();
+        this.passwordMessageDiv = React.createRef();
 
         this.state = {
             email: '',
@@ -35,6 +40,10 @@ export default class SignUp extends Component {
                 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
                 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8',
                 '9', '_' ],
+            acceptablePasswordCharacters: [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 
+                'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+                'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8',
+                '9', '_', ],
 
             emailStatus: '',
             usernameStatus: '',
@@ -104,6 +113,8 @@ export default class SignUp extends Component {
         }
         
         if(hasUnacceptableValue) {
+            document.getElementById("sgnp-submit-button").disabled = true;
+
             this.setState({
                 [ e.target.name ]: e.target.value,
                 usernameIsAcceptable: 'The username should contain only lowercase english letters, numbers or underscores ( _ )'
@@ -111,6 +122,7 @@ export default class SignUp extends Component {
         }
 
         else {
+            document.getElementById("sgnp-submit-button").disabled = false;
             this.setState({
                 [ e.target.name ]: e.target.value,
                 usernameIsAcceptable: '',
@@ -145,32 +157,63 @@ export default class SignUp extends Component {
     }
 
     onChangePassword = e => {
-        this.setState({
-            [ e.target.name ]: e.target.value
-        }, () => {
-            if(this.state.password.length < 6) {
-                this.setState({
-                    passwordStatus: 'The password must have more than 5 characters'
-                }, () => {
-                    document.getElementById("sgnp-submit-button").disabled = true;
-                })
-            }
+        let hasUnacceptableValue = false;
 
-            else {
-                this.setState({
-                    passwordStatus: ''
-                }, () => {
-                    document.getElementById("sgnp-submit-button").disabled = false;
-                })
+        for(let character of e.target.value) {
+            if(!(this.state.acceptableCharacters.includes(character))) {
+                hasUnacceptableValue = true;
             }
-        });
+        }
+        
+        if(hasUnacceptableValue) {
+            this.passwordMessageDiv.current.innerText = 'The password should contain' + 
+                ' only lowercase english letters, numbers or underscores ( _ )';
+
+            document.getElementById("sgnp-submit-button").disabled = true;
+
+            this.setState({
+                [ e.target.name ]: e.target.value,
+            })
+        }
+
+        else {
+            this.passwordMessageDiv.current.innerText = '';
+            document.getElementById("sgnp-submit-button").disabled = false;
+
+            this.setState({
+                [ e.target.name ]: e.target.value
+            }, () => {
+                if(this.state.password.length < 6) {
+                    this.setState({
+                        passwordStatus: 'The password must have at least 6 characters'
+                    }, () => {
+                        document.getElementById("sgnp-submit-button").disabled = true;
+                    })
+                }
+    
+                else {
+                    this.setState({
+                        passwordStatus: ''
+                    }, () => {
+                        document.getElementById("sgnp-submit-button").disabled = false;
+                    })
+                }
+            });
+        }
+
+        
     }
 
     onSubmit(e) {
         e.preventDefault();
 
+        this.setState({
+            email: this.state.email.trim(),
+            password: this.state.password.trim(),
+        })
+
         axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/confirm_email', {
-            email: this.state.email,
+            email: this.state.email.trim(),
         })
             .then(response => {
                 this.setState({
@@ -179,6 +222,16 @@ export default class SignUp extends Component {
                 })
             })
             .catch(err => console.log(err));
+    }
+
+    showPassword() {
+        if(this.passwordInput.current.type === "password") {
+            this.passwordInput.current.type = "text";
+        }
+
+        else {
+            this.passwordInput.current.type = "password";
+        }
     }
 
     verify(e) {
@@ -291,6 +344,10 @@ export default class SignUp extends Component {
                                     placeholder="Email"
                                     name="email"
 
+                                    maxLength="1000"
+
+                                    required
+
                                     value={email}
                                     onChange={this.onChangeEmail}
                                 />
@@ -305,6 +362,11 @@ export default class SignUp extends Component {
                                     type="text" 
                                     placeholder="username"
                                     name="username"
+
+                                    minLength="1"
+                                    maxLength="100"
+
+                                    required
 
                                     value={username}
                                     onChange={this.onChangeUsername}
@@ -325,9 +387,27 @@ export default class SignUp extends Component {
                                     placeholder="Password"
                                     name="password"
 
+                                    minLength="6"
+                                    maxLength="100"
+
+                                    required
+
+                                    ref={this.passwordInput}
+
                                     value={password}
                                     onChange={this.onChangePassword}
-                                />
+                                /> 
+                                
+                                <span
+                                    onClick={this.showPassword}
+                                    className="show-password"
+                                >
+                                    show password
+                                </span>
+
+                                <div ref={this.passwordMessageDiv}>
+
+                                </div>
 
                                 <span>
                                     { passwordStatus }
@@ -342,6 +422,8 @@ export default class SignUp extends Component {
 
                                 min="0"
                                 max="5000000"
+
+                                required
 
                                 value={rate}
                                 onChange={this.handleChange}

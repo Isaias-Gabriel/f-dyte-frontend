@@ -18,6 +18,8 @@ require('dotenv/config');
 export default class ShowAndPostComments extends Component {
     constructor(props) {
         super(props);
+
+        this.handleChange = this.handleChange.bind(this);
         
         this.showDeleteDiv = this.showDeleteDiv.bind(this);
         this.hideDeleteDiv = this.hideDeleteDiv.bind(this);
@@ -35,15 +37,17 @@ export default class ShowAndPostComments extends Component {
         this.onClickToShowReplies = this.onClickToShowReplies.bind(this);
         this.hideReplies = this.hideReplies.bind(this);
 
-        this.editableDiv = React.createRef();
+        this.textarea = React.createRef();
         this.editableDivCaption = React.createRef();
         this.editableDivContainer = React.createRef();
 
         this.deleteDiv = React.createRef();
 
-        this.rtstrBt = React.createRef();
+        this.showCommentDivButton = React.createRef();
         
         this.state = {
+            comment: '',
+
             comments: [],
             ratedComments: [],
 
@@ -59,7 +63,11 @@ export default class ShowAndPostComments extends Component {
         }
     }
 
-    
+    handleChange = e => {
+        this.setState({
+            [ e.target.name ]: e.target.value
+        })
+    }
 
     showDeleteDiv(id) {
         this.deleteDiv.current.style.display = "block";
@@ -148,9 +156,9 @@ export default class ShowAndPostComments extends Component {
     showEditableDiv() {
         
         this.editableDivContainer.current.style.display = "block";
-        this.editableDiv.current.focus();
+        this.textarea.current.focus();
         this.editableDivCaption.current.innerText = 'Add a comment';
-        this.rtstrBt.current.style.display = "none";
+        this.showCommentDivButton.current.style.display = "none";
 
         this.setState({
             controlId: this.props.id,
@@ -162,9 +170,9 @@ export default class ShowAndPostComments extends Component {
     showEditableDivForComment(id, username) {
         
         this.editableDivContainer.current.style.display = "block";
-        this.editableDiv.current.focus();
+        this.textarea.current.focus();
         this.editableDivCaption.current.innerText = 'Reply to @' + username;
-        this.rtstrBt.current.style.display = "none";
+        this.showCommentDivButton.current.style.display = "none";
 
         this.setState({
             controlId: id,
@@ -176,9 +184,9 @@ export default class ShowAndPostComments extends Component {
     showEditableDivForComment(id, username) {
         
         this.editableDivContainer.current.style.display = "block";
-        this.editableDiv.current.focus();
+        this.textarea.current.focus();
         this.editableDivCaption.current.innerText = 'Reply to @' + username;
-        this.rtstrBt.current.style.display = "none";
+        this.showCommentDivButton.current.style.display = "none";
 
         this.setState({
             controlId: id,
@@ -187,74 +195,42 @@ export default class ShowAndPostComments extends Component {
         })
     }
 
-    sendComment() {
+    sendComment(e) {
+        e.preventDefault();
 
-        if(this.state.replyOnInnerComment) {
+        const { comment } = this.state;
 
-            const formInfo = {
-                sessionId: localStorage.getItem('e'),
-                content: '@' + this.state.replyedUserUsername + ' ' + this.editableDiv.current.innerText,
-                replyedUserUsername: this.state.replyedUserUsername,
-                parentId: this.state.controlId,
-            };
-
-            this.editableDiv.current.innerText = "";
-            this.editableDivContainer.current.style.display = "none";
-            this.rtstrBt.current.style.display = "inline-block";
-
+        if(comment.trim().length < 3) {
+            this.editableDivCaption.current.innerText = "The comment should have at least 3 characters"
             this.setState({
-                replyOnInnerComment: false
+                comment: comment.trim(),
             })
-
-            axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/reply_on_for_you_inner_comment', formInfo)
-                .then(response => {
-                    console.log(response.data);
-
-                    let tempComms = this.state[ this.state.controlId ] || [];
-                    let tempRatedComms = this.state[ this.state.controlId + "RatedComments" ] || [];
-                    let tempCommsLen = this.state[this.state.controlId + "Lenght"] || 0;
-
-                    tempComms.unshift(response.data.comment);
-                    tempRatedComms.unshift(response.data.comment._id);
-
-                    this.setState({
-                        replyOnInnerComment: false,
-
-                        [ this.state.controlId ]: tempComms,
-                        [ this.state.controlId + "RatedComments" ]: tempRatedComms,
-                        [ this.state.controlId + "Lenght" ]: tempCommsLen + 1,
-                    })
-                })
-                .catch(err => console.log(err));
         }
 
         else {
-            
-            const formInfo = {
-                sessionId: localStorage.getItem('e'),
-                content: this.editableDiv.current.innerText,
-                id: this.state.controlId,
-            };
+            if(this.state.replyOnInnerComment) {
 
-            this.editableDiv.current.innerText = "";
-            this.editableDivContainer.current.style.display = "none";
-            this.rtstrBt.current.style.display = "inline-block";
+                const formInfo = {
+                    sessionId: localStorage.getItem('e'),
+                    content: '@' + this.state.replyedUserUsername + ' ' + comment,
+                    replyedUserUsername: this.state.replyedUserUsername,
+                    parentId: this.state.controlId,
+                };
+                
+                this.editableDivContainer.current.style.display = "none";
+                this.showCommentDivButton.current.style.display = "inline-block";
 
-            axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/comment_on_' + this.state.controlType, formInfo)
-                .then(response => {
-                    console.log(response.data);
+                this.setState({
+                    replyOnInnerComment: false,
+                    comment: '',
+                })
 
-                    if((this.state.controlId === this.props.id) && (this.state.controlType === this.props.type)) {
-                        let tempComms = this.state.comments;
-                        tempComms.unshift(response.data);
+                console.log(formInfo);
 
-                        console.log()
-                        this.setState({
-                            comments: tempComms,
-                        });
-                    }
-        
-                    else {
+                axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/reply_on_for_you_inner_comment', formInfo)
+                    .then(response => {
+                        console.log(response.data);
+
                         let tempComms = this.state[ this.state.controlId ] || [];
                         let tempRatedComms = this.state[ this.state.controlId + "RatedComments" ] || [];
                         let tempCommsLen = this.state[this.state.controlId + "Lenght"] || 0;
@@ -263,19 +239,70 @@ export default class ShowAndPostComments extends Component {
                         tempRatedComms.unshift(response.data.comment._id);
 
                         this.setState({
+                            replyOnInnerComment: false,
+
                             [ this.state.controlId ]: tempComms,
                             [ this.state.controlId + "RatedComments" ]: tempRatedComms,
                             [ this.state.controlId + "Lenght" ]: tempCommsLen + 1,
                         })
-                    }
+                    })
+                    .catch(err => console.log(err));
+            }
+
+            else {
+                
+                const formInfo = {
+                    sessionId: localStorage.getItem('e'),
+                    content: comment,
+                    id: this.state.controlId,
+                };
+
+                this.setState({
+                    comment: '',
                 })
-                .catch(err => console.log(err));
+
+                this.editableDivContainer.current.style.display = "none";
+                this.showCommentDivButton.current.style.display = "inline-block";
+
+                console.log(formInfo);
+
+                axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/comment_on_' + this.state.controlType, formInfo)
+                    .then(response => {
+                        console.log(response.data);
+
+                        if((this.state.controlId === this.props.id) && (this.state.controlType === this.props.type)) {
+                            let tempComms = this.state.comments;
+                            tempComms.unshift(response.data);
+
+                            console.log()
+                            this.setState({
+                                comments: tempComms,
+                            });
+                        }
+            
+                        else {
+                            let tempComms = this.state[ this.state.controlId ] || [];
+                            let tempRatedComms = this.state[ this.state.controlId + "RatedComments" ] || [];
+                            let tempCommsLen = this.state[this.state.controlId + "Lenght"] || 0;
+
+                            tempComms.unshift(response.data.comment);
+                            tempRatedComms.unshift(response.data.comment._id);
+
+                            this.setState({
+                                [ this.state.controlId ]: tempComms,
+                                [ this.state.controlId + "RatedComments" ]: tempRatedComms,
+                                [ this.state.controlId + "Lenght" ]: tempCommsLen + 1,
+                            })
+                        }
+                    })
+                    .catch(err => console.log(err));
+            }
         }
     }
 
     onClickCloseAddCommentButton() {
         this.editableDivContainer.current.style.display = "none";
-        this.rtstrBt.current.style.display = "inline-block";
+        this.showCommentDivButton.current.style.display = "inline-block";
     }
 
     onClickToShowReplies(id) {
@@ -444,7 +471,7 @@ export default class ShowAndPostComments extends Component {
         }
 
         else {
-            const { comments } = this.state;
+            const { comments, comment } = this.state;
 
             if(this.state.redirectTo) {
                 return <Redirect to={this.state.redirectTo} />
@@ -554,25 +581,45 @@ export default class ShowAndPostComments extends Component {
                                     </div>
                                 </div>
 
-                                <div className="editbl-ccfmdu-div-container"  ref={ this.editableDivContainer }>
+                                <div className="comment-on-for-you-editable-container"  ref={ this.editableDivContainer }>
                                     <button className="rtstr-button cl" onClick={this.onClickCloseAddCommentButton}>
                                         <MdClose className="ccn-spcts" />
                                     </button>
 
-                                    <div className="editbl-ccfmdu-div-caption" ref={ this.editableDivCaption }>
+                                    <div className="comment-on-for-you-editable-caption" ref={ this.editableDivCaption }>
                                         
                                     </div>
 
-                                    <div className="editbl-ccfmdu-div" ref={ this.editableDiv } contentEditable>
-                                    
-                                    </div>
+                                    <form
+                                        id="comment-on-for-you-form"
+                                    >
+                                        <textarea
+                                            type="text"
+                                            name="comment"
+                                            className="comment-on-for-you-textarea"
 
-                                    <button className="send-cm-button" onClick={this.sendComment}>
+                                            ref={ this.textarea }
+                                            required
+                                            maxLength="319"
+
+                                            value={comment}
+                                            onChange={this.handleChange}
+                                        />
+                                        
+                                    </form>
+
+                                    <button
+                                        type="submit"
+                                        form="comment-on-for-you-form"
+
+                                        className="send-cm-button"
+                                        onClick={this.sendComment}
+                                    >
                                         <AiOutlineSend className="send-cm-icon" />
                                     </button>
                                 </div>
                             
-                                <button  ref={ this.rtstrBt } className="rtstr-button" onClick={this.showEditableDiv}>
+                                <button  ref={ this.showCommentDivButton } className="rtstr-button" onClick={this.showEditableDiv}>
                                     <FaRegCommentAlt className="ddccmm" />
                                 </button>
                             </div>
@@ -601,25 +648,48 @@ export default class ShowAndPostComments extends Component {
                                     </div>
                                 </div>
 
-                                <div className="editbl-ccfmdu-div-container"  ref={ this.editableDivContainer }>
+                                <div className="comment-on-for-you-editable-container"  ref={ this.editableDivContainer }>
                                     <button className="rtstr-button cl" onClick={this.onClickCloseAddCommentButton}>
                                         <MdClose className="ccn-spcts" />
                                     </button>
 
-                                    <div className="editbl-ccfmdu-div-caption" ref={ this.editableDivCaption }>
+                                    <div
+                                        className="comment-on-for-you-editable-caption"
+                                        ref={ this.editableDivCaption }
+                                    >
                                         
                                     </div>
 
-                                    <div className="editbl-ccfmdu-div" ref={ this.editableDiv } contentEditable>
-                                    
-                                    </div>
+                                    <form
+                                        id="comment-on-for-you-form"
+                                    >
+                                        <textarea
+                                            type="text"
+                                            name="comment"
+                                            className="comment-on-for-you-textarea"
 
-                                    <button className="send-cm-button" onClick={this.sendComment}>
+                                            ref={ this.textarea }
+                                            required
+                                            maxLength="319"
+
+                                            value={comment}
+                                            onChange={this.handleChange}
+                                        />
+                                        
+                                    </form>
+
+                                    <button
+                                        type="submit"
+                                        form="comment-on-for-you-form"
+
+                                        className="send-cm-button"
+                                        onClick={this.sendComment}
+                                    >
                                         <AiOutlineSend className="send-cm-icon" />
                                     </button>
                                 </div>
                             
-                                <button  ref={ this.rtstrBt } className="rtstr-button" onClick={this.showEditableDiv}>
+                                <button  ref={ this.showCommentDivButton } className="rtstr-button" onClick={this.showEditableDiv}>
                                     <FaRegCommentAlt className="ddccmm" />
                                 </button>
                             </div>

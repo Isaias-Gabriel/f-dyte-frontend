@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import ReactPlayer from 'react-player';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 import GoHome from '../GoHome/GoHome.component';
 import IsLogged from '../IsLogged/IsLogged.component';
+
+import ShowMedia from '../ShowMedia/ShowMedia.component';
 
 import './styles.css';
 
@@ -22,6 +23,10 @@ export default class CreateObject extends Component {
         
         this.onSubmit = this.onSubmit.bind(this);
 
+        this.messageOnSuccessDiv = React.createRef();
+        this.submitButton = React.createRef();
+        this.categoriesInput = React.createRef();
+
         this.state = {
             name: '',
             nickname: '',
@@ -35,6 +40,7 @@ export default class CreateObject extends Component {
 
             nicknameStatus: '',
             nicknameIsAcceptable: '',
+            filesWarningMessage: '',
 
             description: '',
             rate: 0,
@@ -108,11 +114,15 @@ export default class CreateObject extends Component {
 
         if(typedCharacter === ',') {
             const category = e.target.value.replace('#', '').replace(',', '');
-            this.state.categoriesList.push(category);
+            if(category.trim().length) {
+                this.state.categoriesList.push(category.trim());
 
-            this.setState({
-                category: '',
-            })
+                this.categoriesInput.current.required = false;
+
+                this.setState({
+                    category: '',
+                })
+            }
         }
 
         else {
@@ -131,23 +141,10 @@ export default class CreateObject extends Component {
 
         const preview = document.getElementById("media-preview");
 
-        reader.addEventListener("load", function () {
-            if(file.type.includes("image")) {
-                const image = new Image();
-                image.height = 100;
-                image.src = this.result;
-                preview.appendChild(image);
-            }
+        reader.addEventListener("load", (e) => {
+            this.state.tempUrls.push(e.currentTarget.result);
 
-            else if(file.type.includes("video")) {
-                const video = document.createElement('video');
-                const source = document.createElement('source');
-                source.src = this.result;
-
-                video.appendChild(source);
-                video.controls = "true";
-                preview.appendChild(video);
-            }
+            this.setState({});
         }, false);
         
         let files_temp = this.state.files;
@@ -155,42 +152,71 @@ export default class CreateObject extends Component {
 
         this.setState({
             files: files_temp,
+        }, () => {
+            if(Object.keys(this.state.files).length >= 3) {
+                this.submitButton.current.disabled = false;
+                this.setState({
+                    filesWarningMessage: '',
+                })
+            }
         })
     }
 
     onSubmit(e) {
         e.preventDefault();
-        
-        const fileData = new FormData();
-        Object.keys(this.state.files).map(index => {
-            fileData.append("files", this.state.files[index]);
-        })
 
-        const { name, nickname, categoriesList, description, rate } = this.state;
-
-        fileData.append("sessionId", localStorage.getItem('e'));
-        fileData.append("name", name);
-        fileData.append("nickname", nickname);
-        fileData.append("categories", categoriesList);
-        fileData.append("description", description);
-        fileData.append("rate", rate / 1000000);
-
-        axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/create_object', fileData, {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        })
-            .then(response => {
-                this.setState({
-                    objectCreated: '/object/' + response.data,
-                })
+        if(Object.keys(this.state.files).length < 3) {
+            this.submitButton.current.disabled = true;
+            this.setState({
+                filesWarningMessage: 'You must choose at least three images for the object',
             })
-            .catch(err => console.log(err));
-        
+        }
+
+        else {
+            this.submitButton.current.disabled = true;
+
+            const fileData = new FormData();
+            Object.keys(this.state.files).map(index => {
+                fileData.append("files", this.state.files[index]);
+            })
+
+            const { name, nickname, categoriesList, description, rate } = this.state;
+
+            fileData.append("sessionId", localStorage.getItem('e'));
+            fileData.append("name", name.trim());
+            fileData.append("nickname", nickname);
+            fileData.append("categories", categoriesList);
+            fileData.append("description", description.trim());
+            fileData.append("rate", rate / 1000000);
+
+            this.setState({
+                "name": name.trim(),
+                "description": description.trim(),
+            })
+
+            axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/create_object', fileData, {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            })
+                .then(response => {
+                    this.messageOnSuccessDiv.current.style.display = "block";
+
+                    setTimeout(() => {
+                        this.setState({
+                            objectCreated: '/object/' + response.data,
+                        })
+                    }, 2700);
+                })
+                .catch(err => console.log(err));
+        }
     }
     
     render() {
-        const { name, nickname, category, categoriesList, nicknameStatus, nicknameIsAcceptable, description, rate } = this.state;
+        const { name, nickname, category,
+            categoriesList, nicknameStatus,
+            nicknameIsAcceptable, description,
+            rate, filesWarningMessage } = this.state;
 
         if(this.state.objectCreated) {
             return <Redirect to={this.state.objectCreated} />;
@@ -200,6 +226,16 @@ export default class CreateObject extends Component {
             <div className="create-object-page-container">
                 <IsLogged/>
                 <GoHome/>
+
+                <div className="create-object-sucess-message-outter-container" ref={this.messageOnSuccessDiv}>
+                    <div className="create-object-sucess-message-div">
+                        The object '{name}' was created :D
+                    </div>
+                    <div className="create-object-sucess-message-div-aux">
+
+                    </div>
+                </div>
+
                 <div className="create-object-container">
 
                         <form id="create-object" onSubmit={this.onSubmit} encType="multipart/form-data">
@@ -209,6 +245,10 @@ export default class CreateObject extends Component {
 
                                 placeholder="Name"
                                 value={name}
+
+                                minLength="1"
+                                maxLength="500"
+                                required
                                 
                                 onChange={this.handleChange}
                             />
@@ -217,8 +257,13 @@ export default class CreateObject extends Component {
                                 <input 
                                     type="text"
                                     name="nickname"
+
                                     placeholder="Choose a nickname for the object"
                                     value={nickname}
+
+                                    minLength="1"
+                                    maxLength="500"
+                                    required
 
                                     onChange={this.onChangeNickname}
                                 />
@@ -253,36 +298,65 @@ export default class CreateObject extends Component {
                                 placeholder="Category"
                                 value={category}
 
+                                minLength="1"
+                                maxLength="300"
+
+                                ref={this.categoriesInput}
+                                required
+
                                 onChange={this.handleChangeCategory}
                             />
 
                             <textarea 
                                 type="text"
                                 name="description"
-
+                                
                                 placeholder="Description"
                                 value={description}
+
+                                className="create-object-text-area"
+
+                                minLength="3"
+                                maxLength="500"
+                                required
 
                                 onChange={this.handleChange}
                             />
 
-                            <div id="media-preview">
-
+                            <div className="create-object-media-preview">
+                                {
+                                    this.state.tempUrls.map(url => {
+                                        return <ShowMedia
+                                                    key={url}
+                                                    url={url}
+                                                />
+                                    })
+                                    //console.log(this.state.files)
+                                }
                             </div>
 
                             <label htmlFor="files" id="files-label">
                                 +
                             </label>
 
-                            <input 
+                            <input
                                 type="file"
                                 id="files"
                                 name="files"
                                 
-                                accept=".jpeg,.pjpeg,.png,.gif,.jpg,.mp4,.3gp,.webm"
+                                //accept=".jpeg,.pjpeg,.png,.gif,.jpg,.mp4,.3gp,.webm"
+                                accept=".jpeg,.png,.jpg,"
                                 
                                 onChange={this.handleChangeFile}
                             />
+
+                            <div>
+                                <div>
+                                    {
+                                        filesWarningMessage
+                                    }
+                                </div>
+                            </div>
 
                             <label>Rate</label>
 
@@ -303,7 +377,13 @@ export default class CreateObject extends Component {
                                 <p>Value: <span>{ Number(Math.floor(rate / 10000) / 100).toFixed(2) }</span></p>
                             </div>
 
-                            <button type="submit" id="create-object-submit-button">Create object</button>
+                            <button
+                                type="submit"
+                                id="create-object-submit-button"
+                                ref={this.submitButton}
+                            >
+                                Create object
+                            </button>
                         </form>
                 </div>
             </div>
