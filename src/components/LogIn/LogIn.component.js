@@ -24,7 +24,7 @@ export default class Home extends Component {
             email: '',
             password: '',
             logged: null,
-            currentStyle: 'nightly',
+            currentStyle: null,
         }
     }
 
@@ -35,9 +35,9 @@ export default class Home extends Component {
         // this.submitButton.current.disabled = true;
         // console.log(new Date().getHours().toString() + ':' + new Date().getMinutes().toString());
 
-        // this.setState({
-        //     currentStyle: 'dailyOrNightly()',
-        // })
+        this.setState({
+            currentStyle: dailyOrNightly(),
+        })
     }
 
     handleChange = e => {

@@ -1,47 +1,453 @@
+
+#daily-sign-up-outter-container, #nightly-sign-up-outter-container {
+    min-height: 500px;
+    height: 100vh;
+
+    overflow: auto;
+
+    color: rgb(109, 0, 0);
+}
+
+#daily-sign-up-outter-container {
+
+    background: rgb(253, 220, 214);
+    background: linear-gradient(180deg, 
+        rgb(255, 155, 137) 0%,
+        rgb(255, 195, 185) 9%, 
+        rgb(253, 220, 214) 20%,
+        rgb(255, 255, 255) 100%);
+}
+
+#nightly-sign-up-outter-container {
+    
+    background: rgb(247, 247, 247);
+    background: linear-gradient(180deg, 
+    rgb(255, 255, 255) 0%,
+    rgb(247, 247, 247) 80%,
+        rgb(49, 49, 49) 84%,
+        rgb(0, 0, 0) 100%);
+}
+
+#daily-sign-up-inner-container, #nightly-sign-up-inner-container {
+    position: relative;
+
+    box-sizing: border-box;
+
+    width: calc(100vw - (2 * (12px + 9vw)));
+    min-height: 420px;
+    height: calc(100vh - ((12px + 6vh) + calc(5px + 5vh)));
+
+    border-radius: 1px;
+
+    margin: calc(5px + 5vh) calc(12px + 9vw) calc(12px + 6vh);
+    padding: calc(5px + 3vh) calc(12px + 2vw) calc(12px + 3vh);
+
+    background-color: white;
+}
+
+#nightly-sign-up-inner-container::after {
+    position: absolute;
+
+    content: '';
+
+    bottom: 0;
+    right: 0;
+
+    border-radius: 30% 30% 50% 50%;
+
+    box-shadow: 0 0 20px 7px  white;
+
+    background: none;
+
+    display: block;
+    width: calc(100vw - (2 * (12px + 9vw)));
+    height: 1vh;
+
+    z-index: 19;
+}
+
+#main-sign-up-section {
+    position: relative;
+
+    height: 100%;
+
+    background-color: white;
+}
+
+.logo-and-phrase-outter-container {
+    margin-bottom: calc(19px + 5vh);
+}
+
+.logo-outter-container {
+    display: flex;
+
+    /* width: calc(29px); 
+    height: ;*/
+
+    margin: 0 calc(2px + 1vw) calc(2px + 1vh) 0;
+
+    align-items: center;
+    justify-content: center;
+
+    background-color: white;
+}
+
+.logo-outter-container img {
+    height: calc(53px + 2.5vh);
+}
+
+.logo-and-phrase-outter-container h1 {
+    margin: 0 0 0 calc(2px + 1vw);
+
+    font-size: calc(22px + 1.5vh);
+    text-align: center;
+}
+
+.sign-up-input-outter-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sign-up-input-outter-container input {
+    width: 100%;
+    height: calc(40px + 0.5vh);
+    
+    margin: 0 calc(4px + 1vw) calc(7px + 0.5vh);
+
+    border: solid 1px rgb(255, 195, 185);
+    border-radius: 1px;
+
+    background-color: white;
+
+    padding: 1vh;
+
+    box-sizing: border-box;
+
+    font-size: calc(13px + 0.6vh);
+
+    /* outline: solid 1px tomato; */
+    outline-color:rgb(252, 149, 130);
+}
+
+.sign-up-submit-button-outter-container {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.sign-up-submit-button-outter-container button {
+    margin-top: 0.1vh;
+    border: none;
+
+    width: calc(73px + 4vw);
+    height: calc(40px + 1vh);
+
+    box-sizing: border-box;
+
+    background: rgb(255, 234, 252, 0.5);
+
+    outline: none;
+
+    font-size: calc(13px + 0.4vh);
+    text-align: center;
+    color: rgb(150, 69, 139);
+
+    transition: 500ms;
+}
+
+.sign-up-submit-button-outter-container button:hover {
+    border: solid 1px rgb(224, 184, 220);
+
+    background:rgb(255, 234, 252, 1);
+    
+    outline: none;
+
+    font-size: calc(15px + 0.3vh);
+    color: rgb(92, 21, 84);
+}
+
+.sign-up-submit-button-outter-container button:active {
+    background: rgb(255, 180, 167);
+    color: rgb(250, 225, 247);
+    
+    transition: color 0s;
+    transition: background 300ms;
+
+    outline: none;
+}
+
+.to-sign-up-paragraph-outter-container {
+    display: flex;
+
+    width: 100%;
+
+    position: absolute;
+
+    bottom: 0;
+}
+
+.to-sign-up-paragraph-outter-container a {
+
+    width: 100%;
+
+    color: rgb(230, 1, 89);
+
+    outline: none;
+}
+
+.to-sign-up-paragraph-outter-container p {
+    width: 100%;
+
+    color: rgb(230, 1, 89);
+
+    font-size: calc(13px + 0.1vh);
+    text-align: center;
+}
+
+.to-sign-up-paragraph-outter-container p span {
+    color: rgb(230, 1, 89);
+    
+    font-size: calc(14px + 0.1vh);
+}
+
+@media only screen and (min-width: 500px) {
+    .logo-and-phrase-outter-container {
+        margin-bottom: calc(53px + 3vh);
+    }
+    
+    .logo-outter-container {
+        margin: 0 calc(2px + 1vw) calc(19px + 0.5vh) 0;
+    }
+    
+    .logo-outter-container img {
+        height: calc(67px + 2.3vh);
+    }
+
+    .sign-up-input-outter-container {
+        display: flex;
+    }
+    
+    .sign-up-input-outter-container input {
+        margin: 0 calc(23px + 1.1vw) calc(7px + 0.5vh);
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    #daily-sign-up-inner-container, #nightly-sign-up-inner-container {
+
+        width: calc(100vw - (2 * (31px + 9vw)));
+    
+        margin: calc(5px + 5vh) calc(31px + 9vw) calc(12px + 6vh);
+        padding: calc(19px + 3vh) calc(29px + 2vw) calc(13px + 2vh);
+
+    }
+    
+    #nightly-sign-up-inner-container::after {
+        width: calc(100vw - (2 * (31px + 9vw)));
+    }
+
+    .logo-and-phrase-outter-container {
+        display: flex;
+
+        width: 100%;
+
+        align-items: center;
+        justify-content: center;
+
+        margin-bottom: calc(53px + 6vh);
+    }
+    
+    .logo-outter-container {
+    
+        margin: 0;
+        margin-right: calc(5px + 1vw);
+    
+        background-color: white;
+    }
+    
+    .logo-outter-container img {
+        height: calc(63px + 2.6vh);
+    }
+    
+    .logo-and-phrase-outter-container h1 {
+        margin: 0;
+        margin-left: calc(5px + 1vw);
+    
+        font-size: calc(22px + 1.5vh);
+        text-align: center;
+    }
+
+    .sign-up-input-outter-container input {
+        width: 100%;
+        max-width: 53vw;
+        height: calc(40px + 0.5vh);
+        
+        margin: 0 calc(4px + 1vw) calc(7px + 0.5vh);
+    }
+}
+
+@media only screen and (min-width: 800px) {
+    #daily-sign-up-inner-container, #nightly-sign-up-inner-container {
+        width: calc(100vw - (2 * (50px + 19vw)));
+        height: calc(100vh - ((15px + 5vh) + (12px + 6vh)));
+    
+        margin: calc(15px + 5vh) calc(50px + 19vw) calc(12px + 6vh);
+        padding: calc(19px + 3vh) calc(12px + 2vw) calc(12px + 3vh);
+    }
+    
+    #nightly-sign-up-inner-container::after {
+        width: calc(100vw - (2 * (50px + 19vw)));
+    }
+
+    .sign-up-input-outter-container input {
+        width: 100%;
+        max-width: 39vw;
+        height: calc(40px + 0.5vh);
+        
+        margin: 0 calc(4px + 1vw) calc(7px + 0.5vh);
+    }
+}
+
+@media only screen and (min-width: 1100px) {
+
+    #daily-sign-up-inner-container, #nightly-sign-up-inner-container {
+        margin: 11vh 30vw 0 30vw;
+
+        padding: 7vh 8vh 3vh;
+
+        width: 40vw;
+    }
+
+    #daily-sign-up-inner-container {
+        height: 89vh;
+    }
+    
+    #nightly-sign-up-inner-container {
+        height: 82vh;
+    }
+
+    #nightly-sign-up-inner-container::after {
+        width: 40vw;
+    }
+
+    .logo-and-phrase-outter-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        margin-bottom: calc(20px + 10vh);
+    }
+
+    .logo-outter-container {
+        display: inline-block;
+    
+        margin: 0;
+        margin-right: calc(2px + 0.1vw);
+    }
+
+    .logo-outter-container img {
+        height: calc(25px + 10vh);
+    }
+
+    .logo-and-phrase-outter-container h1 {
+        margin: 0;
+        margin-left: calc(2px + 0.1vw);
+    
+        font-size: calc(12px + 2.7vh);
+    }
+
+    .sign-up-input-outter-container input {
+        width: 100%;
+        height: calc(20px + 4vh);
+        
+        margin: 0 2vw 2vh;
+
+        padding: 1vh;
+
+        box-sizing: border-box;
+
+        font-size: calc(4px + 1.9vh);
+    }
+
+    .sign-up-submit-button-outter-container {
+        margin-top: 0.1vh;
+    }
+
+    .sign-up-submit-button-outter-container button {
+        width: 11vw;
+        height: calc(20px + 4vh);
+
+        font-size: calc(4px + 1.6vh);
+    }
+
+    .sign-up-submit-button-outter-container button:hover {
+        font-size: calc(4px + 1.75vh);
+        color: rgb(92, 21, 84);
+    }
+
+    .sign-up-submit-button-outter-container button:active {
+        color: rgb(250, 225, 247);
+    
+        transition: color 0s;
+
+        font-size: calc(4px + 1.85vh);
+    }
+
+    .to-sign-up-paragraph-outter-container p {
+        font-size: calc(6px + 1.2vh);
+    }
+
+    .to-sign-up-paragraph-outter-container p span {
+        font-size: calc(7px + 1.3vh);
+    }
+}
+
 .slidecontainer {
-  width: 100%;
+    width: 100%;
 }
 
 .slider {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 7px;
-  border-radius: 1px;
-  background: #d3d3d3;
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 7px;
+    border-radius: 1px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
 }
 
 .slider:hover {
-  opacity: 1;
+    opacity: 1;
 }
 
 .slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 20px;
-  height: 7px;
-  border: 0;
-  border-radius: 1px;
-  background: #ff0000;
-  cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 7px;
+    border: 0;
+    border-radius: 1px;
+    background: #ff0000;
+    cursor: pointer;
 }
 
 .slider::-moz-range-thumb {
-  width: 23px;
-  height: 24px;
-  border: 0;
-  background: #ff0000;
-  cursor: pointer;
+    width: 23px;
+    height: 24px;
+    border: 0;
+    background: #ff0000;
+    cursor: pointer;
 }
 
 .create-object-container textarea {
-  width: 400px;
-  height: 100px;
+    width: 400px;
+    height: 100px;
 }
 
 .show-password {
-  cursor: pointer;
+    cursor: pointer;
 }

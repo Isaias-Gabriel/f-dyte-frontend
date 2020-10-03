@@ -3,9 +3,11 @@ import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { w3cwebsocket as W3CWebSocket } from 'websocket';
 
+import  dailyOrNightly from '../../functions/dailyOrNightlyStyle';
+
 import './styles.css';
 
-import logoImg from '../../assets/temp_logo.gif';
+import logoImg from '../../assets/complete_daily_logo.svg';
 
 require('dotenv/config');
 
@@ -58,11 +60,20 @@ export default class SignUp extends Component {
 
             rate: 0,
             logged: '/',
+
+            currentStyle: 'daily',
         }
     }
 
+    //'nightly'
+    //'daily'
+
     componentDidMount() {
         document.getElementById("sgnp-submit-button").disabled = true;
+
+        // this.setState({
+        //     currentStyle: dailyOrNightly(),
+        // })
     }
 
     handleChange = e => {
@@ -289,13 +300,17 @@ export default class SignUp extends Component {
         
         const { email, password, username, emailStatus,
             usernameStatus, passwordStatus, usernameIsAcceptable,
-            rate, userDataSubmitted } = this.state;
+            rate, userDataSubmitted, currentStyle } = this.state;
 
 
         if(userDataSubmitted) {
             return(
-                <div className="page-container">
-                    <div className="sign-up-container">
+                <div id={
+                    (currentStyle) ? currentStyle + "-sign-up-outter-container" : "daily-sign-up-outter-container"
+                }>
+                    <div id={
+                        (currentStyle) ? currentStyle + "-sign-up-inner-container" : "daily-sign-up-inner-container"
+                    }>
                         <div>
                             <p>
                                 A verification code was sent to your email account
@@ -325,126 +340,144 @@ export default class SignUp extends Component {
         }
 
         return (
-            <div className="page-container">
-                <div className="sign-up-container">
-                    <section className="header">
-                        <img src={logoImg} alt="logo" />
-
-                        <h1>The ***** social network</h1>
-                    </section>
-
-                    <section className="sign-up-form">
-                        <form id="user-password" onSubmit={this.onSubmit}> 
-
-                            <p>Thought you were going to fill a bunch of forms?</p>
-
-                            <div>
-                                <input 
-                                    type="email" 
-                                    placeholder="Email"
-                                    name="email"
-
-                                    maxLength="1000"
-
-                                    required
-
-                                    value={email}
-                                    onChange={this.onChangeEmail}
-                                />
-
-                                <span>
-                                    { emailStatus }
-                                </span>
+            <div id={
+                (currentStyle) ? currentStyle + "-sign-up-outter-container" : "daily-sign-up-outter-container"
+            }>
+                <div id={
+                    (currentStyle) ? currentStyle + "-sign-up-inner-container" : "daily-sign-up-inner-container"
+                }>
+                    <div id="main-sign-up-section">
+                        <section className="logo-and-phrase-outter-container">
+                            <div className="logo-outter-container">
+                                <img src={logoImg} alt="logo"/>
                             </div>
 
                             <div>
-                                <input 
-                                    type="text" 
-                                    placeholder="username"
-                                    name="username"
-
-                                    minLength="1"
-                                    maxLength="100"
-
-                                    required
-
-                                    value={username}
-                                    onChange={this.onChangeUsername}
-                                />
-
-                                <span>
-                                    { usernameIsAcceptable }
-                                </span>
-
-                                <span>
-                                    { usernameStatus }
-                                </span>
+                                <h1>The ***** social network</h1>
                             </div>
-                            
-                            <div>
-                                <input 
-                                    type="password" 
-                                    placeholder="Password"
-                                    name="password"
+                        </section>
 
-                                    minLength="6"
-                                    maxLength="100"
+                        <section className="sign-up-form">
+                            <form id="user-password" onSubmit={this.onSubmit}> 
 
-                                    required
+                                <p>Thought you were going to fill a bunch of forms?</p>
 
-                                    ref={this.passwordInput}
+                                <div className="sign-up-input-outter-container">
+                                    <input 
+                                        type="email" 
+                                        placeholder="Email"
+                                        name="email"
 
-                                    value={password}
-                                    onChange={this.onChangePassword}
-                                /> 
-                                
-                                <span
-                                    onClick={this.showPassword}
-                                    className="show-password"
-                                >
-                                    show password
-                                </span>
+                                        maxLength="1000"
 
-                                <div ref={this.passwordMessageDiv}>
+                                        required
 
+                                        value={email}
+                                        onChange={this.onChangeEmail}
+                                    />
+
+                                    <span>
+                                        { emailStatus }
+                                    </span>
                                 </div>
 
-                                <span>
-                                    { passwordStatus }
-                                </span>
-                            </div>
+                                <div className="sign-up-input-outter-container">
+                                    <input 
+                                        type="text" 
+                                        placeholder="username"
+                                        name="username"
 
-                            <label htmlFor="rate">Rate yourself:</label>
+                                        minLength="1"
+                                        maxLength="100"
 
-                            <input
-                                type="range"
-                                name="rate"
+                                        required
 
-                                min="0"
-                                max="5000000"
+                                        value={username}
+                                        onChange={this.onChangeUsername}
+                                    />
 
-                                required
+                                    <span>
+                                        { usernameIsAcceptable }
+                                    </span>
 
-                                value={rate}
-                                onChange={this.handleChange}
+                                    <span>
+                                        { usernameStatus }
+                                    </span>
+                                </div>
+                                
+                                <div className="sign-up-input-outter-container">
+                                    <input 
+                                        type="password" 
+                                        placeholder="Password"
+                                        name="password"
 
-                                className="slider"
-                            />
+                                        minLength="6"
+                                        maxLength="100"
 
-                            <p>Value: <span>{ Number(this.state.rate / 1000000).toFixed(2) }</span></p>
+                                        required
 
-                            <button type="submit" id="sgnp-submit-button">Sign Up</button>
-                        </form>
-                    </section>
+                                        ref={this.passwordInput}
 
-                    <p>
-                        By signing up, you agree with all of our
-                        <span> </span>
+                                        value={password}
+                                        onChange={this.onChangePassword}
+                                    /> 
+                                    
+                                    <span
+                                        onClick={this.showPassword}
+                                        className="show-password"
+                                    >
+                                        show password
+                                    </span>
 
-                        <Link className="sign-up-link" to="/">
-                            Policies.
-                        </Link>
-                    </p>
+                                    <div ref={this.passwordMessageDiv}>
+
+                                    </div>
+
+                                    <span>
+                                        { passwordStatus }
+                                    </span>
+                                </div>
+
+                                <label htmlFor="rate">Rate yourself:</label>
+
+                                <input
+                                    type="range"
+                                    name="rate"
+
+                                    min="0"
+                                    max="5000000"
+
+                                    required
+
+                                    value={rate}
+                                    onChange={this.handleChange}
+
+                                    className="slider"
+                                />
+
+                                <p>Value: <span>{ Number(this.state.rate / 1000000).toFixed(2) }</span></p>
+
+                                <div className="sign-up-submit-button-outter-container">
+                                    <button
+                                        type="submit"
+                                        id="sgnp-submit-button"
+                                    >
+                                        Sign Up
+                                    </button>
+                                </div>
+                                
+                            </form>
+                        </section>
+
+                        <p>
+                            By signing up, you agree with all of our
+                            <span> </span>
+
+                            <Link className="sign-up-link" to="/">
+                                Policies.
+                            </Link>
+                        </p>
+                    </div>
                 </div>
             </div>
         );
