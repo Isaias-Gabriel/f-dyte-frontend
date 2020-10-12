@@ -35,14 +35,28 @@
 
     width: calc(100vw - (2 * (12px + 9vw)));
     min-height: 420px;
-    height: calc(100vh - ((12px + 6vh) + calc(5px + 5vh)));
 
     border-radius: 1px;
 
-    margin: calc(5px + 5vh) calc(12px + 9vw) calc(12px + 6vh);
+    margin: calc(5px + 5vh) calc(12px + 9vw) 0;
     padding: calc(5px + 3vh) calc(12px + 2vw) calc(12px + 3vh);
 
     background-color: white;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#daily-sign-up-inner-container::-webkit-scrollbar, #nightly-sign-up-inner-container::-webkit-scrollbar {
+    display: none;
+}
+
+#daily-sign-up-inner-container {
+    height: calc(100vh - (5px + 5vh));
+}
+
+#nightly-sign-up-inner-container {
+    height: calc(100vh - (10px + 9vh));
 }
 
 #nightly-sign-up-inner-container::after {
@@ -74,15 +88,12 @@
     background-color: white;
 }
 
-.logo-and-phrase-outter-container {
-    margin-bottom: calc(19px + 5vh);
+.sign-up-logo-and-phrase-outter-container {
+    margin-bottom: calc(7px + 1.7vh);
 }
 
-.logo-outter-container {
+.sign-up-logo-outter-container {
     display: flex;
-
-    /* width: calc(29px); 
-    height: ;*/
 
     margin: 0 calc(2px + 1vw) calc(2px + 1vh) 0;
 
@@ -92,28 +103,42 @@
     background-color: white;
 }
 
-.logo-outter-container img {
-    height: calc(53px + 2.5vh);
+.sign-up-logo-outter-container img {
+    height: calc(47px + 2.3vh);
 }
 
-.logo-and-phrase-outter-container h1 {
+.sign-up-logo-and-phrase-outter-container h1 {
     margin: 0 0 0 calc(2px + 1vw);
 
-    font-size: calc(22px + 1.5vh);
+    font-size: calc(17px + 1.4vh);
+    text-align: center;
+}
+
+.sign-up-upper-message-outter-container {
+    margin-bottom: calc(4px + 1.3vh);
+    width: 100%;
+}
+
+.sign-up-upper-message-outter-container p {
+    margin: 0 calc(7px + 2.5vw) 0;
+
+    font-size: calc(7px + 1.35vh);
     text-align: center;
 }
 
 .sign-up-input-outter-container {
+    position: relative;
     display: flex;
+
     align-items: center;
     justify-content: center;
 }
 
 .sign-up-input-outter-container input {
     width: 100%;
-    height: calc(40px + 0.5vh);
+    height: calc(35px + 0.7vh);
     
-    margin: 0 calc(4px + 1vw) calc(7px + 0.5vh);
+    margin: 0 calc(7px + 1.3vw) 0;
 
     border: solid 1px rgb(255, 195, 185);
     border-radius: 1px;
@@ -124,10 +149,129 @@
 
     box-sizing: border-box;
 
-    font-size: calc(13px + 0.6vh);
+    font-size: calc(12px + 0.6vh);
 
     /* outline: solid 1px tomato; */
     outline-color:rgb(252, 149, 130);
+}
+
+.sign-up-input-message-outter-container {
+    min-height: calc(5px + 1.4vh);
+    margin: 0 calc(7px + 1.3vw) 0;
+
+    padding-top: calc(1px + 0.2vh);
+}
+
+.sign-up-input-message-outter-container div {
+    margin-bottom: calc(1px + 0.2vh);
+
+    color: black;
+
+    font-size: calc(9px + 0.55vh);
+}
+
+.sign-up-input-outter-container #sign-up-password-input {
+    padding-right: 20%;
+}
+
+.sign-up-show-password-outter-container {
+    position: absolute;
+
+    bottom: 0;
+    right: 0;
+
+    width: 20%;
+    height: calc(35px + 0.7vh);
+    
+    margin: 0 calc(7px + 1.3vw) 0;
+    border: none;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+    
+    /* right: calc((7px + 1.3vw) + (2px + 1vw));
+    bottom: calc((4px + 0.5vh) + (((35px + 0.7vh) / 2) - (6px + 1.35vh)));
+
+    font-size: calc(6px + 1.35vh); */
+}
+
+.sign-up-show-password-outter-container span {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+}
+
+.sign-up-show-password-outter-container span svg {
+    height: calc(27px);
+    width: calc(27px);
+    fill: rgb(90, 57, 0);
+
+    transition: 200ms;
+}
+
+.sign-up-show-password-outter-container span svg:hover {
+    height: calc(30px);
+    width: calc(30px);
+    fill: rgb(41, 27, 1);
+}
+
+.sign-up-slider-input-outter-container {
+    margin-top: calc(1px + 0.2vh);
+    margin: calc(1px + 0.2vh) 0 calc(10px + 0.8vh);
+}
+
+.sign-up-slider-input-outter-container p {
+    text-align: center;
+}
+
+.sign-up-slider-input-outter-container input {
+    margin: calc(1px + 0.2vh) 0;
+}
+
+.slidecontainer {
+    width: 100%;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 7px;
+    border-radius: 1px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 7px;
+    border: 0;
+    border-radius: 1px;
+    background: #ff0000;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 23px;
+    height: 24px;
+    border: 0;
+    background: #ff0000;
+    cursor: pointer;
 }
 
 .sign-up-submit-button-outter-container {
@@ -178,17 +322,15 @@
     outline: none;
 }
 
-.to-sign-up-paragraph-outter-container {
+.to-policies-outter-container {
     display: flex;
 
     width: 100%;
 
-    position: absolute;
-
-    bottom: 0;
+    margin: calc(10px + 0.8vh) 0;
 }
 
-.to-sign-up-paragraph-outter-container a {
+.to-policies-outter-container a {
 
     width: 100%;
 
@@ -197,7 +339,7 @@
     outline: none;
 }
 
-.to-sign-up-paragraph-outter-container p {
+.to-policies-outter-container p {
     width: 100%;
 
     color: rgb(230, 1, 89);
@@ -206,22 +348,22 @@
     text-align: center;
 }
 
-.to-sign-up-paragraph-outter-container p span {
+.to-policies-outter-container p span {
     color: rgb(230, 1, 89);
     
     font-size: calc(14px + 0.1vh);
 }
 
 @media only screen and (min-width: 500px) {
-    .logo-and-phrase-outter-container {
+    .sign-up-logo-and-phrase-outter-container {
         margin-bottom: calc(53px + 3vh);
     }
     
-    .logo-outter-container {
+    .sign-up-logo-outter-container {
         margin: 0 calc(2px + 1vw) calc(19px + 0.5vh) 0;
     }
     
-    .logo-outter-container img {
+    .sign-up-logo-outter-container img {
         height: calc(67px + 2.3vh);
     }
 
@@ -239,16 +381,24 @@
 
         width: calc(100vw - (2 * (31px + 9vw)));
     
-        margin: calc(5px + 5vh) calc(31px + 9vw) calc(12px + 6vh);
+        margin: calc(5px + 5vh) calc(31px + 9vw) 0;
         padding: calc(19px + 3vh) calc(29px + 2vw) calc(13px + 2vh);
 
+    }
+    
+    #daily-sign-up-inner-container {
+        height: calc(100vh - (5px + 5vh));
+    }
+
+    #nightly-sign-up-inner-container {
+        height: calc(100vh - (5px + 5vh + 12px + 6vh));
     }
     
     #nightly-sign-up-inner-container::after {
         width: calc(100vw - (2 * (31px + 9vw)));
     }
 
-    .logo-and-phrase-outter-container {
+    .sign-up-logo-and-phrase-outter-container {
         display: flex;
 
         width: 100%;
@@ -259,7 +409,7 @@
         margin-bottom: calc(53px + 6vh);
     }
     
-    .logo-outter-container {
+    .sign-up-logo-outter-container {
     
         margin: 0;
         margin-right: calc(5px + 1vw);
@@ -267,11 +417,11 @@
         background-color: white;
     }
     
-    .logo-outter-container img {
+    .sign-up-logo-outter-container img {
         height: calc(63px + 2.6vh);
     }
     
-    .logo-and-phrase-outter-container h1 {
+    .sign-up-logo-and-phrase-outter-container h1 {
         margin: 0;
         margin-left: calc(5px + 1vw);
     
@@ -293,8 +443,16 @@
         width: calc(100vw - (2 * (50px + 19vw)));
         height: calc(100vh - ((15px + 5vh) + (12px + 6vh)));
     
-        margin: calc(15px + 5vh) calc(50px + 19vw) calc(12px + 6vh);
+        margin: calc(15px + 5vh) calc(50px + 19vw) 0;
         padding: calc(19px + 3vh) calc(12px + 2vw) calc(12px + 3vh);
+    }
+
+    #daily-sign-up-inner-container {
+        height: calc(100vh - (15px + 5vh));
+    }
+
+    #nightly-sign-up-inner-container {
+        height: calc(100vh - (5px + 5vh + 12px + 6vh));
     }
     
     #nightly-sign-up-inner-container::after {
@@ -332,7 +490,7 @@
         width: 40vw;
     }
 
-    .logo-and-phrase-outter-container {
+    .sign-up-logo-and-phrase-outter-container {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -340,18 +498,18 @@
         margin-bottom: calc(20px + 10vh);
     }
 
-    .logo-outter-container {
+    .sign-up-logo-outter-container {
         display: inline-block;
     
         margin: 0;
         margin-right: calc(2px + 0.1vw);
     }
 
-    .logo-outter-container img {
+    .sign-up-logo-outter-container img {
         height: calc(25px + 10vh);
     }
 
-    .logo-and-phrase-outter-container h1 {
+    .sign-up-logo-and-phrase-outter-container h1 {
         margin: 0;
         margin-left: calc(2px + 0.1vw);
     
@@ -395,59 +553,11 @@
         font-size: calc(4px + 1.85vh);
     }
 
-    .to-sign-up-paragraph-outter-container p {
+    .to-policies-outter-container p {
         font-size: calc(6px + 1.2vh);
     }
 
-    .to-sign-up-paragraph-outter-container p span {
+    .to-policies-outter-container p span {
         font-size: calc(7px + 1.3vh);
     }
-}
-
-.slidecontainer {
-    width: 100%;
-}
-
-.slider {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 7px;
-    border-radius: 1px;
-    background: #d3d3d3;
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
-}
-
-.slider:hover {
-    opacity: 1;
-}
-
-.slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 20px;
-    height: 7px;
-    border: 0;
-    border-radius: 1px;
-    background: #ff0000;
-    cursor: pointer;
-}
-
-.slider::-moz-range-thumb {
-    width: 23px;
-    height: 24px;
-    border: 0;
-    background: #ff0000;
-    cursor: pointer;
-}
-
-.create-object-container textarea {
-    width: 400px;
-    height: 100px;
-}
-
-.show-password {
-    cursor: pointer;
 }

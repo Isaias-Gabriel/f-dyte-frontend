@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { w3cwebsocket as W3CWebSocket } from 'websocket';
+import { AiOutlineEye } from 'react-icons/ai';
 
 import  dailyOrNightly from '../../functions/dailyOrNightlyStyle';
 
@@ -303,6 +304,8 @@ export default class SignUp extends Component {
             rate, userDataSubmitted, currentStyle } = this.state;
 
 
+        console.log(this.state);
+
         if(userDataSubmitted) {
             return(
                 <div id={
@@ -311,28 +314,53 @@ export default class SignUp extends Component {
                     <div id={
                         (currentStyle) ? currentStyle + "-sign-up-inner-container" : "daily-sign-up-inner-container"
                     }>
-                        <div>
-                            <p>
-                                A verification code was sent to your email account
-                            </p>
+                        <div id="main-sign-up-section">
+                            <section className="sign-up-logo-and-phrase-outter-container">
+                                <div className="sign-up-logo-outter-container">
+                                    <img src={logoImg} alt="logo"/>
+                                </div>
+
+                                <div>
+                                    <h1>The ***** social network</h1>
+                                </div>
+                            </section>
                             
-                            <p>
-                                Type the verification code bellow:
-                            </p>
+                            <div className="sign-up-verification-section-outter-container">
+                                
+                                <div className="sign-up-verification-upper-message">
+                                    <p>
+                                        A verification code was sent to your email account.
+                                    </p>
+                                    
+                                    <p>
+                                        Type the verification code bellow:
+                                    </p>
+                                </div>
 
-                            <div ref={this.messageDiv}>
+                                <section className="sign-up-form">
+                                    <form onSubmit={this.verify}>
+                                        <div className="sign-up-input-outter-container">
+                                            <input
+                                                type="text"
+                                                ref={this.verificationInput}
+                                            />
+                                        </div>
+
+                                        <div className="sign-up-input-message-outter-container">
+                                            <div ref={this.messageDiv}>
+                                            </div>
+                                        </div>
+
+                                        <div className="sign-up-submit-button-outter-container">
+                                            <button
+                                                type="submit"
+                                            >
+                                                Verify
+                                            </button>
+                                        </div>
+                                    </form>
+                                </section>
                             </div>
-
-                            <form onSubmit={this.verify}>
-                                <input
-                                    type="text"
-                                    ref={this.verificationInput}
-                                />
-
-                                <button type="submit">
-                                    Verify
-                                </button>
-                            </form>
                         </div>
                     </div>
                 </div>
@@ -347,8 +375,8 @@ export default class SignUp extends Component {
                     (currentStyle) ? currentStyle + "-sign-up-inner-container" : "daily-sign-up-inner-container"
                 }>
                     <div id="main-sign-up-section">
-                        <section className="logo-and-phrase-outter-container">
-                            <div className="logo-outter-container">
+                        <section className="sign-up-logo-and-phrase-outter-container">
+                            <div className="sign-up-logo-outter-container">
                                 <img src={logoImg} alt="logo"/>
                             </div>
 
@@ -360,7 +388,13 @@ export default class SignUp extends Component {
                         <section className="sign-up-form">
                             <form id="user-password" onSubmit={this.onSubmit}> 
 
-                                <p>Thought you were going to fill a bunch of forms?</p>
+                                <div
+                                    className="sign-up-upper-message-outter-container"
+                                >
+                                    <p>
+                                        Thought you were going to fill a bunch of forms?
+                                    </p>
+                                </div>
 
                                 <div className="sign-up-input-outter-container">
                                     <input 
@@ -375,10 +409,12 @@ export default class SignUp extends Component {
                                         value={email}
                                         onChange={this.onChangeEmail}
                                     />
-
-                                    <span>
+                                </div>
+                                
+                                <div className="sign-up-input-message-outter-container">
+                                    <div>
                                         { emailStatus }
-                                    </span>
+                                    </div>
                                 </div>
 
                                 <div className="sign-up-input-outter-container">
@@ -395,14 +431,16 @@ export default class SignUp extends Component {
                                         value={username}
                                         onChange={this.onChangeUsername}
                                     />
+                                </div>
 
-                                    <span>
+                                <div className="sign-up-input-message-outter-container">
+                                    <div>
                                         { usernameIsAcceptable }
-                                    </span>
+                                    </div>
 
-                                    <span>
+                                    <div>
                                         { usernameStatus }
-                                    </span>
+                                    </div>
                                 </div>
                                 
                                 <div className="sign-up-input-outter-container">
@@ -410,6 +448,7 @@ export default class SignUp extends Component {
                                         type="password" 
                                         placeholder="Password"
                                         name="password"
+                                        id="sign-up-password-input"
 
                                         minLength="6"
                                         maxLength="100"
@@ -422,40 +461,53 @@ export default class SignUp extends Component {
                                         onChange={this.onChangePassword}
                                     /> 
                                     
-                                    <span
-                                        onClick={this.showPassword}
-                                        className="show-password"
+                                    <div
+                                        className="sign-up-show-password-outter-container"
                                     >
-                                        show password
-                                    </span>
-
-                                    <div ref={this.passwordMessageDiv}>
-
+                                        <span
+                                            onClick={this.showPassword}
+                                        >
+                                            <AiOutlineEye />
+                                        </span>
                                     </div>
-
-                                    <span>
-                                        { passwordStatus }
-                                    </span>
                                 </div>
 
-                                <label htmlFor="rate">Rate yourself:</label>
+                                <div className="sign-up-input-message-outter-container">
+                                    <div ref={this.passwordMessageDiv}>
+                                    
+                                    </div>
 
-                                <input
-                                    type="range"
-                                    name="rate"
+                                    <div>
+                                        { passwordStatus }
+                                    </div>
+                                </div>
 
-                                    min="0"
-                                    max="5000000"
+                                <div className="sign-up-slider-input-outter-container">
+                                    <p>
+                                        Rate yourself:
+                                    </p>
 
-                                    required
+                                    <input
+                                        type="range"
+                                        name="rate"
 
-                                    value={rate}
-                                    onChange={this.handleChange}
+                                        min="0"
+                                        max="5000000"
 
-                                    className="slider"
-                                />
+                                        required
 
-                                <p>Value: <span>{ Number(this.state.rate / 1000000).toFixed(2) }</span></p>
+                                        value={rate}
+                                        onChange={this.handleChange}
+
+                                        className="slider"
+                                    />
+
+                                    <p>
+                                        <span>
+                                            { Number(this.state.rate / 1000000).toFixed(2) }
+                                        </span>
+                                    </p>
+                                </div>
 
                                 <div className="sign-up-submit-button-outter-container">
                                     <button
@@ -469,14 +521,17 @@ export default class SignUp extends Component {
                             </form>
                         </section>
 
-                        <p>
-                            By signing up, you agree with all of our
-                            <span> </span>
-
+                        <div className="to-policies-outter-container">
                             <Link className="sign-up-link" to="/">
-                                Policies.
+                                <p>
+                                    By signing up, you agree with all of our 
+                                    {` `}
+                                    <span>
+                                        Policies.
+                                    </span>
+                                </p>
                             </Link>
-                        </p>
+                        </div>
                     </div>
                 </div>
             </div>

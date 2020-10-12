@@ -34,14 +34,21 @@
 
     width: calc(100vw - (2 * (12px + 9vw)));
     min-height: 420px;
-    height: calc(100vh - ((12px + 6vh) + calc(5px + 5vh)));
 
     border-radius: 1px;
 
-    margin: calc(5px + 5vh) calc(12px + 9vw) calc(12px + 6vh);
+    margin: calc(5px + 5vh) calc(12px + 9vw) 0;
     padding: calc(5px + 3vh) calc(12px + 2vw) calc(12px + 3vh);
 
     background-color: white;
+}
+
+#daily-log-in-inner-container {
+    height: calc(100vh - (5px + 5vh));
+}
+
+#nightly-log-in-inner-container {
+    height: calc(100vh - (10px + 9vh));
 }
 
 #nightly-log-in-inner-container::after {
@@ -238,9 +245,17 @@
 
         width: calc(100vw - (2 * (31px + 9vw)));
     
-        margin: calc(5px + 5vh) calc(31px + 9vw) calc(12px + 6vh);
+        margin: calc(5px + 5vh) calc(31px + 9vw) 0;
         padding: calc(19px + 3vh) calc(29px + 2vw) calc(13px + 2vh);
 
+    }
+    
+    #daily-log-in-inner-container {
+        height: calc(100vh - (5px + 5vh));
+    }
+
+    #nightly-log-in-inner-container {
+        height: calc(100vh - (5px + 5vh + 12px + 6vh));
     }
     
     #nightly-log-in-inner-container::after {
@@ -292,8 +307,16 @@
         width: calc(100vw - (2 * (50px + 19vw)));
         height: calc(100vh - ((15px + 5vh) + (12px + 6vh)));
     
-        margin: calc(15px + 5vh) calc(50px + 19vw) calc(12px + 6vh);
+        margin: calc(15px + 5vh) calc(50px + 19vw) 0;
         padding: calc(19px + 3vh) calc(12px + 2vw) calc(12px + 3vh);
+    }
+
+    #daily-log-in-inner-container {
+        height: calc(100vh - (15px + 5vh));
+    }
+
+    #nightly-log-in-inner-container {
+        height: calc(100vh - (5px + 5vh + 12px + 6vh));
     }
     
     #nightly-log-in-inner-container::after {
