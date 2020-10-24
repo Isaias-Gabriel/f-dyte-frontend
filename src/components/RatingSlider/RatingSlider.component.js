@@ -41,6 +41,10 @@ export default class RatingSlider extends Component {
             sessionId: localStorage.getItem('e'),
         };
 
+        console.log({
+            formInfo,
+        })
+
         axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/update_' + this.props.type + '_rate', formInfo)
             .then(res => {
                 console.log(res.data);

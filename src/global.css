@@ -5,8 +5,16 @@
     border: 0;
     padding: 0;
 
+    box-sizing: border-box;
+
     font-family: 'Quicksand', sans-serif;
     color: rgb(109, 0, 0);
 
+    overflow-y: scroll;
+    overflow-x: hidden;
     -webkit-tap-highlight-color: transparent;
+}
+
+*::-webkit-scrollbar {
+    display: none;
 }

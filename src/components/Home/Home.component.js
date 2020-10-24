@@ -98,11 +98,19 @@ export default class Home extends Component {
                     </button>
                 </Link>
 
-                <Link to={"/profile/" + this.state.username}>
-                    <button>
-                        My profile
-                    </button>
-                </Link>
+                {
+                    (this.state.username)
+                    ?
+                    (
+                        <Link to={"/profile/" + this.state.username}>
+                            <button>
+                                My profile
+                            </button>
+                        </Link>
+                    )
+                    :
+                    ''
+                }
 
                 <LogOut/>
                 

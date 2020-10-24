@@ -62,7 +62,7 @@ export default class SignUp extends Component {
             rate: 0,
             logged: '/',
 
-            currentStyle: 'daily',
+            currentStyle: null,
         }
     }
 
@@ -72,9 +72,9 @@ export default class SignUp extends Component {
     componentDidMount() {
         document.getElementById("sgnp-submit-button").disabled = true;
 
-        // this.setState({
-        //     currentStyle: dailyOrNightly(),
-        // })
+        this.setState({
+            currentStyle: dailyOrNightly(),
+        })
     }
 
     handleChange = e => {
@@ -273,13 +273,8 @@ export default class SignUp extends Component {
                         console.log('Websocket client - user connected');
                     };
     
-                    //const cipher = crypto.createCipher('aes256', res.data.sessionId);
-                    //cipher.update(this.state.username);
-                    //const sst = cipher.final('hex').toString();
-    
                     localStorage.setItem("e", res.data.sessionId);
                     localStorage.setItem(res.data.sessionId, res.data.sessionId);
-                    //localStorage.setItem('sst', sst);
     
                     this.setState({
                         logged: '/',

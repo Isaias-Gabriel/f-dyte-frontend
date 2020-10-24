@@ -4,12 +4,18 @@ import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { w3cwebsocket as W3CWebSocket } from 'websocket';
 
+import { FaRegCommentAlt } from 'react-icons/fa';
+import { RiUserFollowLine } from 'react-icons/ri';
+import { HiOutlineStar } from 'react-icons/hi';
+
 import IsLogged from '../IsLogged/IsLogged.component';
 import GoHome from '../GoHome/GoHome.component';
 import LogOut from '../LogOut/LogOut.component';
 
 import CommentOnObject from '../Comment/CommentOnObject.component';
 import FollowObject from '../FollowObject/FollowObject.component';
+
+import RatingSlider from '../RatingSlider/RatingSlider.component';
 
 import './styles.css';
 
@@ -324,113 +330,180 @@ export default class FdObject extends Component {
         const { objectFound } = this.state;
 
         if(objectFound) {
-            const { object, commentId, commentOnComment, rateSubmitted } = this.state;
+            const { rateSubmitted } = this.state;
 
             if(rateSubmitted) {
                 return <Redirect to={"/redirect_to_object/" + this.props.match.params.nickname} />;
             }
 
+            const { _id: id, urls, name, nickname, description, rateNumber } = this.state.object;
+            const categories = this.state.object.categories[0];
+
+            let temp_rate = this.state.object.rate.$numberDecimal;
+            let rateIntegerPart, rateFirst2Decimals;
+            
+            if(temp_rate) {
+                temp_rate = (parseFloat(temp_rate) * 100).toString();
+               
+                rateIntegerPart = temp_rate[0];
+                rateFirst2Decimals = temp_rate[1] + temp_rate[2];
+            }
+
             return(
-                <div id="object-container">
-                    <IsLogged/>
-                    <GoHome/>
-                    <LogOut/>
-                    
-                    <div id="shw-bjct">
+                
+                <div id="object-outter-container">
+                    <div id="object-inner-container">
+                        <div id="object-media-header-and-rate-outter-container">
+                            <section id="object-media-outter-container">
+                                {
+                                    urls[0][0] && (
+                                        <div
+                                            className="object-media-inner-container"
+                                            style={{
+                                                backgroundImage: `url(${urls[0][0]})`
+                                            }}
+                                        >
+                                        </div>
+                                    )
+                                }
+                            </section>
 
-                        <div id="show-object-media">
-                            {
-                                object.urls[0].map(url => {
-                                    return <ShowMedia
-                                        key={url}
-                                        url={url}
-                                    />
-                                })
-                            }
+                            <section id="object-header-outter-container">
+                                <div>
+                                    <p id="object-header-name">
+                                        <b>
+                                            { name }
+                                        </b>
+                                    </p>
 
-                            {
-                                object.urls[1].map(url => {
-                                    if(url.length) {
-                                        return <ShowMedia
-                                            key={url}
-                                            url={url[0]}
-                                        />
-                                    }
-                                })
-                            }
+                                    <p id="object-header-nickname">
+                                        { `/${nickname}` }
+                                    </p>
+                                </div>
+                            </section>
+
+                            <section id="object-rate-outter-container">
+                                <span>
+                                    <span id="object-rate-integer-part">
+                                        { `${rateIntegerPart}` }
+                                    </span>
+
+                                    <span id="object-rate-decimal-part">
+                                        { `.${rateFirst2Decimals}` }
+                                    </span>
+                                </span>
+
+                                <span>
+                                    { rateNumber }
+                                </span>
+                            </section>
                         </div>
-                        
-                        <div>
-                            <h2>
-                                { object.name }
-                            </h2>
 
-                            <p>
-                                { object.description[0] }
-                            </p>
-                            
-                            {   
-                                object.description[1].map(description => {
-                                    if(description.length) {
-                                        return (
-                                            <div key={description}>
-                                                <p>
-                                                    { description[0] }
-                                                </p>
-                                                
-                                                <span>
-                                                    {`by `}
-                                                    <Link to={ "/profile/" + description[1] }>
-                                                        { description[1] }
-                                                    </Link>
-                                                </span>
-                                            </div>
-                                        )
-                                    }
-                                })
-                            }
+                        <div className="object-main-content-outter-container">
+                            <div className="object-rate-comment-and-follow-outter-container">
+                                <div className="object-main-icons">
+                                    <FaRegCommentAlt />
+                                </div>
 
-                            <p>
-                                <strong>
+                                <div className="object-main-icons">
+                                    <HiOutlineStar />
+                                </div>
+
+                                <div className="object-main-icons">
+                                    <RiUserFollowLine />
+                                </div>
+                            </div>
+
+                            <section className="object-categories-and-descriptions-outter-container">
+                                <div className="object-categories-outter-container">
                                     {
-                                        object.categories[0].map(category => {
+                                        categories.map((category, index) => {
                                             return(
-                                                <span key={category} className="object-category-span">
-                                                    {
-                                                        category
-                                                    }
-                                                </span>
+                                                <div key={index} className="object-category-outter-container">
+                                                    { `#${category}` }
+                                                </div>
                                             )
                                         })
                                     }
-                                </strong>
-                            </p>
+                                </div>
 
-                            <p>
-                                { Number(object.rate.$numberDecimal).toFixed(2) }
-                            </p>
-
-                            <p>
-                                Number of rates: { object.rateNumber }
-                            </p>
+                                <div className="object-descriptions-outter-container">
+                                    { description[0] }
+                                </div>
+                            </section>
                         </div>
                     </div>
-                    
-                    {
-                        this.showRatingSlider()
-                    }
-
-                    {
-                        this.showFollowButton()
-                    }
-                    
-                    <hr/>
-                    
-                    {
-                        this.showComments()
-                    }
-                    
                 </div>
+                
+                
+                
+
+                //             <p>
+                //                 { object.description[0] }
+                //             </p>
+                            
+                //             {   
+                //                 object.description[1].map(description => {
+                //                     if(description.length) {
+                //                         return (
+                //                             <div key={description}>
+                //                                 <p>
+                //                                     { description[0] }
+                //                                 </p>
+                                                
+                //                                 <span>
+                //                                     {`by `}
+                //                                     <Link to={ "/profile/" + description[1] }>
+                //                                         { description[1] }
+                //                                     </Link>
+                //                                 </span>
+                //                             </div>
+                //                         )
+                //                     }
+                //                 })
+                //             }
+
+                //             <p>
+                //                 <strong>
+                //                     {
+                //                         object.categories[0].map(category => {
+                //                             return(
+                //                                 <span key={category} className="object-category-span">
+                //                                     {
+                //                                         category
+                //                                     }
+                //                                 </span>
+                //                             )
+                //                         })
+                //                     }
+                //                 </strong>
+                //             </p>
+
+                //             <p>
+                //                 { Number(object.rate.$numberDecimal).toFixed(2) }
+                //             </p>
+
+                //             <p>
+                //                 Number of rates: { object.rateNumber }
+                //             </p>
+                //         </div>
+                //     </div>
+                    
+                //     {
+                //         this.showRatingSlider()
+                //     }
+
+                //     {
+                //         this.showFollowButton()
+                //     }
+                    
+                //     <hr/>
+                    
+                //     {
+                //         this.showComments()
+                //     }
+                    
+                // </div>
             );
         }
 

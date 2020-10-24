@@ -1,45 +1,168 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+#object-outter-container {
+    height: calc(100vh - (11px + 4vh));
 
-a {
-    text-decoration: none;
-}
-
-hr {
-    margin: 0;
-}
-
-#object-container a {
-    text-decoration: none;
-}
-
-#object-container img {
-    max-height: 50vh;
-}
-
-#object-container video {
-    max-height: 45vh;
-}
-
-#shw-bjct {
-    display: flex;
-    justify-content: space-between;
-
-    font-size: 4vh;
-    font-family: 'Noto Sans', sans-serif;
-}
-
-#add-comment-on-comment {
-    display: none   ;
-    position: fixed;
-    top: 300px;
-    left: 200px;
     z-index: 1;
-    background: rgb(238, 222, 253);
 }
 
-.object-category-span {
-    padding: 3px;
+#object-inner-container {
+    height: calc(100vh - (11px + 4vh));
+}
 
-    border: solid 1px rgb(83, 74, 67);
-    border-radius: 1px;
+#object-media-header-and-rate-outter-container {
+    position: relative;
+}
+
+.object-media-inner-container {
+    min-height: 270px;
+    height: 40vh;
+    width: 100%;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    
+    z-index: 3;
+}
+
+#object-header-outter-container {
+    min-height: 170px;
+    height: 27vh;
+    width: 100%;
+
+    padding: 0 0 calc(3px + 1.5vh) calc(3px + 4vw);
+
+    position: absolute;
+
+    bottom: 0;
+
+    background: rgb(0, 0, 0);
+    background: linear-gradient(180deg, 
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.034) 30%,
+        rgba(0, 0, 0, 0.096) 55%,
+        rgba(0, 0, 0, 0.237) 100%);
+
+    display: flex;
+    align-items: flex-end;
+
+    z-index: 7;
+}
+
+#object-header-outter-container p, #object-header-outter-container p b {
+    color: white;
+}
+
+#object-header-outter-container #object-header-name {
+    font-size: calc(11px + 3vh + 0.9vw);
+}
+
+#object-header-outter-container #object-header-nickname {
+    font-size: calc(9px + 1.1vh);
+}
+
+#object-rate-outter-container {
+    position: absolute;
+
+    bottom: 0;
+    right: 0;
+
+    margin: 0 calc(7px + 5vw) calc(1px + 1vh) 0;
+
+    display: flex;
+    flex-direction: column;
+
+    z-index: 11;
+}
+
+#object-rate-outter-container span {
+    color: white;
+
+    text-align: center;
+
+    font-size: calc(11px + 2.5vh);
+}
+
+#object-rate-outter-container #object-rate-integer-part {
+    font-weight: 600;
+    font-size: calc(13px + 5.1vh);
+}
+
+#object-rate-outter-container #object-rate-decimal-part {
+    font-weight: 600;
+    font-size: calc(11px + 1.3vh);
+}
+
+.object-main-content-outter-container {
+    height: calc((100vh - (11px + 4vh)) - 40vh);
+
+    background:  rgb(255, 247, 233);
+    background: linear-gradient(331deg, 
+        rgb(252, 240, 247) 0%,
+        rgb(253, 253, 253) 50%,
+        rgb(255, 247, 234) 100%);
+}
+
+.object-rate-comment-and-follow-outter-container {
+    position: relative;
+
+    min-height: 50px;
+    height: 7vh;
+    width: 100%;
+
+    margin-top: calc(1px + 1vw + 0.7vh);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-evenly;
+
+    z-index: 3;
+}
+
+.object-main-icons svg {
+    position: relative;
+
+    min-height: 25px;
+    height: 4vh;
+    min-width: 25px;
+    width: 4vh;
+
+    fill: rgba(190, 0, 48, 0.849);
+
+    stroke: rgba(190, 0, 48, 0.849);
+    
+    z-index: 3;
+}
+
+.object-categories-outter-container {
+    padding: 0 calc(2px + 2vw + 1vh);
+}
+
+.object-category-outter-container {
+    display: inline-block;
+
+    position: relative;
+
+    margin-right: calc(1px + 0.5vh + 1vw);
+
+    padding: 0 calc(1px + 0.3vh + 0.7vw) calc(0.1vh + 0.2vw);
+
+    font-size: calc(9px + 1.1vh + 0.7vw);
+}
+
+.object-category-outter-container::after {
+    content: '';
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+
+    min-height: 3.3px;
+    height: calc(1px + 0.3vh);
+    width: 100%;
+
+    background: rgb(253, 220, 214);
+    background: linear-gradient(90deg, 
+        rgb(240, 137, 19) 0%,
+        rgba(212, 15, 107, 0.719) 100%);
 }

@@ -370,14 +370,16 @@
     }
 
     .logo-outter-container img {
-        height: calc(25px + 10vh);
+        height: calc(21px + 9vh);
     }
 
     .logo-and-phrase-outter-container h1 {
         margin: 0;
         margin-left: calc(2px + 0.1vw);
+
+        width: calc(50px + 10vw);
     
-        font-size: calc(12px + 2.7vh);
+        font-size: calc(5px + 3vh);
     }
 
     .log-in-input-outter-container input {
