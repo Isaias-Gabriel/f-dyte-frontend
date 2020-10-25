@@ -434,7 +434,7 @@ export default class FdObject extends Component {
                                         </div>
 
                                         <div className="object-volatile-descriptions-outter-container">
-                                            <div className="object-volatile-description-outter-container">
+                                            {/* <div className="object-volatile-description-outter-container">
                                                 Ainda posso ouvir o triste popopo popopo
 
                                                 <p>
@@ -456,7 +456,7 @@ export default class FdObject extends Component {
                                                         {`@${'ferfna_avgusta'}`}
                                                     </Link>
                                                 </p>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                 </div>
