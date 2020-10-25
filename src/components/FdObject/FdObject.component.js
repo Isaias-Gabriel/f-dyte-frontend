@@ -414,7 +414,7 @@ export default class FdObject extends Component {
                                 </div>
                             </div>
 
-                            <section className="object-categories-and-descriptions-outter-container">
+                            <div className="object-categories-and-descriptions-outter-container">
                                 <div className="object-categories-outter-container">
                                     {
                                         categories.map((category, index) => {
@@ -428,9 +428,25 @@ export default class FdObject extends Component {
                                 </div>
 
                                 <div className="object-descriptions-outter-container">
-                                    { description[0] }
+                                    <div className="object-default-description-outter-container">
+                                        { description[0] }
+                                    </div>
+
+                                    <div className="object-volatile-descriptions-outter-container">
+                                        <div className="object-volatile-description-outter-container">
+                                            Ainda posso ouvir o triste popopo popopo
+
+                                            <p>
+                                                {`by `}
+                                                
+                                                <Link to="/profile/ferfna_avgusta">
+                                                    {`@${'ferfna_avgusta'}`}
+                                                </Link>
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </section>
+                            </div>
                         </div>
                     </div>
                 </div>
