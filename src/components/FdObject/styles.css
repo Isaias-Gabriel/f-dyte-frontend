@@ -48,6 +48,10 @@
     z-index: 7;
 }
 
+#object-header-outter-container div {
+    max-width: 60vw;
+}
+
 #object-header-outter-container p, #object-header-outter-container p b {
     color: white;
 }
@@ -161,7 +165,7 @@
     bottom: 0;
     left: 0;
 
-    min-height: 3.3px;
+    min-height: 2.3px;
     height: calc(1px + 0.3vh);
     width: 100%;
 
@@ -172,6 +176,11 @@
 }
 
 .object-descriptions-outter-container {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+
     height: 35vh;
 
     overflow-y: scroll;
@@ -180,10 +189,11 @@
     padding: 0 calc(2px + 2vw + 1vh) calc(3px + 3vw + 2vh);
 }
 
-.object-default-description-outter-container {
-    padding: 0 calc(2px + 1.7vw + 0.9vh);
+.object-default-description-outter-container, .object-volatile-description-outter-container {
+    margin-bottom: calc(1px + 0.7vw + 0.9vh);
+    padding: 0 calc(2px + 1.7vw + 0.9vh) calc(1px + 0.5vw + 0.6vh);
 
-    font-size: calc(9px + 1.4vh + 1.1vw);
+    font-size: calc(7px + 1.5vh + 1.2vw);
 
     position: relative;
 
@@ -193,20 +203,47 @@
     rgb(253, 253, 253) 100%);
 }
 
-.object-default-description-outter-container::after {
+.object-volatile-description-outter-container p {
+    margin-top: calc(1px + 0.5vw + 0.6vh);
+
+    font-size: calc(7px + 1.3vh + 1.1vw);
+
+    color: rgb(87, 71, 0);
+}
+
+.object-volatile-description-outter-container p a {
+    margin-top: calc(1px + 0.5vw + 0.6vh);
+
+    font-size: calc(7px + 1.35vh + 1.15vw);
+
+    color: rgb(77, 0, 66);
+}
+
+.object-default-description-outter-container::after, .object-volatile-description-outter-container::after {
     content: '';
     position: absolute;
 
     bottom: 0;
     left: 0;
 
-    min-height: 2.5px;
-    height: calc(0.5px + 0.3vh);
+    min-height: 2.1px;
+    height: calc(0.4px + 0.2vh + 0.1vw);
     width: 100%;
+}
 
+.object-default-description-outter-container::after {
     background: rgb(253, 220, 214);
     background: linear-gradient(90deg, 
         rgb(238, 102, 165) 0%,
         rgba(231, 23, 196, 0.712) 50%,
         rgb(235, 170, 32) 100%);
+}
+
+.object-volatile-description-outter-container::after {
+
+    background: rgb(253, 220, 214);
+    background: linear-gradient(90deg, 
+        rgb(236, 158, 178) 0%,
+        rgba(218, 135, 243, 0.712) 50%,
+        rgb(111, 245, 171) 100%);
 }
