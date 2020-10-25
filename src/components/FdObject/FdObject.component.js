@@ -350,7 +350,6 @@ export default class FdObject extends Component {
             }
 
             return(
-                
                 <div id="object-outter-container">
                     <div id="object-inner-container">
                         <div id="object-media-header-and-rate-outter-container">
