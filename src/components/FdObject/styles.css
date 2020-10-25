@@ -208,7 +208,7 @@
 
     font-size: calc(7px + 1.3vh + 1.1vw);
 
-    color: rgb(87, 71, 0);
+    color: rgb(59, 49, 0);
 }
 
 .object-volatile-description-outter-container p a {
@@ -216,7 +216,7 @@
 
     font-size: calc(7px + 1.35vh + 1.15vw);
 
-    color: rgb(77, 0, 66);
+    color: rgb(129, 0, 161);
 }
 
 .object-default-description-outter-container::after, .object-volatile-description-outter-container::after {
