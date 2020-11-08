@@ -280,8 +280,6 @@
 }
 
 .profile-belle-posts-no-posts-icon-star svg {
-    top: calc();
-
     height: calc(30vh + 19vw);
     width: calc(30vh + 19vw);
 
