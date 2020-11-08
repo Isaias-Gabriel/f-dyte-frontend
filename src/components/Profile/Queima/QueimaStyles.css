@@ -1,0 +1,247 @@
+
+.profile-queima-header-and-icons-outter-container {
+    background:  rgb(255, 247, 233);
+    background: linear-gradient(70deg, 
+        rgb(255, 255, 255) 0%,
+        rgb(249, 251, 255) 10%,
+        rgb(246, 248, 255) 40%,
+        rgb(255, 249, 247) 60%,
+        rgb(255, 251, 249) 90%,
+        rgb(255, 255, 255) 100%);
+}
+
+.profile-queima-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: flex-start;
+
+    padding: calc(7px + 1.3vh + 0.7vw) calc(7px + 1.3vh + 0.7vw) 0;
+}
+
+.profile-queima-profile-picture-outter-container {
+    min-height: 70px;
+    height: calc(9.7vh + 4.3vw);
+
+    min-width: 70px;
+    width: calc(9.7vh + 4.3vw);
+
+    margin-right: calc(3px + 0.3vh + 0.1vw);
+    border-radius: 50%;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.profile-queima-name-username-rate-and-rate-number-outter-container {
+    height: calc(9.7vh + 4.3vw);
+    width: calc(100vw - (2 * (7px + 1.3vh + 0.7vw) + (9.7vh + 4.3vw) + (3px + 0.3vh + 0.1vw)));
+}
+
+.profile-queima-name-and-rate-outter-container,
+.profile-queima-username-and-rate-number-outter-container {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile-queima-name-and-rate-outter-container {
+    height: calc((9.7vh + 4.3vw) * 13/24);
+}
+
+.profile-queima-name {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    height: calc((9.7vh + 4.3vw) * 13/24);
+}
+
+.profile-queima-name div {
+    display: inline-block;
+
+    width: 47vw;
+
+    font-size: calc(9px + 1.75vh + 0.9vw);
+
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+}
+
+.profile-queima-rate {
+    min-width: 13vw;
+
+    text-align: center;
+}
+
+.profile-queima-rate .profile-queima-rate-integer-part {
+    font-size: calc(9px + 3.7vh + 0.7vw);
+}
+
+.profile-queima-rate .profile-queima-rate-decimal-part {
+    font-size: calc(9px + 1.65vh + 0.15vw);
+}
+
+.profile-queima-divisory-div {
+    min-height: 1.9px;
+    height: calc(1px + 0.35vh);
+    width: 100%;
+
+    margin: calc(1px + 0.1vh + 0.1vw) 0;
+
+    background: rgb(253, 220, 214);
+    background: linear-gradient(45deg, 
+        rgba(212, 18, 131, 0.788) 0%,
+        rgba(228, 33, 98, 0.87) 30%,
+        rgba(250, 37, 108, 0.863) 55%,
+        rgba(255, 46, 63, 0.938) 77%,
+        rgba(218, 121, 10, 0.842) 87%,
+        rgba(252, 176, 90, 0.842) 91%,
+        rgba(255, 216, 234, 0.719) 95%,
+        rgba(255, 240, 247, 0.719) 97%,
+        rgba(255, 255, 255, 0.719) 100%);
+}
+
+.profile-queima-username {
+    display: inline-block;
+
+    width: 41vw;
+
+    font-size: calc(7px + 1.3vh + 0.3vw);
+
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+}
+
+.profile-queima-rate-number {
+    width: 19vw;
+
+    text-align: center;
+    font-size: calc(9px + 1.55vh + 0.15vw);
+}
+
+.profile-queima-icons-and-links-outter-container {
+    position: relative;
+}
+
+.profile-queima-icons-and-links-outter-container::after {
+    content: '';
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+
+    min-height: 2.3px;
+    height: calc(1px + 0.3vh);
+    width: 100%;
+
+    background: rgb(253, 220, 214);
+    background: linear-gradient(45deg, 
+        rgb(255, 255, 255) 0%,
+        rgb(255, 251, 246) 3%,
+        rgb(255, 240, 223) 5%,
+        rgb(240, 137, 19) 10%,
+        rgba(212, 15, 107, 0.719) 90%,
+        rgba(255, 216, 234, 0.719) 95%,
+        rgba(255, 240, 247, 0.719) 97%,
+        rgba(255, 255, 255, 0.719) 100%);
+}
+
+.profile-queima-rate-and-follow-outter-container {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-evenly;
+    
+    position: relative;
+
+    min-height: 50px;
+    height: 7vh;
+    width: 100%;
+
+    margin-top: calc(1px + 1vw + 0.7vh);
+
+    z-index: 3;
+}
+
+.profile-queima-main-icons {
+    cursor: pointer;
+}
+
+.profile-queima-main-icons:nth-child(1) {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 25vw;
+}
+
+.profile-queima-main-icons:nth-child(2) {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    width: 39vw;
+
+    font-size: calc(9px + 1.3vh);
+}
+
+.profile-queima-main-icons svg {
+    position: relative;
+
+    min-height: 25px;
+    height: 4vh;
+    min-width: 25px;
+    width: 4vh;
+
+    fill: rgba(190, 0, 48, 0.849);
+
+    stroke: rgba(190, 0, 48, 0.849);
+    
+    z-index: 3;
+}
+
+.profile-queima-belle-and-feed-links-outter-container {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-around;
+
+    padding: 0 calc(2px + 2vw + 1vh) calc(2px + 2vw + 1vh);
+}
+
+.profile-queima-feed-link-outter-container, .profile-queima-belle-link-outter-container {
+    display: inline-block;
+
+    position: relative;
+
+    margin-right: calc(1px + 0.5vh + 1vw);
+
+    padding: 0 calc(1px + 0.3vh + 0.7vw) calc(0.1vh + 0.2vw);
+
+    font-size: calc(9px + 1.1vh + 0.7vw);
+}
+
+.profile-queima-feed-link-outter-container::after, .profile-queima-belle-link-outter-container::after {
+    content: '';
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+
+    min-height: 2.3px;
+    height: calc(1px + 0.3vh);
+    width: 100%;
+
+    background: rgb(253, 220, 214);
+    background: linear-gradient(90deg, 
+        rgb(240, 137, 19) 0%,
+        rgba(212, 15, 107, 0.719) 100%);
+}

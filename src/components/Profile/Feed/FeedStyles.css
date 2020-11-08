@@ -42,6 +42,10 @@
     z-index: 7;
 }
 
+#profile-feed-header-outter-container * {
+    position: relative;
+}
+
 #profile-feed-header-outter-container div {
     max-width: 60vw;
 }
@@ -168,7 +172,7 @@
     align-items: center;
     justify-content: space-between;
 
-    width: 35vw;
+    width: 39vw;
 
     font-size: calc(9px + 1.3vh);
 }
@@ -226,6 +230,3 @@
         rgba(212, 15, 107, 0.719) 100%);
 }
 
-.profile-feed-posts-outter-container {
-    height: 100vh;
-}

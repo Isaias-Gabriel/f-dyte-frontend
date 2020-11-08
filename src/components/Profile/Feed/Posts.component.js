@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { w3cwebsocket as W3CWebSocket } from 'websocket';
@@ -7,23 +7,29 @@ import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { BsFillStarFill } from 'react-icons/bs';
 import { BsArrowUpShort } from 'react-icons/bs';
+import { RiImageAddLine } from 'react-icons/ri';
+import { MdClose } from 'react-icons/md';
+
+import { FaRegCommentAlt } from 'react-icons/fa';
+import { HiOutlineStar } from 'react-icons/hi';
 
 import Linkify from 'react-linkify';
 
 import ReturnReferenceAsLink from 
-    '../ReturnReferenceAsLink/ReturnReferenceAsLink.component';
+    '../../ReturnReferenceAsLink/ReturnReferenceAsLink.component';
 
-import LogOut from '../LogOut/LogOut.component';
+import LogOut from '../../LogOut/LogOut.component';
 
-import GoHome from '../GoHome/GoHome.component';
-import Notification from '../Notification/Notification.component';
+import GoHome from '../../GoHome/GoHome.component';
+import Notification from '../../Notification/Notification.component';
 
-import ShowMedia from '../ShowMedia/ShowMedia.component';
-import PostSegredinho from '../PostSegredinho/PostSegredinho.component';
+import ShowMedia from '../../ShowMedia/ShowMedia.component';
 
-import CommentOnPQBS from '../Comment/CommentOnPQBS.component';
+import RateType1 from '../../RatingSlider/RateType1.component';
 
-import getUserUsername from '../../functions/getUserUsername';
+import CommentOnPQBS from '../../Comment/CommentOnPQBS.component';
+
+import getUserUsername from '../../../functions/getUserUsername';
 
 import './PostsStyles.css';
 
@@ -55,9 +61,30 @@ export default class Posts extends Component {
         this.submitRate = this.submitRate.bind(this, );
         this.submitPost = this.submitPost.bind(this);
 
+
+        this.hideText = this.hideText.bind(this);
+
+        this.showText = this.showText.bind(this);
+
+        this.hideCompletely = this.hideCompletely.bind(this);
+        this.hideSelection = this.hideSelection.bind(this);
+        this.hideRandomly = this.hideRandomly.bind(this);
+
+        this.submitSegredinho = this.submitSegredinho.bind(this);
+
         this.threeDotsButton = React.createRef();
         this.optionsDiv = React.createRef();
         this.auxBackgroundDiv = React.createRef();
+
+        this.addPost = React.createRef();
+        this.addPostAuxDiv = React.createRef();
+        this.addPostTextarea = React.createRef();
+        this.addPostFileInput = React.createRef();
+        this.addPostSubmitButton = React.createRef();
+
+        this.addSegredinho = React.createRef();
+        this.addSegredinhoTextarea = React.createRef();
+        this.addSegredinhoSubmitButton = React.createRef();
 
         this.state = {
             content: '',
@@ -78,6 +105,13 @@ export default class Posts extends Component {
             showPostComments: false,
 
             userUsername: '',
+
+            uniqueImageIndex: 0,
+
+            canSubmit: false,
+
+            originalMessage: '',
+            hiddenMessage: '',
         }
     }
 
@@ -89,6 +123,8 @@ export default class Posts extends Component {
         //     sp = ( this.props.match.params.sp === "true" ? true : false);
         // }
         //console.log(this.props);
+
+        this.addPostSubmitButton.current.disabled = true;
         
         this.setState({
             userUsername: await getUserUsername(),
@@ -169,10 +205,16 @@ export default class Posts extends Component {
                                 ratedPosts: response.data.ratedPosts,
                             }, () => {
                                 this.state.posts.map(post => {
+
+                                    if(post.content.urls) {
+                                        this.setState({
+                                            [ post._id + 'uniqueImageIndex' ]: 0,
+                                        })
+                                    }
             
-                                    this.setState({
-                                        [ post._id ]: 0,
-                                    });
+                                    // this.setState({
+                                    //     [ post._id ]: 0,
+                                    // });
                                 })
             
                             })
@@ -188,44 +230,54 @@ export default class Posts extends Component {
     handleChange = e => {
         this.setState({
             [ e.target.name ]: e.target.value
+        }, () => {
+            if(this.state.content.trim() === '' && this.state.tempUrls.length === 0) {
+                this.addPostSubmitButton.current.disabled = true;
+            }
+
+            else {
+                this.addPostSubmitButton.current.disabled = false;
+            }
         })
     }
 
     handleChangeFile = e => {
         const file = e.target.files[0];
-        const reader = new FileReader();
 
-        reader.readAsDataURL(e.target.files[0]);
+        if(file) {
+            const reader = new FileReader();
 
-        const preview = document.getElementById("media-preview-post");
+            reader.readAsDataURL(e.target.files[0]);
 
-        reader.addEventListener("load", function () {
-            if(file.type.includes("image")) {
-                const image = new Image();
-                image.height = 100;
-                image.src = this.result;
-                preview.appendChild(image);
-            }
+            reader.addEventListener("load", (e) => {
+                const len = this.state.tempUrls.push(e.currentTarget.result);
 
-            else if(file.type.includes("video")) {
-                const video = document.createElement('video');
-                const source = document.createElement('source');
-                source.src = this.result;
+                this.setState({
+                    uniqueImageIndex: (len - 1),
+                })
 
-                video.appendChild(source);
-                video.controls = "true";
-                preview.appendChild(video);
-            }
-        }, false);
-        
-        let files_temp = this.state.files;
-        files_temp[Object.keys(files_temp).length] = file;
+                if(len === 0 && this.state.content === '') {
+                    this.addPostSubmitButton.current.disabled = true;
+                }
 
-        this.setState({
-            files: files_temp,
-        }, () => {
-            console.log(this.state.files);
-        })
+                else {
+                    this.addPostSubmitButton.current.disabled = false;
+                }
+                
+                if(len >= 4) {
+                    this.addPostFileInput.current.disabled = true;
+                }
+
+                this.setState({});
+            }, false);
+            
+            let files_temp = this.state.files;
+            files_temp[Object.keys(files_temp).length] = file;
+
+            this.setState({
+                files: files_temp,
+            })
+        }
     }
 
     onChangePostRate(e, postId) {
@@ -766,53 +818,534 @@ export default class Posts extends Component {
         })
 
         fileData.append("sessionId", localStorage.getItem('e'));
-        fileData.append("content", document.getElementById('text-content-input-comment-on-object').innerText);
-        // const formInfo = {
-        //     "sessionId": localStorage.getItem('e'),
-        //     "content": document.getElementById('text-content-input-comment-on-object').innerText,
-        // }
+        fileData.append("content", this.state.content.trim());
 
-        console.log(fileData);
+        this.addPost.current.style.display = "none";
+        this.addPostAuxDiv.current.style.display = "none";
+        this.addPostSubmitButton.current.disabled = true;
+
+        this.setState({
+            content: '',
+            files: {},
+            tempUrls: [],
+
+        })
+
+        //console.log('submitted');
 
         axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/post', fileData)
             .then(response => {
-                console.log('a');
 
-                if(this.props.username === response.data.post.userUsername) {
-                    this.state.posts.unshift(response.data.post)
-                    this.state.ratedPosts.unshift(response.data.post._id)
-                }
-                //redirect to the profile of the user who's posting
-                // else {
-                    
+                this.state.posts.unshift(response.data.post);
+                this.state.ratedPosts.unshift(response.data.post._id);
+
+                this.setState({
+                    [ response.data.post._id + 'uniqueImageIndex' ]: 0,
+                });
+
+                // if(this.props.username === response.data.post.userUsername) {
+                //     this.state.posts.unshift(response.data.post)
+                //     this.state.ratedPosts.unshift(response.data.post._id)
                 // }
+                // //redirect to the profile of the user who's posting
+                // // else {
+                    
+                // // }
 
-                const client = new W3CWebSocket('ws://127.0.0.1:8000/');
+                // const client = new W3CWebSocket('ws://127.0.0.1:8000/');
 
-                client.onopen = () => {
-                    client.send(JSON.stringify({
-                        type: 'notificationPostAdded',
-                        sessionId: localStorage.getItem('e'),
-                        notification: response.data.notification,
-                    }))
-                    console.log('Websocket client - object connected');
-                };
+                // client.onopen = () => {
+                //     client.send(JSON.stringify({
+                //         type: 'notificationPostAdded',
+                //         sessionId: localStorage.getItem('e'),
+                //         notification: response.data.notification,
+                //     }))
+                //     console.log('Websocket client - object connected');
+                // };
                 
-                this.setState({}, () => {
-                    this.hideForm();
-                })
+                // this.setState({}, () => {
+                //     this.hideForm();
+                // })
             })
             .catch(err => {
-                console.log('b');
                 console.log(err);
             });
         
     }
 
+    hideText(text) {
+        let toReturn = '';
+        for(let letter of text) {
+            if(letter === ' ') {
+                toReturn = toReturn + ' ';
+            }
+
+            else if(letter === '\n') {
+                toReturn = toReturn + '\n';
+            }
+
+            else {
+                toReturn = toReturn + '*';
+            }
+        }
+
+        return toReturn;
+    }
+
+    showText(e) {
+        e.preventDefault();
+
+        this.setState({
+            content: this.state.originalMessage,
+        })
+
+        this.addSegredinhoSubmitButton.current.disabled = true;
+    }
+
+    hideCompletely(e) {
+        e.preventDefault();
+
+        const { content } = this.state;
+
+        if(content.trim()) {
+            const originalText = content.trim();
+            const hiddenText = this.hideText(originalText);
+
+            this.setState({
+                content: hiddenText,
+                originalMessage: originalText,
+                hiddenMessage: hiddenText,
+            }, () => {
+                this.addSegredinhoSubmitButton.current.disabled = false;
+            })
+        }
+    }
+
+    hideSelection(e) {
+        e.preventDefault();
+
+        let { content } = this.state;
+
+        const start = this.addSegredinhoTextarea.current.selectionStart;
+        const end = this.addSegredinhoTextarea.current.selectionEnd;
+
+        const originalSelectedText = content.substring(start, end);
+
+        if(originalSelectedText) {
+            const hiddenSelectedText = this.hideText(originalSelectedText);
+
+            const hiddenText = content.substring(0, start) +
+                hiddenSelectedText +
+                content.substring(end);
+
+            this.setState({
+                content: hiddenText,
+                originalMessage: content,
+                hiddenMessage: hiddenText,
+            }, () => {
+                this.addSegredinhoSubmitButton.current.disabled = false;
+            })
+        }
+    }
+
+    hideRandomly(e) {
+        e.preventDefault();
+
+        let { content } = this.state;
+
+        content = content.trim();
+
+        if(content) {
+            const originalText = content;
+
+            let hiddenText = '';
+
+            for(let letter of originalText) {
+                if(letter === ' ') {
+                    hiddenText = hiddenText + ' ';
+                }
+
+                else {
+                    const decider = Math.random();
+                    if(decider < 0.5) {
+                        hiddenText = hiddenText + '*';
+                    }
+                    else {
+                        hiddenText = hiddenText + letter;
+                    }
+                }
+            }
+
+            this.setState({
+                content: hiddenText,
+                originalMessage: originalText,
+                hiddenMessage: hiddenText,
+            }, () => {
+                this.addSegredinhoSubmitButton.current.disabled = false;
+            })
+        }
+    }
+
+    submitSegredinho(e) {
+        e.preventDefault();
+
+        const formInfo = {
+            sessionId: localStorage.getItem('e'),
+            hiddenMessage: this.state.hiddenMessage.trim(),
+            originalMessage: this.state.originalMessage.trim(),
+        };
+
+        this.addSegredinho.current.style.display = "none";
+        this.addPostAuxDiv.current.style.display = "none";
+        this.addSegredinhoSubmitButton.current.disabled = true;
+
+        this.setState({
+            content: '',
+            originalMessage: '',
+            hiddenMessage: '',
+        });
+
+        //console.log('submitted');
+
+        axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/post_segredinho', formInfo)
+            .then(response => {
+                this.state.posts.unshift(response.data.segredinho);
+                this.state.ratedPosts.unshift(response.data.segredinho._id);
+
+                this.setState({});
+            })
+            .catch(err => console.log(err));
+            
+    }
+
     render() {
+        const {
+            userUsername: visitorUsername,
+            content,
+            tempUrls,
+            uniqueImageIndex,
+            posts,
+        } = this.state;
+        const { username: visitedUsername } = this.props;
+
+        //console.log(this.state);
+
         return(
-            <div id="profile-post-container">
-                <div>
+            <div id="profile-posts-outter-container">
+                <div id="profile-posts-inner-container">
+                    <div
+                        className="profile-posts-add-post-aux-div" 
+                        ref={this.addPostAuxDiv}
+                        onClick={() => {
+                            this.addPost.current.style.display = "none";
+                            this.addSegredinho.current.style.display = "none";
+                            this.addPostAuxDiv.current.style.display = "none";
+                        }}
+                    >
+                    </div>
+
+                    <div className="profile-posts-add-post-div-outter-container" ref={this.addPost}>
+                        <div className="profile-posts-add-post-div-inner-container">
+                            <div
+                                className="profile-posts-add-post-close-icon-outter-container"
+                                onClick={() => {
+                                    this.addPost.current.style.display = "none";
+                                    this.addPostAuxDiv.current.style.display = "none";
+                                }}
+                            >
+                                <MdClose />
+                            </div>
+
+                            
+                            <div className="profile-posts-add-post-form-outter-container">
+                                <form
+                                    onSubmit={this.submitPost}
+                                >
+                                    <Linkify>
+                                        <textarea
+                                            className="profile-posts-add-post-textarea"
+                                            name="content"
+                                            onChange={this.handleChange}
+                                            value={content}
+
+                                            maxLength="2000"
+
+                                            ref={this.addPostTextarea}
+                                        />
+                                    </Linkify>
+
+                                    <div className="profile-posts-add-post-media-preview">
+                                        <div className="profile-posts-add-post-media-preview-unique-image">
+                                            {
+                                                tempUrls[uniqueImageIndex] && (
+                                                    <div
+                                                        style={{
+                                                            backgroundImage: `url(${tempUrls[uniqueImageIndex]})`
+                                                        }}
+                                                    >
+                                                    </div>
+                                                )
+                                            }
+                                        </div>
+
+                                        <div className="profile-posts-add-post-media-preview-all-images">
+                                            {
+                                                tempUrls.map((url, index) => {
+                                                    return(
+                                                        <div
+                                                            key={index}
+                                                            style={{
+                                                                backgroundImage: `url(${url})`
+                                                            }}
+                                                            onClick={() => {
+                                                                this.setState({
+                                                                    uniqueImageIndex: index,
+                                                                })
+                                                            }}
+                                                        >
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <label htmlFor="files" className="profile-posts-add-post-label">
+                                        <RiImageAddLine />
+                                    </label>
+                                    
+                                    <input 
+                                        type="file"
+                                        className="profile-posts-add-post-file-input"
+                                        id="files"
+                                        name="files"
+                                        
+                                        //accept=".jpeg,.pjpeg,.png,.gif,.jpg,.mp4,.3gp,.webm"
+                                        accept=".jpeg,.pjpeg,.png,.jpg"
+                                        
+                                        onChange={this.handleChangeFile}
+
+                                        ref={this.addPostFileInput}
+                                    />
+
+                                    <button
+                                        className="profile-posts-add-button profile-posts-add-post profile-posts-add-post-button-on-form"
+                                        ref={this.addPostSubmitButton}
+                                    >
+                                        Post
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="profile-posts-add-segredinho-div-outter-container" ref={this.addSegredinho}>
+                        <div className="profile-posts-add-segredinho-div-inner-container">
+                            <div
+                                className="profile-posts-add-segredinho-close-icon-outter-container"
+                                onClick={() => {
+                                    this.addSegredinho.current.style.display = "none";
+                                    this.addPostAuxDiv.current.style.display = "none";
+                                }}
+                            >
+                                <MdClose />
+                            </div>
+
+                            
+                            <div className="profile-posts-add-segredinho-form-outter-container">
+                                <form
+                                    onSubmit={this.submitSegredinho}
+                                >
+                                    <div className="profile-posts-add-segredinho-show-and-hide-buttons-outter-container">
+                                        <div>
+                                            <button onClick={this.showText}>
+                                                show text
+                                            </button>
+
+                                            <button onClick={this.hideCompletely}>
+                                                hide completely
+                                            </button>
+                                        </div>
+
+                                        <div>
+                                            <button onClick={this.hideSelection}>
+                                                hide selection
+                                            </button>
+
+                                            <button onClick={this.hideRandomly}>
+                                                hide randomly
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <textarea
+                                        className="profile-posts-add-segredinho-textarea"
+                                        name="content"
+                                        onChange={this.handleChange}
+                                        value={content}
+
+                                        maxLength="2000"
+
+                                        ref={this.addSegredinhoTextarea}
+                                    />
+
+                                    <button
+                                        className="profile-posts-add-button profile-posts-add-post profile-posts-add-post-button-on-form"
+                                        disabled
+                                        ref={this.addSegredinhoSubmitButton}
+                                    >
+                                        Post
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {
+                        (visitorUsername === visitedUsername) &&
+                        (
+                            <div className="profile-posts-add-post-and-segredinho-outter-container">
+                                <button
+                                    className="profile-posts-add-button profile-posts-add-post"
+                                    onClick={() => {
+                                        this.addPost.current.style.display = "block";
+                                        this.addPostAuxDiv.current.style.display = "block";
+                                        this.addPostTextarea.current.focus();
+                                    }}
+                                >
+                                    Post
+                                </button>
+
+                                <button
+                                    className="profile-posts-add-button profile-posts-add-segredinho"
+                                    onClick={() => {
+                                        this.addSegredinho.current.style.display = "block";
+                                        this.addPostAuxDiv.current.style.display = "block";
+                                        this.addSegredinhoTextarea.current.focus();
+                                    }}
+                                >
+                                    Segredinho
+                                </button>
+                            </div>
+                        )
+                    }
+
+                    <div className="profile-posts-display-posts-outter-container">
+                        <div className="profile-posts-display-posts-inner-container-1">
+                            <div className="profile-posts-display-posts-inner-container-2">
+                                {
+                                    posts.map((post, index) => {
+                                        return(
+                                            <div
+                                                key={index}
+                                                className="profile-posts-display-single-post-outter-container"
+                                            >
+                                                <div className="profile-posts-display-single-post-inner-container">
+                                                    <div className="profile-posts-display-single-post-header-outter-container">
+                                                        <div
+                                                            className="profile-posts-display-single-post-profile-picture-container"
+                                                            style={{
+                                                                backgroundImage: `url(${post.userProfilePictureUrl})`
+                                                            }}
+                                                        >
+                                                        </div>
+
+                                                        <div className="profile-posts-display-single-post-name-and-username-outter-container">
+                                                            <div className="profile-posts-display-single-post-name-outter-container">
+                                                                { post.userName }
+                                                            </div>
+
+                                                            <div className="profile-posts-display-single-post-username-outter-container">
+                                                                /{ post.userUsername }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    {
+                                                        post.content.text &&
+                                                        (
+                                                            <div className="profile-posts-display-single-post-content-outter-container">
+                                                                { `${post.content.text}` }
+                                                            </div>
+                                                        )
+                                                    }
+
+                                                    {
+                                                        post.content.urls.length ?
+                                                        (
+                                                            <div className="profile-posts-display-single-post-media-outter-container">
+                                                                <div className="profile-posts-display-single-post-media-preview">
+                                                                    <div className="profile-posts--display-single-post-media-preview-unique-image">
+                                                                        {
+                                                                            post.content.urls[ this.state[ post._id + 'uniqueImageIndex' ] ] && (
+                                                                                <div
+                                                                                    style={{
+                                                                                        backgroundImage: `url(${post.content.urls[ this.state[ post._id + 'uniqueImageIndex' ] ]})`
+                                                                                    }}
+                                                                                >
+                                                                                </div>
+                                                                            )
+                                                                        }
+                                                                    </div>
+                                                                    
+                                                                    {
+                                                                        post.content.urls.length > 1 &&
+                                                                        (
+                                                                            <div className="profile-posts-add-post-media-preview-all-images">
+                                                                                {
+                                                                                    post.content.urls.map((url, index) => {
+                                                                                        return(
+                                                                                            <div
+                                                                                                key={index}
+                                                                                                style={{
+                                                                                                    backgroundImage: `url(${url})`
+                                                                                                }}
+                                                                                                onClick={() => {
+                                                                                                    this.setState({
+                                                                                                        [ post._id + 'uniqueImageIndex' ]: index,
+                                                                                                    })
+                                                                                                }}
+                                                                                            >
+                                                                                            </div>
+                                                                                        )
+                                                                                    })
+                                                                                }
+                                                                            </div>
+                                                                        )
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                        :
+                                                        ''
+                                                    }
+
+                                                    <div className="profile-posts-rate-and-comment-outter-container">
+                                                        <RateType1
+                                                            rate={post.rate.$numberDecimal}
+                                                            rateNumber={post.rateNumber}
+                                                            isRated={this.state.ratedPosts.includes(post._id) ? true: false}
+
+                                                            type={post.type}
+                                                            id={post._id}
+                                                        />
+
+                                                        <div className="profile-posts-main-icon">
+                                                            <FaRegCommentAlt />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* <div>
                     <div id="add-new-post-button" onClick={this.showForm}>
                         +
                     </div>
@@ -869,7 +1402,7 @@ export default class Posts extends Component {
 
                 {
                     this.showFeed()
-                }
+                } */}
             </div>
         )
     }

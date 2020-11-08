@@ -18,7 +18,6 @@ import LogIn from '../LogIn/LogIn.component';
 import GoHome from '../GoHome/GoHome.component';
 
 import ShowMedia from '../ShowMedia/ShowMedia.component';
-import PostSegredinho from '../PostSegredinho/PostSegredinho.component';
 
 import CommentOnPQBS from '../Comment/CommentOnPQBS.component';
 
@@ -802,7 +801,7 @@ export default class NonSignedInPosts extends Component {
                     </div>
 
                     <div>
-                        <PostSegredinho />
+                        {/* <PostSegredinho /> */}
                     </div>
                 </div>
 

@@ -9,7 +9,7 @@ import { HiOutlineStar } from 'react-icons/hi';
 import GoHome from '../../GoHome/GoHome.component';
 import LogOut from '../../LogOut/LogOut.component';
 
-import Posts from '../Posts.component';
+import Posts from './Posts.component';
 import FollowUser from '../../FollowUser/FollowUser.component';
 
 import NonSignedInPosts from '../../ProfileNonSignedIn/NonSignedInPosts.component';
@@ -37,6 +37,10 @@ export default class Feed extends Component {
             evaluator: {
                 rate: {}
             },
+
+            rateIntegerPart: '0',
+            rateFirst2Decimals: '00',
+
             rateToSubmit: 0,
 
             canBeRated: false,
@@ -48,12 +52,42 @@ export default class Feed extends Component {
     componentDidMount() {
         axios.get(process.env.REACT_APP_SERVER_ADDRESS + '/complete_evaluator_info/' + this.props.match.params.username)
             .then(response => {
-                document.getElementsByTagName('title')[0].innerText = response.data.evaluator.name + ' - profile';
+                document.getElementsByTagName('title')[0].innerText = response.data.evaluator.name + ' - profile - f Dyte';
                 
                 this.setState({
                     evaluator: response.data.evaluator,
                     followersNumber: response.data.followersNumber,
                 }, () => {
+
+                    let temp_rate = parseFloat(this.state.evaluator.rate.$numberDecimal);
+                    let rateIntegerPart, rateFirst2Decimals;
+                    
+                    if(typeof temp_rate === typeof 5) {
+                        if(temp_rate === 0) {
+                            rateIntegerPart = '0';
+                            rateFirst2Decimals = '00';
+                        }
+
+                        else if(temp_rate > 0 && temp_rate < 1) {
+                            temp_rate = (parseFloat(temp_rate) * 100).toString();
+                        
+                            rateIntegerPart = '0';
+                            rateFirst2Decimals = temp_rate[0] + temp_rate[1];
+                        }
+
+                        else {
+                            temp_rate = (parseFloat(temp_rate) * 100).toString();
+                        
+                            rateIntegerPart = temp_rate[0];
+                            rateFirst2Decimals = temp_rate[1] + temp_rate[2];
+                        }
+                    }
+
+                    this.setState({
+                        rateIntegerPart,
+                        rateFirst2Decimals,
+                    })
+
                     const formInfo = {
                         profileUsername: this.props.match.params.username,
                         sessionId: localStorage.getItem('e'),
@@ -160,36 +194,16 @@ export default class Feed extends Component {
     render() {
         const { userFound } = this.state;
         if(userFound) {
-            const { _id: id, name, username, profilePictureUrl, rateNumber } = this.state.evaluator;
-            const { followersNumber } = this.state;
-
-            let temp_rate = parseFloat(this.state.evaluator.rate.$numberDecimal);
-            let rateIntegerPart, rateFirst2Decimals;
-            
-            if(typeof temp_rate === typeof 5) {
-                console.log(temp_rate);
-                if(temp_rate === 0) {
-                    rateIntegerPart = '0';
-                    rateFirst2Decimals = '00';
-                }
-
-                else if(temp_rate > 0 && temp_rate < 1) {
-                    temp_rate = (parseFloat(temp_rate) * 100).toString();
-                   
-                    rateIntegerPart = '0';
-                    rateFirst2Decimals = temp_rate[0] + temp_rate[1];
-                }
-
-                else {
-                    temp_rate = (parseFloat(temp_rate) * 100).toString();
-                   
-                    rateIntegerPart = temp_rate[0];
-                    rateFirst2Decimals = temp_rate[1] + temp_rate[2];
-                }
-            }
+            const { _id: id,
+                    name,
+                    username,
+                    profilePictureUrl,
+                    rateNumber,
+                } = this.state.evaluator;
+            const { followersNumber, rateIntegerPart, rateFirst2Decimals, } = this.state;
 
             // console.log(rateIntegerPart, rateFirst2Decimals);
-            console.log(this.state);
+            //console.log(this.state);
 
             return(
                     <div id="profile-feed-outter-container">
@@ -270,8 +284,10 @@ export default class Feed extends Component {
                                 </div>
                             </div>
 
-                            <div className="profile-feed-posts-outter-container">
-
+                            <div id="profile-feed-posts-outter-container">
+                                <Posts
+                                    username={ this.props.match.params.username }
+                                />
                             </div>
                         </div>
                     </div>

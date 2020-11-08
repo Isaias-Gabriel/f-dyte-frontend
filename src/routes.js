@@ -13,7 +13,7 @@ import FdObject from './components/FdObject/FdObject.component';
 import RedirectToObject from './components/RedirectToObject/RedirectToObject.component';
 
 import Feed from './components/Profile/Feed/Feed.component';
-import Posts from './components/Profile/Posts.component';
+import Posts from './components/Profile/Feed/Posts.component';
 import RedirectToProfile from './components/RedirectToProfile/RedirectToProfile.component';
 
 
@@ -21,8 +21,8 @@ import NonSignInFeed from './components/ProfileNonSignedIn/NonSignedInFeed.compo
 // import Posts from './components/Profile/Posts.component';
 // import RedirectToProfile from './components/RedirectToProfile/RedirectToProfile.component';
 
-import Queima from './components/Profile/Queima.component';
-import Belle from './components/Profile/Belle.component'; 
+import Queima from './components/Profile/Queima/Queima.component';
+import Belle from './components/Profile/Belle/Belle.component'; 
 
 import EditProfile from './components/EditProfile/EditProfile.component';
 

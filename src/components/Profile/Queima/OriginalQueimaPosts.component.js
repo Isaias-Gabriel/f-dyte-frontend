@@ -5,9 +5,9 @@ import axios from 'axios';
 import ReactPlayer from 'react-player';
 import Linkify from 'react-linkify';
 
-import getUserUsername from '../../functions/getUserUsername';
+import getUserUsername from '../../../functions/getUserUsername';
 
-import CommentOnPQBS from '../Comment/CommentOnPQBS.component';
+import CommentOnPQBS from '../../Comment/CommentOnPQBS.component';
 
 import './QueimaPostsStyles.css';
 

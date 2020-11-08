@@ -3,9 +3,9 @@ import axios from 'axios';
 
 import FdObject from '../FdObject/FdObject.component';
 
-import Posts from '../Profile/Posts.component';
-import Queima from '../Profile/Queima.component';
-import Belle from '../Profile/Belle.component';
+import Posts from '../Profile/Feed/Posts.component';
+import Queima from '../Profile/Queima/Queima.component';
+import Belle from '../Profile/Belle/Belle.component';
 
 require('dotenv/config');
 
