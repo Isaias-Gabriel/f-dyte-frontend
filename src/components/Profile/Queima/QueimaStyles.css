@@ -36,7 +36,7 @@
 
 .profile-queima-name-username-rate-and-rate-number-outter-container {
     height: calc(9.7vh + 4.3vw);
-    width: calc(100vw - (2 * (7px + 1.3vh + 0.7vw) + (9.7vh + 4.3vw) + (3px + 0.3vh + 0.1vw)));
+    width: 61vw;
 }
 
 .profile-queima-name-and-rate-outter-container,
