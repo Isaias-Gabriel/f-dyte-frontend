@@ -429,34 +429,63 @@ export default class FdObject extends Component {
                                 <div className="object-descriptions-outter-container">
                                     <div>
                                         <div className="object-default-description-outter-container">
-                                            { description[0] }
+                                            { description[0][0] }
                                         </div>
 
-                                        <div className="object-volatile-descriptions-outter-container">
-                                            {/* <div className="object-volatile-description-outter-container">
-                                                Ainda posso ouvir o triste popopo popopo
+                                        {
+                                            (description[1][0].length)
+                                            ?
+                                            (
+                                                <div className="object-volatile-descriptions-outter-container">
+                                                    {
+                                                        description[1].map(description => {
+                                                            return(
+                                                                <div className="object-volatile-description-outter-container">
+                                                                    { description[0] }
 
-                                                <p>
-                                                    {`by `}
-                                                    
-                                                    <Link to="/profile/ferfna_avgusta">
-                                                        {`@${'ferfna_avgusta'}`}
-                                                    </Link>
-                                                </p>
-                                            </div>
+                                                                    <p>
+                                                                        {`by `}
+                                                                        
+                                                                        <Link to={`/profile/${description[1]}`}>
+                                                                            {`@${description[1]}`}
+                                                                        </Link>
+                                                                    </p>
+                                                                </div>
+                                                            )
+                                                        })
+                                                    }
+                                                    {/* 
+                                                    <div className="object-volatile-description-outter-container">
+                                                        Ainda posso ouvir o triste popopo popopo
 
-                                            <div className="object-volatile-description-outter-container">
-                                                Ainda posso ouvir o triste popopo popopo
+                                                        <p>
+                                                            {`by `}
+                                                            
+                                                            <Link to="/profile/ferfna_avgusta">
+                                                                {`@${'ferfna_avgusta'}`}
+                                                            </Link>
+                                                        </p>
+                                                    </div>
 
-                                                <p>
-                                                    {`by `}
-                                                    
-                                                    <Link to="/profile/ferfna_avgusta">
-                                                        {`@${'ferfna_avgusta'}`}
-                                                    </Link>
-                                                </p>
-                                            </div> */}
-                                        </div>
+                                                    <div className="object-volatile-description-outter-container">
+                                                        Ainda posso ouvir o triste popopo popopo
+
+                                                        <p>
+                                                            {`by `}
+                                                            
+                                                            <Link to="/profile/ferfna_avgusta">
+                                                                {`@${'ferfna_avgusta'}`}
+                                                            </Link>
+                                                        </p>
+                                                    </div>
+                                                    */}
+                                                </div>
+                                            )
+                                            :
+                                            ''
+                                        }
+
+                                        
                                     </div>
                                 </div>
                             </div>

@@ -4,6 +4,8 @@ import axios from 'axios';
 
 import { HiOutlineStar } from 'react-icons/hi';
 
+import loadingIcon from '../../assets/loading-infinity-icon.svg';
+
 import './rateType1Styles.css';
 
 require('dotenv/config');
@@ -17,6 +19,8 @@ export default class RatingSlider extends Component {
 
         this.showRateContainer = React.createRef();
         this.formContainer = React.createRef();
+
+        this.loadingIcon = React.createRef();
 
         this.state = {
             rateIntegerPart: '0',
@@ -78,17 +82,21 @@ export default class RatingSlider extends Component {
     async onSubmit(e) {
         e.preventDefault();
 
+        this.formContainer.current.style.display = 'none';
+        this.showRateContainer.current.style.display = 'none';
+        this.loadingIcon.current.style.display = 'flex';
+
         const formInfo = {
             id: this.props.id,
             rate: this.state.rateToSubmit / 1000000,
             sessionId: localStorage.getItem('e'),
         };
 
-        console.log('submitted');
+        // console.log('submitted');
 
         const res = await axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/update_' + this.props.type + '_rate', formInfo);
         
-        if(this.props.type === 'queima' || this.props.type === 'belle') {
+        if(this.props.updateRate) {
             this.props.updateRate(this.props.id, res.data.rate);
         }
 
@@ -122,8 +130,8 @@ export default class RatingSlider extends Component {
             rateNumber: this.state.rateNumber + 1,
             isRated: true,
         }, () => {
-            this.formContainer.current.style.display = 'none';
             this.showRateContainer.current.style.display = 'flex';
+            this.loadingIcon.current.style.display = 'none';
         })
     }
 
@@ -201,6 +209,13 @@ export default class RatingSlider extends Component {
                         <div className="rate-type-1-rate-number-outter-container">
                             { rateNumber }
                         </div>
+                    </div>
+
+                    <div className="rate-type-1-loading-icon" ref={this.loadingIcon}>
+                        <img
+                            src={loadingIcon}
+                            alt="Loading"
+                        />
                     </div>
                 </div>
             </div>

@@ -223,7 +223,7 @@ export default class Belle extends Component {
 
                                 <div className="profile-belle-username-and-rate-number-outter-container">
                                     <div className="profile-belle-username">
-                                        {`/${username}`}
+                                        {`@${username}`}
                                     </div>
 
                                     <div className="profile-belle-rate-number">

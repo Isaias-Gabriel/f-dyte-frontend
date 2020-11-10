@@ -1033,7 +1033,7 @@ export default class QueimaPost extends Component {
                                                 </div>
 
                                                 <div className="profile-queima-single-queima-username-outter-container">
-                                                    /{ queima.userUsername }
+                                                    @{ queima.userUsername }
                                                 </div>
                                             </div>
                                         </div>

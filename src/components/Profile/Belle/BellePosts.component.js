@@ -1035,7 +1035,7 @@ export default class BellePost extends Component {
                                                 </div>
 
                                                 <div className="profile-belle-single-belle-username-outter-container">
-                                                    /{ belle.userUsername }
+                                                    @{ belle.userUsername }
                                                 </div>
                                             </div>
                                         </div>

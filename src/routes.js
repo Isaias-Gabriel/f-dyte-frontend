@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Home from './components/Home/Home.component';
+import ForYou from './components/ForYou/ForYou.component';
 
 import LogIn from './components/LogIn/LogIn.component';
 import SignUp from './components/SignUp/SignUp.component';
@@ -34,7 +35,7 @@ import Promote from './components/Promote/Promote.component';
 export default function Routes() {
     return(
         <Router basename="/">
-            <Route path="/" exact component={Home} />
+            <Route path="/" exact component={ForYou} />
             <Route path="/log_in" component={LogIn} />
             <Route path="/sign_up" component={SignUp} />
 

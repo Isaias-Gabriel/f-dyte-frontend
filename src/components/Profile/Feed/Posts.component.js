@@ -1207,6 +1207,7 @@ export default class Posts extends Component {
                         (
                             <div className="profile-posts-add-post-and-segredinho-outter-container">
                                 <button
+                                    name="post-button"
                                     className="profile-posts-add-button profile-posts-add-post"
                                     onClick={() => {
                                         this.addPost.current.style.display = "block";
@@ -1257,7 +1258,7 @@ export default class Posts extends Component {
                                                             </div>
 
                                                             <div className="profile-posts-display-single-post-username-outter-container">
-                                                                /{ post.userUsername }
+                                                                @{ post.userUsername }
                                                             </div>
                                                         </div>
                                                     </div>

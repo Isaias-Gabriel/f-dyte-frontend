@@ -1,6 +1,10 @@
 
 .rate-type-1-outter-container {
     width: 67vw;
+
+    height: 4.2vh;
+
+    margin-bottom: 1.3vh;
 }
 
 .rate-type-1-outter-container svg {
@@ -69,4 +73,19 @@
     font-size: calc(9px + 0.9vh + 0.3vw);
 }
 
+.rate-type-1-loading-icon {
+    display: none;
+
+    height: 4vh;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+}
+
+.rate-type-1-loading-icon img {
+    height: 8vh;
+    width: 8vh;
+}
 

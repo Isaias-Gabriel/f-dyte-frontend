@@ -223,7 +223,7 @@ export default class Queima extends Component {
 
                                 <div className="profile-queima-username-and-rate-number-outter-container">
                                     <div className="profile-queima-username">
-                                        {`/${username}`}
+                                        {`@${username}`}
                                     </div>
 
                                     <div className="profile-queima-rate-number">

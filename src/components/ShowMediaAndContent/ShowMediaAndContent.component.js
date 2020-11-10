@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Linkify from 'react-linkify';
 import ReactPlayer from 'react-player';
 
+import { FaRegCommentAlt } from 'react-icons/fa';
+
 import ReturnReferenceAsLink from 
     '../ReturnReferenceAsLink/ReturnReferenceAsLink.component';
+    
+import RateType1 from '../RatingSlider/RateType1.component';
 
 import './styles.css';
 
@@ -243,36 +247,337 @@ const Content = props => {
 
 const ShowMediaAndContent = props => {
 
-    return (
-        <div className="urs-container">
-            <div>
-                <div>
-                    <div>
-                        <CreatorInfo
-                            userProfilePictureUrl={ props.resource.userProfilePictureUrl }
-                            userName={ props.resource.userName }
-                            userUsername={ props.resource.userUsername }
-                            name={ props.resource.name }
-                            nickname={ props.resource.nickname }
+    const { type, resource, index } = props;
 
-                            type={ props.resource.type }
+    const [ uniqueImageIndex, setUniqueImageIndex ] = useState(0);
+
+    if(type === 'belle' || type === 'queima') {
+        return(
+            <div
+                id={`for-you-element-outter-container-${index}`}
+                className="for-you-element-outter-container"
+            >
+                <div
+                    className="show-media-and-content-outter-container"
+                >
+                    <div className="show-media-and-content-header-outter-container">
+                        <div
+                            className="show-media-and-content-profile-picture-container"
+                            style={{
+                                backgroundImage: `url(${resource.userProfilePictureUrl})`
+                            }}
+                        >
+                        </div>
+
+                        <div className="show-media-and-content-name-and-username-outter-container">
+                            <div className="show-media-and-content-name-outter-container">
+                                { resource.userName }
+                            </div>
+
+                            <div className="show-media-and-content-username-outter-container">
+                                @{ resource.userUsername }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="show-media-and-content-media-outter-container">
+                        <div
+                            className={
+                                'show-media-and-content-media-preview-unique-image' + ' belle-or-queima-unique-image'
+                            }
+                        >
+                            <div
+                                style={{
+                                    backgroundImage: `url(${resource.content.urls[ uniqueImageIndex ]})`
+                                }}
+                            >
+                            </div>
+                        </div>
+                        
+                        {
+                            resource.content.urls.length > 1 &&
+                            (
+                                <div className="show-media-and-content-media-preview-all-images">
+                                    {
+                                        resource.content.urls.map((url, index) => {
+                                            return(
+                                                <div
+                                                    key={index}
+                                                    style={{
+                                                        backgroundImage: `url(${url})`
+                                                    }}
+                                                    onClick={() => {
+                                                        setUniqueImageIndex(index);
+                                                    }}
+                                                >
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            )
+                        }
+                    </div>
+
+                    <div className="show-media-and-content-rate-and-comment-outter-container">
+                        <RateType1
+                            rate={resource.rate.$numberDecimal}
+                            rateNumber={resource.rateNumber}
+                            isRated={false}
+
+                            type={resource.type}
+                            id={resource._id}
                         />
 
-                        <div>
-                            <div>
-                                <Content
-                                    content={ props.resource.content }
-                                    type={ props.resource.type }
-                                    description={ props.resource.description }
-                                    urls={ props.resource.urls }
-                                />
+                        <div className="show-media-and-content-main-icon">
+                            <FaRegCommentAlt />
+                        </div>
+                    </div>
+
+                    {
+                        (resource.content.caption) &&
+                        (
+                            <div className="show-media-and-content-caption-outter-container">
+                                <Linkify>
+                                    <div className="show-media-and-content-caption">
+                                        { `${resource.content.caption}` }
+                                    </div>
+                                </Linkify>
+                            </div>
+                        )
+                    }
+                </div>
+            </div>
+            
+        )
+    }
+
+    else if(type === 'post' || type === 'segredinho' || type === 'comment' ) {
+        return(
+            <div
+                id={`for-you-element-outter-container-${index}`}
+                className="for-you-element-outter-container"
+            >
+                <div
+                    className="show-media-and-content-outter-container"
+                >
+                    <div className="show-media-and-content-inner-container">
+                        <div className="show-media-and-content-header-outter-container">
+                            <div
+                                className="show-media-and-content-profile-picture-container"
+                                style={{
+                                    backgroundImage: `url(${resource.userProfilePictureUrl})`
+                                }}
+                            >
+                            </div>
+
+                            <div className="show-media-and-content-name-and-username-outter-container">
+                                <div className="show-media-and-content-name-outter-container">
+                                    { resource.userName }
+                                </div>
+
+                                <div className="show-media-and-content-username-outter-container">
+                                    @{ resource.userUsername }
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {
+                            resource.content.text &&
+                            (
+                                <div className="show-media-and-content-content-outter-container">
+                                    { `${resource.content.text}` }
+                                </div>
+                            )
+                        }
+
+                        {
+                            resource.content.urls.length ?
+                            (
+                                <div className="show-media-and-content-media-outter-container">
+                                    <div className="show-media-and-content-media-preview">
+                                        <div
+                                            className={
+                                                'show-media-and-content-media-preview-unique-image' + ' post-or-comment-unique-image'
+                                            }
+                                        >
+                                            {
+                                                resource.content.urls[ uniqueImageIndex ] && (
+                                                    <div
+                                                        style={{
+                                                            backgroundImage: `url(${resource.content.urls[ uniqueImageIndex ]})`
+                                                        }}
+                                                    >
+                                                    </div>
+                                                )
+                                            }
+                                        </div>
+                                        
+                                        {
+                                            resource.content.urls.length > 1 &&
+                                            (
+                                                <div className="profile-posts-add-post-media-preview-all-images">
+                                                    {
+                                                        resource.content.urls.map((url, index) => {
+                                                            return(
+                                                                <div
+                                                                    key={index}
+                                                                    style={{
+                                                                        backgroundImage: `url(${url})`
+                                                                    }}
+                                                                    onClick={() => {
+                                                                        setUniqueImageIndex(index);
+                                                                    }}
+                                                                >
+                                                                </div>
+                                                            )
+                                                        })
+                                                    }
+                                                </div>
+                                            )
+                                        }
+                                    </div>
+                                </div>
+                            )
+                            :
+                            ''
+                        }
+
+                        <div className="show-media-and-content-rate-and-comment-outter-container ">
+                            <RateType1
+                                rate={resource.rate.$numberDecimal}
+                                rateNumber={resource.rateNumber}
+                                isRated={false}
+
+                                type={resource.type}
+                                id={resource._id}
+                            />
+
+                            <div className="show-media-and-content-main-icon">
+                                <FaRegCommentAlt />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    )
+        )
+    }
+
+    else if(type === 'object') {
+        return(
+            <div
+                id={`for-you-element-outter-container-${index}`}
+                className="for-you-element-outter-container"
+            >
+                <div
+                    className="show-media-and-content-object-outter-container"
+                >
+                    <div className="object-media-outter-container">
+                        <div
+                            className="object-media object-media-1"
+                            style={{
+                                backgroundImage: `url(${resource.urls[0][0]})`
+                            }}
+                        >
+                        </div>
+
+                        <div className="object-media-2-and-3-outter-container">
+                            <div
+                                className="object-media object-media-2"
+                                style={{
+                                    backgroundImage: `url(${resource.urls[0][1]})`
+                                }}
+                            >
+                            </div>
+
+                            <div
+                                className="object-media object-media-3"
+                                style={{
+                                    backgroundImage: `url(${resource.urls[0][2]})`
+                                }}
+                            >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="object-name-and-nickname-outter-container">
+                        <div className="object-name-outter-container">
+                            { resource.name }
+                        </div>
+
+                        <div className="object-nickname-outter-container">
+                            /{ resource.nickname }
+                        </div>
+                    </div>
+
+                    <div className="show-media-and-content-rate-and-comment-outter-container ">
+                        <RateType1
+                            rate={resource.rate.$numberDecimal}
+                            rateNumber={resource.rateNumber}
+                            isRated={false}
+
+                            type={resource.type}
+                            id={resource._id}
+                        />
+
+                        <div className="show-media-and-content-main-icon">
+                            <FaRegCommentAlt />
+                        </div>
+                    </div>
+
+                    <div className="object-categories-outter-container">
+                        {
+                            resource.categories[0].map((category, index) => {
+                                return(
+                                    <div key={index} className="object-category-outter-container">
+                                        { `#${category}` }
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+
+                    <div className="show-media-and-content-object-descriptions-outter-container">
+                        <div>
+                            <div className="show-media-and-content-object-default-description-outter-container">
+                                { resource.description[0][0].substring(0, 57) }...
+                            </div>
+
+                            {
+                                (resource.description[1][0].length)
+                                ?
+                                (
+                                    <div className="show-media-and-content-object-volatile-descriptions-outter-container">
+                                        {
+                                            resource.description[1].map(description => {
+                                                return(
+                                                    <div className="show-media-and-content-object-volatile-description-outter-container">
+                                                        { description[0].substring(0, 57) }...
+
+                                                        <p>
+                                                            {`by `}
+                                                            
+                                                            <Link to={`/profile/${description[1]}`}>
+                                                                {`@${description[1]}`}
+                                                            </Link>
+                                                        </p>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                )
+                                :
+                                ''
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    return '';
 }
 
 export default ShowMediaAndContent;

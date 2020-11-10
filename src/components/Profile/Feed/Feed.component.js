@@ -229,7 +229,7 @@ export default class Feed extends Component {
                                             </p>
 
                                             <p id="profile-feed-header-nickname">
-                                                { `/${username}` }
+                                                { `@${username}` }
                                             </p>
                                         </div>
                                     </section>

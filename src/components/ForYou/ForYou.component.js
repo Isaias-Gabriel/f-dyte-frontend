@@ -4,8 +4,7 @@ import axios from 'axios';
 
 import ShowMediaAndContent from '../ShowMediaAndContent/ShowMediaAndContent.component';
 
-import RatingSlider from '../RatingSlider/RatingSlider.component';
-import ShowAndPostComments from '../ShowAndPostComments/ShowAndPostComments.component';
+import loadingIcon from '../../assets/loading-infinity-icon.svg';
 
 import './styles.css';
 
@@ -28,6 +27,8 @@ export default class ForYou extends Component {
             scrolledTooLowExecuted: false,
 
             redirectTo: null,
+
+            loaded: false,
         }
     }
 
@@ -165,47 +166,47 @@ export default class ForYou extends Component {
 
     componentDidMount() {
         
-        document.getElementById('scrollable-outter-div').addEventListener("scroll", (e) => {
-            const el = e.target;
-            // console.log(document.getElementById(this.state.ancTopId).offsetTop);
-            // console.log({
-            //     scrollHeight: el.scrollHeight,
-            //     scrollTop: el.scrollTop,
-            //     scrollHeightOverFive: (el.scrollHeight / 5),
-            //     scrollBottom: el.scrollHeight - el.scrollTop ,
-            // })
+        // document.getElementById('scrollable-outter-div').addEventListener("scroll", (e) => {
+        //     const el = e.target;
+        //     // console.log(document.getElementById(this.state.ancTopId).offsetTop);
+        //     // console.log({
+        //     //     scrollHeight: el.scrollHeight,
+        //     //     scrollTop: el.scrollTop,
+        //     //     scrollHeightOverFive: (el.scrollHeight / 5),
+        //     //     scrollBottom: el.scrollHeight - el.scrollTop ,
+        //     // })
 
-            if(!(this.state.canLoadRecOnTop) && this.state.scrolledTooHighExecuted) {
-                this.setState({
-                    canLoadRecOnTop: true,
-                })
-            }
+        //     if(!(this.state.canLoadRecOnTop) && this.state.scrolledTooHighExecuted) {
+        //         this.setState({
+        //             canLoadRecOnTop: true,
+        //         })
+        //     }
 
-            if(!(this.state.canLoadRecOnBottom) && this.state.scrolledTooLowExecuted) {
-                this.setState({
-                    canLoadRecOnBottom: true,
-                })
-            }
+        //     if(!(this.state.canLoadRecOnBottom) && this.state.scrolledTooLowExecuted) {
+        //         this.setState({
+        //             canLoadRecOnBottom: true,
+        //         })
+        //     }
 
-            if((el.scrollTop < (el.scrollHeight / 5)) && this.state.canLoadRecOnTop) {
-                this.setState({
-                    canLoadRecOnTop: false,
-                    scrolledTooHighExecuted: false,
-                }, () => {
-                    this.scrolledTooHigh();
-                })
-            }
+        //     if((el.scrollTop < (el.scrollHeight / 5)) && this.state.canLoadRecOnTop) {
+        //         this.setState({
+        //             canLoadRecOnTop: false,
+        //             scrolledTooHighExecuted: false,
+        //         }, () => {
+        //             this.scrolledTooHigh();
+        //         })
+        //     }
 
-            if(((el.scrollHeight - el.scrollTop) < (el.scrollHeight / 5)) && this.state.canLoadRecOnBottom) {
-                this.setState({
-                    canLoadRecOnBottom: false,
-                    scrolledTooLowExecuted: false,
-                }, () => {
-                    this.scrolledTooLow();
-                })
-            }
+        //     if(((el.scrollHeight - el.scrollTop) < (el.scrollHeight / 5)) && this.state.canLoadRecOnBottom) {
+        //         this.setState({
+        //             canLoadRecOnBottom: false,
+        //             scrolledTooLowExecuted: false,
+        //         }, () => {
+        //             this.scrolledTooLow();
+        //         })
+        //     }
             
-        })
+        // })
 
         const formInfo = {
             "sessionId": localStorage.getItem('e'),
@@ -225,8 +226,24 @@ export default class ForYou extends Component {
 
                 this.setState({
                     recommendations: response.data.rec,
+                    loaded: true,
                 }, () => {
-                    document.getElementById('scrollable-outter-div').scrollTop = document.getElementById('scrollable-outter-div').scrollHeight / 2;
+
+                    if(this.state.recommendations.length) {
+                        let aux = this.state.recommendations.length;
+                    
+                        if(aux % 2 === 0) {
+                            aux = Math.floor(aux/2) - 1;
+                        }
+                        
+                        else {
+                            aux = Math.floor(aux/2);
+                        }
+
+                        window.location.hash = `#for-you-element-outter-container-${aux}`;
+                    }
+
+                    // document.getElementById('scrollable-outter-div').scrollTop = document.getElementById('scrollable-outter-div').scrollHeight / 2;
                 })
             })
             .catch(err => console.log(err));
@@ -248,65 +265,127 @@ export default class ForYou extends Component {
     }
 
     render() {
-        const { recommendations } = this.state;
+        const { recommendations, loaded } = this.state;
+
+        console.log(recommendations.length);
+
+        if(!loaded) {
+            return(
+                <div className="for-you-outter-container">
+                    <div className="for-you-loading-icon-outter-container">
+                        <img
+                            src={loadingIcon}
+                            alt="Loading"
+                        />
+                    </div>
+                </div>
+            )
+        }
+
         //console.log(this.state);
         if(this.state.redirectTo) {
             console.log(this.state.redirectTo);
             return <Redirect to={this.state.redirectTo} />
         }
-        return(
-            <div id="for-you-container-outter-container">
-                <div id="scrollable-outter-div">
-                    <div>
-                        <div>
-                            <div id="sc-co-recs-c-div">
-                                {   
-                                    recommendations.map(rec => {
-                                        //console.log(rec._id);
-                                        //if(rec.type === 'comment') {
-                                            return (
-                                                <div key={rec._id} className="for-you-recommendation-outter-container">
-                                                    
-                                                    <b> {rec.type} </b>
 
-                                                    <div
-                                                        className="rc-rsrc-fy-div"
-                                                        onClick={() => {
-                                                            this.redirectTo(rec.type, rec._id, rec.nickname);
-                                                        }}
-                                                    >
-                                                        <ShowMediaAndContent resource={rec} />
-                                                    </div>
+        if(recommendations.length >= 100) {
+            return(
+                <div>
+                </div>
+            )
+        }
 
-                                                    <div>
-                                                        <div>
-                                                            <RatingSlider id={rec._id} type={rec.type} />
+        else if(recommendations.length < 100 && recommendations.length > 0) {
+            return (
+                <div className="for-you-outter-container">
+                    <div className="for-you-end-of-content-outter-container">
+                        There's nothing more for you to see '-'
+                    </div>
 
-                                                            <ShowAndPostComments
-                                                                id={rec.nickname || rec._id}
-                                                                type={rec.type}
-                                                            />
-                                                        </div>
-                                                    </div>
+                    <div className="for-you-elements-outter-container">
+                        {
+                            recommendations.map((recommendation, index) => {
+                                return(
+                                    <ShowMediaAndContent
+                                        key={index}
+                                        resource={recommendation}
+                                        type={recommendation.type}
+                                        index={index}
+                                    />
+                                )
+                            })
+                        }
+                    </div>
 
-                                                    {/* <CommentOnComment
-                                                        commentId={rec._id}
-                                                        level={0}
-                                                    /> */}
-                                                </div>
-                                            )
-                                        //}
-
-                                        // if(rec.type === 'post') {
-                                        //     return <Posts data={[["post", rec, true]]} key={rec._id} />
-                                        // }
-                                    })
-                                }
-                            </div>
-                        </div>
+                    <div className="for-you-end-of-content-outter-container">
+                        There's nothing more for you to see '-'
                     </div>
                 </div>
-            </div>
-        )
+            )
+        }
+
+        else if(!recommendations.length) {
+            return(
+                <div className="for-you-outter-container">
+                    <div className="for-you-end-of-content-outter-container">
+                        There's nothing for you to see right now '-'
+                    </div>
+                </div>
+            )
+        }
+
+
+            // <div id="for-you-container-outter-container">
+            //     <div id="scrollable-outter-div">
+            //         <div>
+            //             <div>
+            //                 <div id="sc-co-recs-c-div">
+            //                     {   
+            //                         recommendations.map(rec => {
+            //                             //console.log(rec._id);
+            //                             //if(rec.type === 'comment') {
+            //                                 return (
+            //                                     <div key={rec._id} className="for-you-recommendation-outter-container">
+                                                    
+            //                                         <b> {rec.type} </b>
+
+            //                                         <div
+            //                                             className="rc-rsrc-fy-div"
+            //                                             onClick={() => {
+            //                                                 this.redirectTo(rec.type, rec._id, rec.nickname);
+            //                                             }}
+            //                                         >
+            //                                             <ShowMediaAndContent resource={rec} />
+            //                                         </div>
+
+            //                                         <div>
+            //                                             <div>
+            //                                                 <RatingSlider id={rec._id} type={rec.type} />
+
+            //                                                 <ShowAndPostComments
+            //                                                     id={rec.nickname || rec._id}
+            //                                                     type={rec.type}
+            //                                                 />
+            //                                             </div>
+            //                                         </div>
+
+            //                                         {/* <CommentOnComment
+            //                                             commentId={rec._id}
+            //                                             level={0}
+            //                                         /> */}
+            //                                     </div>
+            //                                 )
+            //                             //}
+
+            //                             // if(rec.type === 'post') {
+            //                             //     return <Posts data={[["post", rec, true]]} key={rec._id} />
+            //                             // }
+            //                         })
+            //                     }
+            //                 </div>
+            //             </div>
+            //         </div>
+            //     </div>
+            // </div>
     }
 }
