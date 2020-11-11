@@ -5,9 +5,7 @@ import axios from 'axios';
 import { RiUserFollowLine } from 'react-icons/ri';
 import { HiOutlineStar } from 'react-icons/hi';
 
-import IsLogged from '../../IsLogged/IsLogged.component';
-import GoHome from '../../GoHome/GoHome.component';
-import LogOut from '../../LogOut/LogOut.component';
+import Menu from '../../Menu/Menu.component';
 
 import BellePosts from './BellePosts.component';
 import FollowUser from '../../FollowUser/FollowUser.component';
@@ -188,6 +186,7 @@ export default class Belle extends Component {
 
         return(
             <div className="profile-belle-outter-container">
+                <Menu />
                 <div className="profile-belle-inner-container">
                     <div className="profile-belle-header-and-icons-outter-container">
                         <div className="profile-belle-header">

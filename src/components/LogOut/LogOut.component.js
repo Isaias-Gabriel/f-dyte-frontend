@@ -36,9 +36,9 @@ export default class LogOut extends Component {
         }
 
         return (
-            <button onClick={this.logOut}>
+            <span onClick={this.logOut}>
                 Log out
-            </button>
+            </span>
         )
     }
 }

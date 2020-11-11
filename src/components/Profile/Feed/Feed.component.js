@@ -6,8 +6,7 @@ import { FaRegCommentAlt } from 'react-icons/fa';
 import { RiUserFollowLine } from 'react-icons/ri';
 import { HiOutlineStar } from 'react-icons/hi';
 
-import GoHome from '../../GoHome/GoHome.component';
-import LogOut from '../../LogOut/LogOut.component';
+import Menu from '../../Menu/Menu.component';
 
 import Posts from './Posts.component';
 import FollowUser from '../../FollowUser/FollowUser.component';
@@ -207,6 +206,7 @@ export default class Feed extends Component {
 
             return(
                     <div id="profile-feed-outter-container">
+                        <Menu />
                         <div id="profile-feed-inner-container">
                             <div className="profile-feed-user-information-outter-container">
                                 <div id="profile-feed-media-header-and-rate-outter-container">

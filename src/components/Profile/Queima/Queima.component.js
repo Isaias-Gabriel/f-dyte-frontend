@@ -5,9 +5,7 @@ import axios from 'axios';
 import { RiUserFollowLine } from 'react-icons/ri';
 import { HiOutlineStar } from 'react-icons/hi';
 
-import IsLogged from '../../IsLogged/IsLogged.component';
-import GoHome from '../../GoHome/GoHome.component';
-import LogOut from '../../LogOut/LogOut.component';
+import Menu from '../../Menu/Menu.component';
 
 import QueimaPosts from './QueimaPosts.component';
 import FollowUser from '../../FollowUser/FollowUser.component';
@@ -188,6 +186,7 @@ export default class Queima extends Component {
 
         return(
             <div className="profile-queima-outter-container">
+                <Menu />
                 <div className="profile-queima-inner-container">
                     <div className="profile-queima-header-and-icons-outter-container">
                         <div className="profile-queima-header">

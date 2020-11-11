@@ -271,11 +271,15 @@ const ShowMediaAndContent = props => {
 
                         <div className="show-media-and-content-name-and-username-outter-container">
                             <div className="show-media-and-content-name-outter-container">
-                                { resource.userName }
+                                <Link to={"/profile/" + resource.userUsername}>
+                                    { resource.userName }
+                                </Link>
                             </div>
 
                             <div className="show-media-and-content-username-outter-container">
-                                @{ resource.userUsername }
+                                <Link to={"/profile/" + resource.userUsername}>
+                                    @{ resource.userUsername }
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -373,11 +377,15 @@ const ShowMediaAndContent = props => {
 
                             <div className="show-media-and-content-name-and-username-outter-container">
                                 <div className="show-media-and-content-name-outter-container">
-                                    { resource.userName }
+                                    <Link to={"/profile/" + resource.userUsername}>
+                                        { resource.userName }
+                                    </Link>
                                 </div>
 
                                 <div className="show-media-and-content-username-outter-container">
-                                    @{ resource.userUsername }
+                                    <Link to={"/profile/" + resource.userUsername}>
+                                        @{ resource.userUsername }
+                                    </Link>
                                 </div>
                             </div>
                         </div>
@@ -386,7 +394,9 @@ const ShowMediaAndContent = props => {
                             resource.content.text &&
                             (
                                 <div className="show-media-and-content-content-outter-container">
-                                    { `${resource.content.text}` }
+                                    <Linkify>
+                                        { `${resource.content.text}` }
+                                    </Linkify>
                                 </div>
                             )
                         }
@@ -502,11 +512,15 @@ const ShowMediaAndContent = props => {
 
                     <div className="object-name-and-nickname-outter-container">
                         <div className="object-name-outter-container">
-                            { resource.name }
+                            <Link to={"/object/" + resource.nickname}>
+                                { resource.name }
+                            </Link>
                         </div>
 
                         <div className="object-nickname-outter-container">
-                            /{ resource.nickname }
+                            <Link to={"/object/" + resource.nickname}>
+                                /{ resource.nickname }
+                            </Link>
                         </div>
                     </div>
 
