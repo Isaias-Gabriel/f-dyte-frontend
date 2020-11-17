@@ -7,6 +7,7 @@ import LogOut from '../LogOut/LogOut.component';
 
 import { AiOutlineMenu } from 'react-icons/ai';
 import { AiFillHome } from 'react-icons/ai';
+import { IoMdNotificationsOutline } from 'react-icons/io';
 import { FiSearch } from 'react-icons/fi';
 import { BsPerson } from 'react-icons/bs';
 import { MdAdd } from 'react-icons/md';
@@ -210,6 +211,8 @@ export default class Menu extends Component {
                                 <AiFillHome />
                             </div>
                         </Link>
+
+                        {/* <IoMdNotificationsOutline  /> */}
 
                         <div className="icon-outter-container search-icon">
                             <FiSearch

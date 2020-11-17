@@ -100,6 +100,13 @@
     padding: calc(1px + 0.9vh + 0.7vw) calc(2px + 1vh + 2vw);
 }
 
+.object-name-outter-container,
+.object-nickname-outter-container {
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+}
+
 .object-name-outter-container {
     font-size: calc(3px + 2.9vh + 1.7vw);
     letter-spacing: 0.05rem;
@@ -268,8 +275,13 @@
     height: calc(7.5vh + 4.5vw);
 }
 
-.show-media-and-content-name-outter-container, .show-media-and-content-username-outter-container {
+.show-media-and-content-name-outter-container,
+.show-media-and-content-username-outter-container {
     word-wrap: break-word;
+
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
 }
 
 .show-media-and-content-name-outter-container {

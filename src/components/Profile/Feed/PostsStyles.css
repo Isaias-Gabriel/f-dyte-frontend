@@ -183,6 +183,8 @@
 .profile-posts-add-post-div-inner-container label svg {
     height: calc(10px + 2vh + 1vw);
     width: calc(10px + 2vh + 1vw);
+
+    fill: rgba(190, 0, 48, 0.849);
 }
 
 .profile-posts-add-post-button-on-form,
@@ -430,8 +432,13 @@
     height: calc(7.5vh + 4.5vw);
 }
 
-.profile-posts-display-single-post-name-outter-container, .profile-posts-display-single-post-username-outter-container {
+.profile-posts-display-single-post-name-outter-container,
+.profile-posts-display-single-post-username-outter-container {
     word-wrap: break-word;
+
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
 }
 
 .profile-posts-display-single-post-name-outter-container {

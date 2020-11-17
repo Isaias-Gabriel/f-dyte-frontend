@@ -15,8 +15,10 @@
     -webkit-tap-highlight-color: transparent;
 
     z-index: 1;
+}
 
-    outline: none;
+input {
+    outline-color: rgb(200, 170, 170);
 }
 
 *::-webkit-scrollbar {

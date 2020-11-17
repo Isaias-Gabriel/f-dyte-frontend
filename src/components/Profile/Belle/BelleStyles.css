@@ -1,11 +1,11 @@
 
 .profile-belle-header-and-icons-outter-container {
-    background:  rgb(255, 247, 233);
+    background:  rgb(255, 255, 255);
     background: linear-gradient(70deg, 
         rgb(255, 255, 255) 0%,
-        rgb(249, 251, 255) 10%,
+        rgb(250, 251, 255) 10%,
         rgb(246, 248, 255) 40%,
-        rgb(255, 249, 247) 60%,
+        rgb(255, 248, 246) 60%,
         rgb(255, 251, 249) 90%,
         rgb(255, 255, 255) 100%);
 }

@@ -8,9 +8,7 @@ import { FaRegCommentAlt } from 'react-icons/fa';
 import { RiUserFollowLine } from 'react-icons/ri';
 import { HiOutlineStar } from 'react-icons/hi';
 
-import IsLogged from '../IsLogged/IsLogged.component';
-import GoHome from '../GoHome/GoHome.component';
-import LogOut from '../LogOut/LogOut.component';
+import Menu from '../Menu/Menu.component';
 
 import CommentOnObject from '../Comment/CommentOnObject.component';
 import FollowObject from '../FollowObject/FollowObject.component';
@@ -351,6 +349,8 @@ export default class FdObject extends Component {
 
             return(
                 <div id="object-outter-container">
+                    <Menu />
+
                     <div id="object-inner-container">
                         <div id="object-media-header-and-rate-outter-container">
                             <section id="object-media-outter-container">
