@@ -193,8 +193,6 @@ export default class BellePost extends Component {
                 if(len >= 7) {
                     this.addBelleFileInput.current.disabled = true;
                 }
-
-                this.setState({});
             }, false);
             
             let files_temp = this.state.files;

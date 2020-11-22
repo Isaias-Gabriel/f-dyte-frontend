@@ -145,7 +145,7 @@
     cursor: pointer;
 }
 
-.profile-queima-add-queima-div-inner-container label {
+.profile-queima-add-queima-label {
     background: none;
 
     display: flex;
@@ -155,11 +155,15 @@
     margin: calc((5px + 1vh + 2vw) / 1.7) 0;
 }
 
-.profile-queima-add-queima-div-inner-container label svg {
+.profile-queima-add-queima-label svg {
     height: calc(10px + 2vh + 1vw);
     width: calc(10px + 2vh + 1vw);
 
     fill: rgba(190, 0, 48, 0.849);
+}
+
+.profile-queima-add-queima-file-input {
+    display: none;
 }
 
 .profile-queima-add-queima-button-on-form {

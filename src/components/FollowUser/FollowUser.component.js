@@ -1,13 +1,23 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import { BsPerson } from 'react-icons/bs';
+import { BsPersonCheck } from 'react-icons/bs';
+
+import './styles.css';
+
 require('dotenv/config');
 
 export default class FollowUser extends Component {
     constructor(props) {
         super(props);
         
-        this.submit = this.submit.bind(this);
+        this.follow = this.follow.bind(this);
+
+        this.auxDiv = React.createRef();
+
+        this.followMessageDiv = React.createRef();
+        this.unfollowMessageDiv = React.createRef();
 
         this.state = {
             name: '',
@@ -28,13 +38,18 @@ export default class FollowUser extends Component {
         })
     }
 
-    submit(e) {
+    follow(e) {
         e.preventDefault();
 
         const formInfo = {
             username: this.props.username,
             sessionId: localStorage.getItem('e')
         };
+
+        console.log('submitted');
+
+        this.auxDiv.current.style.display = 'none';
+        this.followMessageDiv.current.style.display = 'none';
 
         axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/add_follower_to_evaluator', formInfo)
             .then(response => {
@@ -51,29 +66,140 @@ export default class FollowUser extends Component {
     }
     
     render() {
-        const { followersNumber, isFollowed } = this.state;
+        const {
+            followersNumber,
+            isFollowed,
+
+            name,
+        } = this.state;
+
+        console.log(this.props);
 
         //if the user is not being followed, it'll show the follow button
         if(!(isFollowed)) {
             return (
-                <div>
-                    <button onClick={this.submit}>
-                        Follow { this.props.name }
-                    </button>
-                    <p>
-                        { followersNumber } followers
-                    </p>
+                <div className="follow-user-outter-container">
+                    <div 
+                        className="follow-user-aux-div"
+                        ref={this.auxDiv}
+
+                        onClick={() => {
+                            this.auxDiv.current.style.display = 'none';
+                            this.followMessageDiv.current.style.display = 'none';
+                        }}
+                    >
+                    </div>
+
+                    <div
+                        className="follow-user-follow-message-outter-container"
+                        ref={this.followMessageDiv}
+                    >
+                        <div className="follow-user-follow-inner-outter-container">
+                            Follow
+                            
+                            <span>
+                                { ` ${name}` }
+                            </span>
+
+                            ?
+                        </div>
+
+                        <div className="follow-user-follow-buttons-outter-container">
+                            <button
+                                className="follow-user-follow-button"
+                                onClick={this.follow}
+                            >
+                                Yes
+                            </button>
+
+                            <button
+                                className="follow-user-follow-button"
+                                onClick={() => {
+                                    this.auxDiv.current.style.display = 'none';
+                                    this.followMessageDiv.current.style.display = 'none';
+                                }}
+                            >
+                                No
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="follow-user-inner-container">
+                        <BsPerson 
+                            onClick={() => {
+                                this.auxDiv.current.style.display = 'block';
+                                this.followMessageDiv.current.style.display = 'flex';
+                            }}
+                        />
+
+                        <span>
+                            { `${followersNumber} followers` }
+                        </span>
+                    </div>
                 </div>
-                
             )
         }
 
         else {
             return (
-                <div>
-                    <p>
-                        { followersNumber } followers
-                    </p>
+                <div className="follow-user-outter-container">
+                    <div 
+                        className="follow-user-aux-div"
+                        ref={this.auxDiv}
+
+                        onClick={() => {
+                            this.auxDiv.current.style.display = 'none';
+                            this.followMessageDiv.current.style.display = 'none';
+                        }}
+                    >
+                    </div>
+
+                    <div
+                        className="follow-user-follow-message-outter-container"
+                        ref={this.followMessageDiv}
+                    >
+                        <div className="follow-user-follow-inner-outter-container">
+                            Unfollow
+                            
+                            <span>
+                                { ` ${name}` }
+                            </span>
+
+                            ?
+                        </div>
+
+                        <div className="follow-user-follow-buttons-outter-container">
+                            <button
+                                className="follow-user-follow-button"
+                                onClick={this.follow}
+                            >
+                                Yes
+                            </button>
+
+                            <button
+                                className="follow-user-follow-button"
+                                onClick={() => {
+                                    this.auxDiv.current.style.display = 'none';
+                                    this.followMessageDiv.current.style.display = 'none';
+                                }}
+                            >
+                                No
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="follow-user-inner-container">
+                        <BsPersonCheck
+                            onClick={() => {
+                                this.auxDiv.current.style.display = 'block';
+                                this.followMessageDiv.current.style.display = 'flex';
+                            }}
+                        />
+
+                        <span>
+                            { `${followersNumber} followers` }
+                        </span>
+                    </div>
                 </div>
             )
         }

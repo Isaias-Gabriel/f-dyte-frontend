@@ -14,14 +14,12 @@
 
 .object-media-inner-container {
     min-height: 270px;
-    height: 40vh;
+    height: 47vh;
     width: 100%;
 
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    
-    z-index: 3;
 }
 
 #object-header-outter-container {
@@ -45,7 +43,7 @@
     display: flex;
     align-items: flex-end;
 
-    z-index: 7;
+    z-index: 2;
 }
 
 #object-header-outter-container div {
@@ -119,8 +117,6 @@
 
     align-items: center;
     justify-content: space-evenly;
-
-    z-index: 3;
 }
 
 .object-main-icons {

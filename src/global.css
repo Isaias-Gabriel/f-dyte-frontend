@@ -17,6 +17,15 @@
     z-index: 1;
 }
 
+html {
+    height: -webkit-fill-available;
+}
+
+body {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+}
+
 input {
     outline-color: rgb(200, 170, 170);
 }

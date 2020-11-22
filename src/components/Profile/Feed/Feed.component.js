@@ -199,7 +199,12 @@ export default class Feed extends Component {
                     profilePictureUrl,
                     rateNumber,
                 } = this.state.evaluator;
-            const { followersNumber, rateIntegerPart, rateFirst2Decimals, } = this.state;
+            const {
+                followersNumber,
+                isFollowed,
+                rateIntegerPart,
+                rateFirst2Decimals,
+            } = this.state;
 
             // console.log(rateIntegerPart, rateFirst2Decimals);
             //console.log(this.state);
@@ -257,13 +262,20 @@ export default class Feed extends Component {
                                             <HiOutlineStar />
                                         </div>
 
-                                        <div className="profile-feed-main-icons">
-                                            <RiUserFollowLine />
+                                        {
+                                            (username && name && (typeof isFollowed !== typeof undefined) && 
+                                                (typeof followersNumber !== typeof undefined)) &&
+                                            (
+                                                <FollowUser
+                                                    username={username}
+                                                    name={name}
+                                                    isFollowed={isFollowed}
+                                                    followersNumber={followersNumber}
+                                                />
+                                            )
+                                        }
 
-                                            <span>
-                                                { `${followersNumber} followers` }
-                                            </span>
-                                        </div>
+                                        {/* <FollowUser /> */}
                                     </div>
 
                                     <div className="profile-feed-queima-and-belle-links-outter-container">

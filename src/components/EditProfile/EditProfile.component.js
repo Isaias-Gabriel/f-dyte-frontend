@@ -458,7 +458,7 @@ export default class EditProfile extends Component {
                             </div>
 
                             <div className="edit-profile-profile-picture-form-outter-container">
-                                <form onSubmit={this.submitProfilePicture}>
+                                <form onSubmit={this.submitProfilePicture} encType="multipart/form-data">
                                     <label
                                         htmlFor="profile-picture-input"
                                         className="edit-profile-profile-picture-label"

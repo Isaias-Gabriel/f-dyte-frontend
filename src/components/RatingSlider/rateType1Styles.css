@@ -5,6 +5,12 @@
     height: 4.2vh;
 
     margin-bottom: 1.3vh;
+    
+    overflow: hidden;
+}
+
+.rate-type-1-outter-container * {
+    overflow: hidden;
 }
 
 .rate-type-1-outter-container svg {

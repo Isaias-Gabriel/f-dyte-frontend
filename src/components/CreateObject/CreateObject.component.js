@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
-import GoHome from '../GoHome/GoHome.component';
-import IsLogged from '../IsLogged/IsLogged.component';
+import { RiImageAddLine } from 'react-icons/ri';
+
+import Menu from '../Menu/Menu.component';
 
 import ShowMedia from '../ShowMedia/ShowMedia.component';
 
@@ -23,9 +24,14 @@ export default class CreateObject extends Component {
         
         this.onSubmit = this.onSubmit.bind(this);
 
+        this.messageDiv = React.createRef();
+        this.auxDiv = React.createRef();
+
         this.messageOnSuccessDiv = React.createRef();
         this.submitButton = React.createRef();
         this.categoriesInput = React.createRef();
+
+        this.fileInput = React.createRef();
 
         this.state = {
             name: '',
@@ -47,6 +53,8 @@ export default class CreateObject extends Component {
 
             files: {},
             tempUrls: [],
+
+            uniqueImageIndex: 0,
         }
     }
 
@@ -135,34 +143,42 @@ export default class CreateObject extends Component {
 
     handleChangeFile = e => {
         const file = e.target.files[0];
-        const reader = new FileReader();
 
-        reader.readAsDataURL(e.target.files[0]);
+        if(file) {
+            const reader = new FileReader();
 
-        const preview = document.getElementById("media-preview");
+            reader.readAsDataURL(e.target.files[0]);
 
-        reader.addEventListener("load", (e) => {
-            this.state.tempUrls.push(e.currentTarget.result);
+            reader.addEventListener("load", (e) => {
+                const len = this.state.tempUrls.push(e.currentTarget.result);
 
-            this.setState({});
-        }, false);
-        
-        let files_temp = this.state.files;
-        files_temp[Object.keys(files_temp).length] = file;
+                if(len >= 5) {
+                    this.fileInput.current.disabled = true;
+                }
 
-        this.setState({
-            files: files_temp,
-        }, () => {
-            if(Object.keys(this.state.files).length >= 3) {
-                this.submitButton.current.disabled = false;
                 this.setState({
-                    filesWarningMessage: '',
+                    uniqueImageIndex: (len - 1),
                 })
-            }
-        })
+            }, false);
+            
+            let files_temp = this.state.files;
+            files_temp[Object.keys(files_temp).length] = file;
+
+            this.setState({
+                files: files_temp,
+            }, () => {
+                if(Object.keys(this.state.files).length >= 3) {
+                    this.submitButton.current.disabled = false;
+                    this.setState({
+                        filesWarningMessage: '',
+                    })
+                }
+            })
+        }
     }
 
     onSubmit(e) {
+
         e.preventDefault();
 
         if(Object.keys(this.state.files).length < 3) {
@@ -200,7 +216,9 @@ export default class CreateObject extends Component {
                 }
             })
                 .then(response => {
-                    this.messageOnSuccessDiv.current.style.display = "block";
+
+                    this.auxDiv.current.style.display = "block"
+                    this.messageDiv.current.style.display = "flex";
 
                     setTimeout(() => {
                         this.setState({
@@ -213,47 +231,136 @@ export default class CreateObject extends Component {
     }
     
     render() {
-        const { name, nickname, category,
-            categoriesList, nicknameStatus,
-            nicknameIsAcceptable, description,
-            rate, filesWarningMessage } = this.state;
+        const {
+                name,
+                nickname,
+                category,
+                categoriesList,
+
+                nicknameStatus,
+                nicknameIsAcceptable,
+
+                description,
+                rate,
+                filesWarningMessage,
+
+                tempUrls,
+
+                uniqueImageIndex,
+            } = this.state;
+
+        console.log(this.state);
 
         if(this.state.objectCreated) {
             return <Redirect to={this.state.objectCreated} />;
         }
 
         return (
-            <div className="create-object-page-container">
-                <IsLogged/>
-                <GoHome/>
+            <div className="create-object-outter-container">
+                <Menu />
 
-                <div className="create-object-sucess-message-outter-container" ref={this.messageOnSuccessDiv}>
-                    <div className="create-object-sucess-message-div">
+                <div className="create-object-inner-container">
+                    <div
+                        className="create-object-aux-div"
+                        ref={this.auxDiv}
+                    >
+
+                    </div>
+
+                    <div
+                        className="create-object-success-message-outter-container"
+                        ref={this.messageDiv}
+                    >
                         The object '{name}' was created :D
                     </div>
-                    <div className="create-object-sucess-message-div-aux">
 
-                    </div>
-                </div>
+                    <div className="create-object-form-outter-container">
+                        <form onSubmit={this.onSubmit} encType="multipart/form-data">
+                            {
+                                tempUrls &&
+                                (
+                                    <div className="create-object-media-preview">
+                                        <div className="create-object-media-preview-unique-image">
+                                            {
+                                                tempUrls[uniqueImageIndex] && (
+                                                    <div
+                                                        style={{
+                                                            backgroundImage: `url(${tempUrls[uniqueImageIndex]})`
+                                                        }}
+                                                    >
+                                                    </div>
+                                                )
+                                            }
+                                        </div>
 
-                <div className="create-object-container">
+                                        <div className="create-object-media-preview-all-images">
+                                            {
+                                                tempUrls.map((url, index) => {
+                                                    return(
+                                                        <div
+                                                            key={index}
+                                                            style={{
+                                                                backgroundImage: `url(${url})`
+                                                            }}
+                                                            onClick={() => {
+                                                                this.setState({
+                                                                    uniqueImageIndex: index,
+                                                                })
+                                                            }}
+                                                        >
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+                                        </div>
+                                    </div>
+                                )
+                            }
+                            
 
-                        <form id="create-object" onSubmit={this.onSubmit} encType="multipart/form-data">
+                            <label htmlFor="files" className="create-object-label">
+                                <RiImageAddLine />
+                            </label>
+                            
                             <input 
-                                type="text" 
-                                name="name"
-
-                                placeholder="Name"
-                                value={name}
-
-                                minLength="1"
-                                maxLength="500"
-                                required
+                                type="file"
+                                className="create-object-file-input"
+                                id="files"
+                                name="files"
                                 
-                                onChange={this.handleChange}
+                                //accept=".jpeg,.pjpeg,.png,.gif,.jpg,.mp4,.3gp,.webm"
+                                accept=".pjpeg,.png,.jpg"
+                                
+                                onChange={this.handleChangeFile}
+
+                                ref={this.fileInput}
                             />
 
                             <div>
+                                <div>
+                                    {
+                                        filesWarningMessage
+                                    }
+                                </div>
+                            </div>
+                            
+                            <div className="create-object-input-outter-container">
+                                <input 
+                                    type="text" 
+                                    name="name"
+
+                                    placeholder="Name"
+                                    value={name}
+
+                                    minLength="1"
+                                    maxLength="500"
+                                    required
+                                    
+                                    onChange={this.handleChange}
+                                />
+                            </div>
+
+                            <div className="create-object-input-outter-container">
                                 <input 
                                     type="text"
                                     name="nickname"
@@ -267,45 +374,59 @@ export default class CreateObject extends Component {
 
                                     onChange={this.onChangeNickname}
                                 />
-
-                                <span>
-                                    { nicknameIsAcceptable }
-                                </span>
-
-                                <span>
-                                    { nicknameStatus }
-                                </span>
                             </div>
-                            
-                            <p>
-                                Write the categories in the form: #category1, #category2, #category3 etc
-                            </p>
 
-                            {
-                                categoriesList.map(category => {
-                                    return(
-                                        <span key={category} className="create-object-category">
-                                            { category }
-                                        </span>
-                                    )
-                                })
-                            }
+                            <div className="create-object-input-message-outter-container">
+                                <div>
+                                    { nicknameIsAcceptable }
+                                </div>
 
-                            <input 
-                                type="text" 
-                                name="category"
+                                <div>
+                                    { nicknameStatus }
+                                </div>
+                            </div>
 
-                                placeholder="Category"
-                                value={category}
+                            <div className="create-object-categories-input-messages-outter-container">
+                                <p className="create-object-categories-input-message">
+                                    Write at least one category for this object
+                                    {
+                                        ` - `
+                                    }
+                                    <span>
+                                        write the categories in the form: #category1, #category2, #category3 etc
+                                    </span>
+                                </p>
+                            </div>
 
-                                minLength="1"
-                                maxLength="300"
+                            <div className="create-object-input-outter-container">
+                                <input 
+                                    type="text" 
+                                    name="category"
 
-                                ref={this.categoriesInput}
-                                required
+                                    placeholder="Category"
+                                    value={category}
 
-                                onChange={this.handleChangeCategory}
-                            />
+                                    minLength="1"
+                                    maxLength="300"
+
+                                    ref={this.categoriesInput}
+                                    required
+
+                                    onChange={this.handleChangeCategory}
+                                />
+                            </div>
+
+                            <div className="create-object-categories-outter-container">
+                                {
+                                    categoriesList.map((category, index) => {
+                                        return(
+                                            <div key={index} className="create-object-category-outter-container">
+                                                { `#${category}` }
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
 
                             <textarea 
                                 type="text"
@@ -323,68 +444,40 @@ export default class CreateObject extends Component {
                                 onChange={this.handleChange}
                             />
 
-                            <div className="create-object-media-preview">
-                                {
-                                    this.state.tempUrls.map(url => {
-                                        return <ShowMedia
-                                                    key={url}
-                                                    url={url}
-                                                />
-                                    })
-                                    //console.log(this.state.files)
-                                }
-                            </div>
+                            <div className="create-object-rate-object-outter-container">
+                                <label>Rate the object</label>
 
-                            <label htmlFor="files" id="files-label">
-                                +
-                            </label>
+                                <div className="slidecontainer">
+                                    <input 
+                                        type="range"
+                                        name="rate"
 
-                            <input
-                                type="file"
-                                id="files"
-                                name="files"
-                                
-                                //accept=".jpeg,.pjpeg,.png,.gif,.jpg,.mp4,.3gp,.webm"
-                                accept=".jpeg,.png,.jpg,"
-                                
-                                onChange={this.handleChangeFile}
-                            />
+                                        min="0"
+                                        max="5000000"
 
-                            <div>
-                                <div>
-                                    {
-                                        filesWarningMessage
-                                    }
+                                        value={rate}
+                                        onChange={this.handleChange}
+
+                                        id="myRange"
+                                        className="slider"
+                                    />
                                 </div>
-                            </div>
 
-                            <label>Rate</label>
-
-                            <div className="slidecontainer">
-                                <input 
-                                    type="range"
-                                    name="rate"
-
-                                    min="0"
-                                    max="5000000"
-
-                                    value={rate}
-                                    onChange={this.handleChange}
-
-                                    id="myRange"
-                                    className="slider"
-                                />
-                                <p>Value: <span>{ Number(Math.floor(rate / 10000) / 100).toFixed(2) }</span></p>
+                                <p>
+                                    Value: { Number(Math.floor(rate / 10000) / 100).toFixed(2) }
+                                </p>
                             </div>
 
                             <button
                                 type="submit"
                                 id="create-object-submit-button"
+                                className="create-object-submit-button"
                                 ref={this.submitButton}
                             >
                                 Create object
                             </button>
                         </form>
+                    </div>
                 </div>
             </div>
         );

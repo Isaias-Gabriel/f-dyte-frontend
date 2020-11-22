@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { w3cwebsocket as W3CWebSocket } from 'websocket';
 
+import { MdNotificationsNone } from 'react-icons/md';
+
 import ReactPlayer from 'react-player';
 
-import IsLogged from '../IsLogged/IsLogged.component';
-import GoHome from '../GoHome/GoHome.component';
+import Menu from '../Menu/Menu.component';
 
 import './styles.css';
 
@@ -52,6 +53,8 @@ export default class Notification extends Component {
             notifications: [],
 
             nonReadNumber: 0,
+
+            loading: true,
         }
     }
 
@@ -118,86 +121,104 @@ export default class Notification extends Component {
 
                 this.setState({
                     notifications: response.data,
-                    nonReadNumber: counter
+                    nonReadNumber: counter,
+                    loading: false,
                 })
             })
             .catch(err => console.log(err));
     }
     
     render() {
-        const { clicked, nonReadNumber } = this.state;
+        const {
+            clicked,
+            nonReadNumber,
+            loading,
+        } = this.state;
 
-        if(!(clicked)) {
-            if(nonReadNumber) {
-                return(
-                    <Link to="/notifications">
-                        <button>
-                            notifications ({nonReadNumber})
-                        </button>
-                    </Link>
-                )
-            }
-    
-            else {
-                return(
-                    <Link to="/notifications">
-                        <button>
-                            notifications
-                        </button>
-                    </Link>
-                )
-            }
+        if(loading) {
+            return '';
         }
 
         else {
-            const { notifications } = this.state;
-
-            return(
-                <div id="notifications-page-container">
-                    <IsLogged/>
-                    <GoHome/>
-                    <div>
-                        {
-                            notifications.map(notification => {
-                                return(
-                                    <div key={ notification._id } className="ghsdjie">
-                                        <Link to={ notification.link }>
-                                            <div>
-                                                <div>
-                                                    <img
-                                                        src={ notification.userProfilePictureUrl }
-                                                        className="notification-profile-picture"
-                                                        alt="profile"
-                                                    />
-                                                </div>
-
-                                                <div>
-                                                    { notification.content.caption }
-                                                </div>
-
+            if(!(clicked)) {
+                if(nonReadNumber) {
+                    return(
+                        <Link to="/notifications">
+                            <div className="icon-outter-container notification-icon">
+                                <div className="notification-count">
+                                    {
+                                        (nonReadNumber <= 99) ?
+                                        `${nonReadNumber}`
+                                        :
+                                        `${nonReadNumber}` + '+'
+                                    }
+                                </div>
+                                <MdNotificationsNone />
+                            </div>
+                        </Link>
+                    )
+                }
+        
+                else {
+                    return(
+                        <Link to="/notifications">
+                            <div className="icon-outter-container notification-icon">
+                                <MdNotificationsNone />
+                            </div>
+                        </Link>
+                    )
+                }
+            }
+    
+            else {
+                const { notifications } = this.state;
+    
+                return(
+                    <div id="notifications-page-container">
+                        <Menu />
+    
+                        <div>
+                            {
+                                notifications.map(notification => {
+                                    return(
+                                        <div key={ notification._id } className="ghsdjie">
+                                            <Link to={ notification.link }>
                                                 <div>
                                                     <div>
-                                                        <p>
-                                                            { notification.content.text }
-                                                        </p>
-                                                    </div>
-
-                                                    <div>
-                                                        <ShowMedia
-                                                            url={ notification.content.url }
+                                                        <img
+                                                            src={ notification.userProfilePictureUrl }
+                                                            className="notification-profile-picture"
+                                                            alt="profile"
                                                         />
                                                     </div>
+    
+                                                    <div>
+                                                        { notification.content.caption }
+                                                    </div>
+    
+                                                    <div>
+                                                        <div>
+                                                            <p>
+                                                                { notification.content.text }
+                                                            </p>
+                                                        </div>
+    
+                                                        <div>
+                                                            <ShowMedia
+                                                                url={ notification.content.url }
+                                                            />
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </Link>
-                                    </div>
-                                )
-                            })
-                        }
+                                            </Link>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
                     </div>
-                </div>
-            )
+                )
+            }
         }
-        
     }
 }

@@ -145,7 +145,7 @@
     cursor: pointer;
 }
 
-.profile-belle-add-belle-div-inner-container label {
+.profile-belle-add-belle-label {
     background: none;
 
     display: flex;
@@ -155,11 +155,15 @@
     margin: calc((5px + 1vh + 2vw) / 1.7) 0;
 }
 
-.profile-belle-add-belle-div-inner-container label svg {
+.profile-belle-add-belle-label svg {
     height: calc(10px + 2vh + 1vw);
     width: calc(10px + 2vh + 1vw);
 
     fill: rgba(190, 0, 48, 0.849);
+}
+
+.profile-belle-add-belle-file-input {
+    display: none;
 }
 
 .profile-belle-add-belle-button-on-form {

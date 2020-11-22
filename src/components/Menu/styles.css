@@ -28,7 +28,7 @@
 }
 
 .menu-icon-not-clicked::after,
-.menu-outter-container::after,
+.menu-clicked-outter-container::after,
 .search-outter-container::after,
 .result-outter-container::after,
 .other-option-outter-container::after {
@@ -65,13 +65,13 @@
     z-index: 2;
 }
 
-.menu-outter-container {
+.menu-clicked-outter-container {
     position: fixed;
 
     bottom: 0;
     left: 0;
 
-    display: flex;
+    display: none;
 
     align-items: center;
     justify-content: flex-start;
@@ -79,7 +79,7 @@
     min-height: 7px;
     height: 9vh;
     min-width: 50px;
-    width: 70vw;
+    width: 80vw;
 
     background: rgb(253, 253, 253);
     background: linear-gradient(270deg, 
@@ -93,7 +93,7 @@
     z-index: 2;
 }
 
-.menu-outter-container * {
+.menu-clicked-outter-container * {
     z-index: 2;
 }
 
@@ -119,9 +119,6 @@
 }
 
 .fy-icon svg {
-    top: 2vh;
-    right: 10vh;
-
     height: 4vh;
     width: 4vh;
 
@@ -129,9 +126,6 @@
 }
 
 .search-icon svg {
-    top: 6.5vh;
-    right: 9vh;
-    
     height: 3.8vh;
     width: 3.8vh;
 
@@ -139,19 +133,47 @@
 }
 
 .profile-icon svg {
-    top: 9.5vh;
-    right: 6vh;
-
     height: 4vh;
     width: 4vh;
 
     fill: rgba(190, 0, 48, 0.849);
 }
 
-.more-icon svg {
-    top: 10.5vh;
-    right: 1.7vh;
+.notification-icon {
+    position: relative;
+}
 
+.notification-icon svg {
+    height: 4.1vh;
+    width: 4.1vh;
+
+    fill: rgba(190, 0, 48, 0.849);
+}
+
+.notification-count {
+    position: absolute;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    top: 0;
+    right: 0;
+
+    height: 2.5vh;
+    width: 2.5vh;
+
+    border-radius: 50%;
+
+    color: white;
+
+    font-size: calc(1px + 1vh + 0.7vw);
+
+    background: rgb(184, 37, 11);
+}
+
+.more-icon svg {
     height: 4.7vh;
     width: 4.7vh;
 

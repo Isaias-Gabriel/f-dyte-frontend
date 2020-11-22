@@ -3,16 +3,16 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-import LogOut from '../LogOut/LogOut.component';
-
 import { AiOutlineMenu } from 'react-icons/ai';
 import { AiFillHome } from 'react-icons/ai';
-import { IoMdNotificationsOutline } from 'react-icons/io';
 import { FiSearch } from 'react-icons/fi';
 import { BsPerson } from 'react-icons/bs';
 import { MdAdd } from 'react-icons/md';
 
 import { MdClose } from 'react-icons/md';
+
+import LogOut from '../LogOut/LogOut.component';
+import Notification from '../Notification/Notification.component';
 
 import getUserUsername from '../../functions/getUserUsername';
 
@@ -26,7 +26,11 @@ export default class Menu extends Component {
 
         this.onChange = this.onChange.bind(this);
 
+        this.notClickedMenu = React.createRef();
+        this.clickedMenu = React.createRef();
+
         this.search = React.createRef();
+        this.searchInput = React.createRef();
         this.auxDiv = React.createRef();
         this.otherOptions = React.createRef();
 
@@ -69,29 +73,26 @@ export default class Menu extends Component {
 
     render() {
         const {
-            clicked,
             userUsername,
             searchString,
             resultsFromSearch
         } = this.state;
 
-        if(!clicked) {
-            return (
-                <div className="menu-icon-not-clicked">
+        return(
+            <div className="menu-outter-container">
+                <div className="menu-icon-not-clicked" ref={this.notClickedMenu}>
                     <AiOutlineMenu
                         onClick={() => {
-                            this.setState({
-                                clicked: true,
-                            })
+                            this.notClickedMenu.current.style.display = 'none';
+                            this.clickedMenu.current.style.display = 'flex';
                         }}
                     />
                 </div>
-            )
-        }
 
-        else {
-            return (
-                <div className="menu-outter-container">
+                <div
+                    className="menu-clicked-outter-container"
+                    ref={this.clickedMenu}
+                >
                     <div
                         className="search-auxiliary-div"
                         ref={this.auxDiv}
@@ -105,9 +106,11 @@ export default class Menu extends Component {
                     <div className="search-outter-container" ref={this.search}>
                         <input
                             placeholder="search for objects or evaluators"
-
+                            
                             value={searchString}
                             onChange={this.onChange}
+
+                            ref={this.searchInput}
                         />
 
                         <div className="search-results-outter-container">
@@ -115,7 +118,10 @@ export default class Menu extends Component {
                                 resultsFromSearch.map((result, index) => {
                                     if(result.type === 'evaluator') {
                                         return(
-                                            <Link to={"/profile/" + result.username}>
+                                            <Link
+                                                to={"/redirect_to_profile/" + result.username}
+                                                key={index}
+                                            >
                                                 <div className="result-outter-container">
                                                     <div
                                                         className="result-image-outter-container"
@@ -141,7 +147,10 @@ export default class Menu extends Component {
 
                                     else {
                                         return(
-                                            <Link to={"/object/" + result.nickname}>
+                                            <Link
+                                                to={"/reditect_to_object/" + result.nickname}
+                                                key={index}
+                                            >
                                                 <div className="result-outter-container">
                                                     <div
                                                         className="result-image-outter-container"
@@ -199,9 +208,8 @@ export default class Menu extends Component {
                         <div className="icon-outter-container menu-icon">
                             <AiOutlineMenu
                                 onClick={() => {
-                                    this.setState({
-                                        clicked: false,
-                                    })
+                                    this.notClickedMenu.current.style.display = 'flex';
+                                    this.clickedMenu.current.style.display = 'none';
                                 }}
                             />
                         </div>
@@ -219,6 +227,7 @@ export default class Menu extends Component {
                                 onClick={() => {
                                     this.auxDiv.current.style.display = 'block';
                                     this.search.current.style.display = 'flex';
+                                    this.searchInput.current.focus();
                                 }}
                             />
                         </div>
@@ -226,13 +235,15 @@ export default class Menu extends Component {
                         {
                             (userUsername) &&
                             (
-                                <Link to={"/profile/" + userUsername}>
+                                <Link to={"/redirect_to_profile/" + userUsername}>
                                     <div className="icon-outter-container profile-icon">
                                         <BsPerson />
                                     </div>
                                 </Link>
                             )
                         }
+
+                        <Notification />
 
                         <div className="icon-outter-container more-icon">
                             <MdAdd
@@ -243,7 +254,7 @@ export default class Menu extends Component {
                         </div>
                     </div>
                 </div>
-            ) 
-        }
+            </div>
+        )
     }
 }
