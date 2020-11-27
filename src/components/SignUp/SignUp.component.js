@@ -325,6 +325,7 @@ export default class SignUp extends Component {
 
         axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/confirm_email', {
             email: this.state.email.trim(),
+            language: localStorage.getItem('language') || 'en-US',
         })
             .then(response => {
                 this.setState({

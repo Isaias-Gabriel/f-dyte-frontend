@@ -79,8 +79,8 @@ export default class ShowAndPostComments extends Component {
                     no: 'Não',
                     optionsDelete: 'Deletar',
 
-                    showReply: 'Mostrar respostas',
-                    hideReply: 'Esconder respostas',
+                    noCommentsMessage: "Ninguém comentou ainda ' -'",
+
                     placeholder: 'Comente algo :D',
                     placeholderReply: 'Responda @',
                 },
@@ -89,8 +89,8 @@ export default class ShowAndPostComments extends Component {
                     no: 'No',
                     optionsDelete: 'Delete',
 
-                    showReply: 'Show replies',
-                    hideReply: 'Hide replies',
+                    noCommentsMessage: "Nobody has commented yet ' -'",
+
                     placeholder: 'Comment something :D',
                     placeholderReply: 'Reply to @',
                 },
@@ -1020,7 +1020,12 @@ export default class ShowAndPostComments extends Component {
 
                     <div className="comment-inner-container">
                         <div className="comment-message-outter-container">
-                            Nobody has commented yet ' -'
+                            {
+                                (staticText[localStorage.getItem('language')]) ?
+                                staticText[localStorage.getItem('language')].noCommentsMessage
+                                :
+                                staticText['en-US'].noCommentsMessage
+                            }
                         </div>
                     </div>
 

@@ -311,7 +311,7 @@ export default class ForYou extends Component {
     render() {
         const { recommendations, loaded } = this.state;
 
-        console.log(recommendations.length);
+        // console.log(recommendations.length);
 
         if(!loaded) {
             return(
@@ -361,9 +361,9 @@ export default class ForYou extends Component {
             return (
                 <div className="for-you-outter-container">
                     <Menu />
-                    <div className="for-you-end-of-content-outter-container">
+                    {/* <div className="for-you-end-of-content-outter-container">
                         There's nothing more for you to see '-'
-                    </div>
+                    </div> */}
 
                     <div className="for-you-elements-outter-container">
                         {
