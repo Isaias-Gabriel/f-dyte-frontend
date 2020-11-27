@@ -1,8 +1,8 @@
 
 .rate-type-1-outter-container {
-    width: 67vw;
-
+    min-height: 10px;
     height: 4.2vh;
+    width: 67vw;
 
     margin-bottom: 1.3vh;
     
@@ -95,3 +95,14 @@
     width: 8vh;
 }
 
+@media only screen and (min-width: 600px) {
+    .rate-type-1-outter-container {
+        min-height: 20px;
+        height: 6.7vh;
+        width: 67vw;
+
+        margin-bottom: 1.3vh;
+        
+        overflow: hidden;
+    }
+}

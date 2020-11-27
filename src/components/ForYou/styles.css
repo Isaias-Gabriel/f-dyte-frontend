@@ -11,7 +11,7 @@
         rgb(253, 250, 245) 100%);
 }
 
-.for-you-loading-icon-outter-container {
+.loading-icon-outter-container {
     display: flex;
 
     align-items: center;
@@ -21,7 +21,7 @@
     width: 100%;
 }
 
-.for-you-loading-icon-outter-container img {
+.loading-icon-outter-container img {
     min-height: 30px;
     height: calc(9vh + 11vw);
     min-width: 30px;

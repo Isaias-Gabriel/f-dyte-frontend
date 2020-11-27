@@ -25,6 +25,7 @@ export default class Menu extends Component {
         super(props);
 
         this.onChange = this.onChange.bind(this);
+        this.onSelect = this.onSelect.bind(this);
 
         this.notClickedMenu = React.createRef();
         this.clickedMenu = React.createRef();
@@ -33,6 +34,8 @@ export default class Menu extends Component {
         this.searchInput = React.createRef();
         this.auxDiv = React.createRef();
         this.otherOptions = React.createRef();
+
+        this.select = React.createRef();
 
         this.state = {
             userUsername: '',
@@ -48,6 +51,14 @@ export default class Menu extends Component {
         this.setState({
             userUsername: await getUserUsername(),
         })
+
+        for(let option of document.getElementsByTagName('option')) {
+            console.log();
+
+            if(option.value === localStorage.getItem('language')) {
+                option.selected = true;
+            }
+        }
     }
 
     onChange(e) {
@@ -67,8 +78,12 @@ export default class Menu extends Component {
             })
             .catch(err => console.log(err));
         })
-        
-        
+    }
+
+    onSelect(e) {
+        localStorage.setItem('language', e.target.value);
+
+        this.select.current.disabled = true;
     }
 
     render() {
@@ -148,7 +163,7 @@ export default class Menu extends Component {
                                     else {
                                         return(
                                             <Link
-                                                to={"/reditect_to_object/" + result.nickname}
+                                                to={"/redirect_to_object/" + result.nickname}
                                                 key={index}
                                             >
                                                 <div className="result-outter-container">
@@ -198,6 +213,20 @@ export default class Menu extends Component {
                                 Create object
                             </div>
                         </Link>
+
+                        <div className="other-option-outter-container language-option">
+                            Language: 
+
+                            <select onChange={this.onSelect} ref={this.select}>
+                                <option value="en-US">
+                                    english - english
+                                </option>
+
+                                <option value="pt-BR">
+                                    portuguese - português
+                                </option>
+                            </select>
+                        </div>
 
                         <div className="other-option-outter-container">
                             <LogOut />

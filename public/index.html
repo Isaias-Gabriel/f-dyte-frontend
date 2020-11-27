@@ -5,13 +5,19 @@
     <link rel="icon" href="%PUBLIC_URL%/bigger-daily-logo.ico" />
     <meta
       name="viewport"
-      content="width=device-width, user-scalable=no"
+      content="width=device-width, height=device-height, user-scalable=no"
     >
     
     <meta 
       name="google-site-verification"
       content="MfxsRUFlYuKKfuuKGEnh59GfXd_Lpfk7F_fu8vsbVz0"
     />
+
+    <script>
+      var viewport = document.querySelector("meta[name=viewport]");
+viewport.setAttribute("content", viewport.content + ", height=" + window.innerHeight);
+    </script>
+
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>f Dyte</title>
 

@@ -99,9 +99,9 @@
 
     background:  rgb(255, 247, 233);
     background: linear-gradient(331deg, 
-        rgb(252, 240, 247) 0%,
-        rgb(253, 253, 253) 50%,
-        rgb(255, 247, 234) 100%);
+        rgb(255, 246, 251) 0%,
+        rgb(255, 255, 255) 50%,
+        rgb(255, 253, 250) 100%);
 }
 
 .object-rate-comment-and-follow-outter-container {
@@ -192,11 +192,6 @@
     font-size: calc(7px + 1.5vh + 1.2vw);
 
     position: relative;
-
-    background:  rgb(255, 247, 233);
-    background: linear-gradient(331deg,
-    rgb(247, 247, 247) 0%,
-    rgb(253, 253, 253) 100%);
 }
 
 .object-volatile-description-outter-container p {

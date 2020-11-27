@@ -47,6 +47,8 @@
     line-height: 1.67rem;
 
     letter-spacing: 0.05rem;
+
+    overflow: hidden;
 }
 
 

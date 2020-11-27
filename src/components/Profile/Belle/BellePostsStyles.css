@@ -473,6 +473,7 @@
 
 .profile-belle-single-belle-name-and-username-outter-container {
     height: calc(7.5vh + 4.5vw);
+    max-width: 61vw;
 }
 
 .profile-belle-single-belle-name-outter-container,

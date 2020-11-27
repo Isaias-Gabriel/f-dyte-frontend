@@ -317,7 +317,7 @@ export default class ForYou extends Component {
             return(
                 <div className="for-you-outter-container">
                     <Menu />
-                    <div className="for-you-loading-icon-outter-container">
+                    <div className="loading-icon-outter-container">
                         <img
                             src={loadingIcon}
                             alt="Loading"

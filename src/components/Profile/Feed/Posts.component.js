@@ -3,10 +3,13 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { w3cwebsocket as W3CWebSocket } from 'websocket';
 
+import { BsThreeDots } from 'react-icons/bs';
 import { HiOutlineDotsHorizontal } from 'react-icons/hi';
 import { RiDeleteBin6Line } from 'react-icons/ri';
+
 import { BsFillStarFill } from 'react-icons/bs';
 import { BsArrowUpShort } from 'react-icons/bs';
+
 import { RiImageAddLine } from 'react-icons/ri';
 import { MdClose } from 'react-icons/md';
 
@@ -19,6 +22,8 @@ import ReturnReferenceAsLink from
     '../../ReturnReferenceAsLink/ReturnReferenceAsLink.component';
 
 import LogOut from '../../LogOut/LogOut.component';
+
+import ModalsHub from '../../ModalsHub/ModalsHub.component';
 
 import GoHome from '../../GoHome/GoHome.component';
 import Notification from '../../Notification/Notification.component';
@@ -72,6 +77,8 @@ export default class Posts extends Component {
 
         this.submitSegredinho = this.submitSegredinho.bind(this);
 
+        this.setComponentToNull = this.setComponentToNull.bind(this);
+
         this.threeDotsButton = React.createRef();
         this.optionsDiv = React.createRef();
         this.auxBackgroundDiv = React.createRef();
@@ -112,6 +119,31 @@ export default class Posts extends Component {
 
             originalMessage: '',
             hiddenMessage: '',
+
+            whichComponent: null,
+
+            staticText: {
+                'pt-BR': {
+                    postButton: 'postar',
+                    yes: 'Sim',
+                    no: 'Não',
+                    segredinhoShow: 'mostrar texto',
+                    segredinhoHideCompletely: 'esconder completamente',
+                    segredinhoHideSelection: 'esconder seleção',
+                    segredinhoHideRandomly: 'esconder aleatoriamente',
+                    optionsDelete: 'Deletar',
+                },
+                'en-US': {
+                    postButton: 'post',
+                    yes: 'Yes',
+                    no: 'No',
+                    segredinhoShow: 'show text',
+                    segredinhoHideCompletely: 'hide completely',
+                    segredinhoHideSelection: 'hide selection',
+                    segredinhoHideRandomly: 'hide randomly',
+                    optionsDelete: 'Delete',
+                },
+            }
         }
     }
 
@@ -224,6 +256,10 @@ export default class Posts extends Component {
                 }
             
         }
+
+        if(!localStorage.getItem('language')) {
+            localStorage.setItem('language', navigator.language);
+        }
         
     }
 
@@ -286,32 +322,39 @@ export default class Posts extends Component {
         })
     }
 
-    deletePost(id, singlePost) {
-        console.log({
+    deletePost() {
+        const { idToDelete: id, typeToDelete } = this.state;
+
+        const formInfo = {
+            username: this.props.username,
             id,
-            singlePost,
-        })
-        // axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/delete_post', { id: id })
-        //     .then(() => this.filterPosts(id, singlePost))
-        //     .catch(err => console.log(err));
+        }
+
+        axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/delete_' + typeToDelete, formInfo)
+            .then(() => this.filterPosts(id))
+            .catch(err => console.log(err));
     }
 
-    filterPosts(id, singlePost) {
+    filterPosts(id) {
+
         this.setState({
-            posts: this.state.posts.filter(post => {
-                if(!(post._id === id)) {
-                    return post
-                }
-            })
-        }, () => {
-            if(singlePost) {
-                this.setState({
-                    showPostComments: false,
-                    post: {},
-                })
-            }
+            posts: this.state.posts.filter(post => post._id.toString() !== id.toString()),
         })
 
+        // this.setState({
+        //     posts: this.state.posts.filter(post => {
+        //         if(!(post._id === id)) {
+        //             return post
+        //         }
+        //     })
+        // }, () => {
+        //     if(singlePost) {
+        //         this.setState({
+        //             showPostComments: false,
+        //             post: {},
+        //         })
+        //     }
+        // })
     }
 
     showButtons() {
@@ -1018,6 +1061,12 @@ export default class Posts extends Component {
             
     }
 
+    setComponentToNull() {
+        this.setState({
+            whichComponent: null,
+        })
+    }
+
     render() {
         const {
             userUsername: visitorUsername,
@@ -1025,10 +1074,11 @@ export default class Posts extends Component {
             tempUrls,
             uniqueImageIndex,
             posts,
+            staticText,
         } = this.state;
         const { username: visitedUsername } = this.props;
 
-        //console.log(this.state);
+        // console.log(this.state);
 
         return(
             <div id="profile-posts-outter-container">
@@ -1132,7 +1182,12 @@ export default class Posts extends Component {
                                         className="profile-posts-add-button profile-posts-add-post profile-posts-add-post-button-on-form"
                                         ref={this.addPostSubmitButton}
                                     >
-                                        Post
+                                        {
+                                            (staticText[localStorage.getItem('language')]) ?
+                                            staticText[localStorage.getItem('language')].postButton
+                                            :
+                                            staticText['en-US'].postButton
+                                        }
                                     </button>
                                 </form>
                             </div>
@@ -1159,21 +1214,41 @@ export default class Posts extends Component {
                                     <div className="profile-posts-add-segredinho-show-and-hide-buttons-outter-container">
                                         <div>
                                             <button onClick={this.showText}>
-                                                show text
+                                                { 
+                                                    (staticText[localStorage.getItem('language')]) ?
+                                                    staticText[localStorage.getItem('language')].segredinhoShow
+                                                    :
+                                                    staticText['en-US'].segredinhoShow
+                                                }
                                             </button>
 
                                             <button onClick={this.hideCompletely}>
-                                                hide completely
+                                                { 
+                                                    (staticText[localStorage.getItem('language')]) ?
+                                                    staticText[localStorage.getItem('language')].segredinhoHideCompletely
+                                                    :
+                                                    staticText['en-US'].segredinhoHideCompletely
+                                                }
                                             </button>
                                         </div>
 
                                         <div>
                                             <button onClick={this.hideSelection}>
-                                                hide selection
+                                                {
+                                                    (staticText[localStorage.getItem('language')]) ?
+                                                    staticText[localStorage.getItem('language')].segredinhoHideSelection
+                                                    :
+                                                    staticText['en-US'].segredinhoHideSelection
+                                                }
                                             </button>
 
                                             <button onClick={this.hideRandomly}>
-                                                hide randomly
+                                                {
+                                                    (staticText[localStorage.getItem('language')]) ?
+                                                    staticText[localStorage.getItem('language')].segredinhoHideRandomly
+                                                    :
+                                                    staticText['en-US'].segredinhoHideRandomly
+                                                }
                                             </button>
                                         </div>
                                     </div>
@@ -1194,7 +1269,12 @@ export default class Posts extends Component {
                                         disabled
                                         ref={this.addSegredinhoSubmitButton}
                                     >
-                                        Post
+                                        {
+                                            (staticText[localStorage.getItem('language')]) ?
+                                            staticText[localStorage.getItem('language')].postButton
+                                            :
+                                            staticText['en-US'].postButton
+                                        }
                                     </button>
                                 </form>
                             </div>
@@ -1242,6 +1322,105 @@ export default class Posts extends Component {
                                                 key={index}
                                                 className="profile-posts-display-single-post-outter-container"
                                             >
+                                                <div
+                                                    className="user-options-aux-div"
+                                                    id={"user-options-aux-div-" + index}
+                                                    onClick={() => {
+                                                        document.getElementById(`delete-message-div-${index}`).style.display = 'none';
+                                                        document.getElementById(`user-options-aux-div-${index}`).style.display = 'none';
+                                                        document.getElementById(`user-options-div-${index}`).style.display = 'none';
+                                                        document.getElementById(`user-options-icon-${index}`).style.display = 'block';
+                                                    }}
+                                                >
+                                                </div>
+
+                                                <div className="user-options-icon-outter-container" id={"user-options-icon-" + index}>
+                                                    <BsThreeDots
+                                                        onClick={() => {
+                                                            document.getElementById(`user-options-aux-div-${index}`).style.display = 'block';
+                                                            document.getElementById(`user-options-div-${index}`).style.display = 'block';
+                                                            document.getElementById(`user-options-icon-${index}`).style.display = 'none';
+
+                                                            this.setState({
+                                                                idToDelete: post._id,
+                                                                typeToDelete: post.type,
+                                                            })
+                                                        }}
+                                                    />
+                                                </div>
+
+                                                <div
+                                                    className="delete-message-outter-container"
+                                                    id={"delete-message-div-" + index}
+                                                >
+                                                    <div className="delete-message-inner-container">
+                                                        {
+                                                            (staticText[localStorage.getItem('language')]) ?
+                                                            staticText[localStorage.getItem('language')].optionsDelete
+                                                            :
+                                                            staticText['en-US'].optionsDelete
+                                                        }
+                                                        ?
+                                                    </div>
+
+                                                    <div className="delete-message-buttons-outter-container">
+                                                        <button
+                                                            className="delete-message-button"
+                                                            onClick={() => {
+                                                                document.getElementById(`delete-message-div-${index}`).style.display = 'none';
+                                                                document.getElementById(`user-options-aux-div-${index}`).style.display = 'none';
+                                                                document.getElementById(`user-options-div-${index}`).style.display = 'none';
+                                                                document.getElementById(`user-options-icon-${index}`).style.display = 'block';
+
+                                                                this.deletePost();
+                                                            }}
+                                                        >
+                                                            {
+                                                                (staticText[localStorage.getItem('language')]) ?
+                                                                staticText[localStorage.getItem('language')].yes
+                                                                :
+                                                                staticText['en-US'].yes
+                                                            }
+                                                        </button>
+
+                                                        <button
+                                                            className="delete-message-button"
+                                                            onClick={() => {
+                                                                document.getElementById(`delete-message-div-${index}`).style.display = 'none';
+                                                                document.getElementById(`user-options-aux-div-${index}`).style.display = 'none';
+                                                                document.getElementById(`user-options-div-${index}`).style.display = 'none';
+                                                                document.getElementById(`user-options-icon-${index}`).style.display = 'block';
+                                                            }}
+                                                        >
+                                                            {
+                                                                (staticText[localStorage.getItem('language')]) ?
+                                                                staticText[localStorage.getItem('language')].no
+                                                                :
+                                                                staticText['en-US'].no
+                                                            }
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div className="user-options-outter-container" id={"user-options-div-" + index}>
+                                                    {
+                                                        (visitorUsername === visitedUsername) &&
+                                                        <div
+                                                            className="user-option"
+                                                            onClick={() => {
+                                                                document.getElementById(`delete-message-div-${index}`).style.display = 'flex';
+                                                            }}
+                                                        >
+                                                            {
+                                                                (staticText[localStorage.getItem('language')]) ?
+                                                                staticText[localStorage.getItem('language')].optionsDelete
+                                                                :
+                                                                staticText['en-US'].optionsDelete
+                                                            }
+                                                        </div>
+                                                    }
+                                                </div>
+
                                                 <div className="profile-posts-display-single-post-inner-container">
                                                     <div className="profile-posts-display-single-post-header-outter-container">
                                                         <div
@@ -1333,7 +1512,17 @@ export default class Posts extends Component {
                                                         />
 
                                                         <div className="profile-posts-main-icon">
-                                                            <FaRegCommentAlt />
+                                                            <FaRegCommentAlt
+                                                                onClick={() => {
+                                                                    this.setState({
+                                                                        whichComponent: 'comment',
+                                                                        componentProps: {
+                                                                            id: post._id,
+                                                                            type: post.type,
+                                                                        }
+                                                                    });
+                                                                }}
+                                                            />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1345,6 +1534,13 @@ export default class Posts extends Component {
                         </div>
                     </div>
                 </div>
+
+                <ModalsHub 
+                    whichComponent={this.state.whichComponent}
+                    componentProps={this.state.componentProps}
+
+                    setComponentToNull={this.setComponentToNull}
+                />
 
                 {/* <div>
                     <div id="add-new-post-button" onClick={this.showForm}>
