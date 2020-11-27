@@ -344,12 +344,14 @@
     z-index: 3;
 }
 
-.close-icon-outter-container svg {
+.close-icon-outter-container {
     position: absolute;
 
     top: calc(3px + 1vh + 0.5vw);
     right: calc(3px + 1vh + 0.5vw);
+}
 
+.close-icon-outter-container svg {
     min-height: 30px;
     height: calc(3px + 3vh + 2vw);
     min-width: 30px;

@@ -250,6 +250,8 @@
         rgb(253, 250, 253) 0%,
         rgba(255, 255, 255, 0.795) 50%,
         rgba(255, 251, 251, 0.99) 100%);
+
+    cursor: pointer;
 }
 
 .comment-replies-inner-container-1 {

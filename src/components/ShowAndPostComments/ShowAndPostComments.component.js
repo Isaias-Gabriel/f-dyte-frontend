@@ -72,6 +72,29 @@ export default class ShowAndPostComments extends Component {
             redirectTo: null,
 
             loaded: false,
+
+            staticText: {
+                'pt-BR': {
+                    yes: 'Sim',
+                    no: 'Não',
+                    optionsDelete: 'Deletar',
+
+                    showReply: 'Mostrar respostas',
+                    hideReply: 'Esconder respostas',
+                    placeholder: 'Comente algo :D',
+                    placeholderReply: 'Responda @',
+                },
+                'en-US': {
+                    yes: 'Yes',
+                    no: 'No',
+                    optionsDelete: 'Delete',
+
+                    showReply: 'Show replies',
+                    hideReply: 'Hide replies',
+                    placeholder: 'Comment something :D',
+                    placeholderReply: 'Reply to @',
+                },
+            }
         }
     }
 
@@ -120,6 +143,10 @@ export default class ShowAndPostComments extends Component {
                 })
             })
             .catch(err => console.log(err));
+
+        if(!localStorage.getItem('language')) {
+            localStorage.setItem('language', navigator.language);
+        }
     }
 
     handleChange = e => {
@@ -522,6 +549,8 @@ export default class ShowAndPostComments extends Component {
             comments,
             comment,
             loaded,
+
+            staticText,
         } = this.state;
 
         // console.log(this.state);
@@ -610,7 +639,12 @@ export default class ShowAndPostComments extends Component {
                                                     <FaRegCommentAlt
                                                         onClick={() => {
                                                             this.showFormDiv.current.style.display = 'none';
-                                                            this.textarea.current.placeholder = 'Reply to @' + comment.userUsername;
+                                                            this.textarea.current.placeholder = (
+                                                                (staticText[localStorage.getItem('language')]) ?
+                                                                staticText[localStorage.getItem('language')].placeholderReply
+                                                                :
+                                                                staticText['en-US'].placeholderReply
+                                                            ) + comment.userUsername;
                                                             this.formDiv.current.style.display = 'flex';
 
                                                             this.setState({
@@ -638,13 +672,24 @@ export default class ShowAndPostComments extends Component {
                                                                 if(document.getElementById('comment-replies-inner-container-1-' + index).style.display === 'none' || 
                                                                     document.getElementById('comment-replies-inner-container-1-' + index).style.display === '') {
                                                                     document.getElementById('comment-replies-inner-container-1-' + index).style.display = 'flex';
-                                                                    document.getElementById('comment-replies-number-outter-container-' + index).innerText = 'Hide replies';
+                                                                    document.getElementById('comment-replies-number-outter-container-' + index).innerText = 
+                                                                    (
+                                                                        (staticText[localStorage.getItem('language')]) ?
+                                                                        staticText[localStorage.getItem('language')].hideReply
+                                                                        :
+                                                                        staticText['en-US'].hideReply
+                                                                    );
                                                                 }
 
                                                                 else {
                                                                     document.getElementById('comment-replies-inner-container-1-' + index).style.display = 'none';
                                                                     document.getElementById('comment-replies-number-outter-container-' + index).innerText = 
-                                                                        `Show ${this.state[ comment._id + "Length" ]} replies`;
+                                                                        (
+                                                                            (staticText[localStorage.getItem('language')]) ?
+                                                                            staticText[localStorage.getItem('language')].showReply + ` (${this.state[ comment._id + "Length" ]})`
+                                                                            :
+                                                                            staticText['en-US'].showReply + ` (${this.state[ comment._id + "Length" ]})`
+                                                                        )
                                                                 }
                                                             }}
                                                         >
@@ -653,9 +698,19 @@ export default class ShowAndPostComments extends Component {
                                                                 (document.getElementById('comment-replies-inner-container-1-' + index).style.display === 'none' || 
                                                                 document.getElementById('comment-replies-inner-container-1-' + index).style.display === ''))
                                                                 ?
-                                                                `Show ${this.state[ comment._id + "Length" ]} replies`
+                                                                (
+                                                                    (staticText[localStorage.getItem('language')]) ?
+                                                                    staticText[localStorage.getItem('language')].showReply + ` (${this.state[ comment._id + "Length" ]})`
+                                                                    :
+                                                                    staticText['en-US'].showReply + ` (${this.state[ comment._id + "Length" ]})`
+                                                                )
                                                                 :
-                                                                `Hide replies`
+                                                                (
+                                                                    (staticText[localStorage.getItem('language')]) ?
+                                                                    staticText[localStorage.getItem('language')].hideReply
+                                                                    :
+                                                                    staticText['en-US'].hideReply
+                                                                )
                                                             }
                                                         </div>
 
@@ -750,6 +805,12 @@ export default class ShowAndPostComments extends Component {
                                 onClick={() => {
                                     this.showFormDiv.current.style.display = 'block';
                                     this.formDiv.current.style.display = 'none';
+                                    this.textarea.current.placeholder = (
+                                        (staticText[localStorage.getItem('language')]) ?
+                                        staticText[localStorage.getItem('language')].placeholder
+                                        :
+                                        staticText['en-US'].placeholder
+                                    );
                                 }}
                             />
                         </button>
@@ -759,7 +820,12 @@ export default class ShowAndPostComments extends Component {
                                 type="text"
                                 name="comment"
 
-                                placeholder="Comment something :D"
+                                placeholder={
+                                    (staticText[localStorage.getItem('language')]) ?
+                                    staticText[localStorage.getItem('language')].placeholder
+                                    :
+                                    staticText['en-US'].placeholder
+                                }
 
                                 ref={ this.textarea }
                                 
@@ -964,7 +1030,12 @@ export default class ShowAndPostComments extends Component {
                                 type="text"
                                 name="comment"
 
-                                placeholder="Comment something :D"
+                                placeholder={
+                                    (staticText[localStorage.getItem('language')]) ?
+                                    staticText[localStorage.getItem('language')].placeholder
+                                    :
+                                    staticText['en-US'].placeholder
+                                }
 
                                 ref={this.textarea}
                                 

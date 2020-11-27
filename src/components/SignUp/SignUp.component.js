@@ -63,6 +63,67 @@ export default class SignUp extends Component {
             logged: '/',
 
             currentStyle: null,
+
+            staticText: {
+                'pt-BR': {
+                    fDyteLogo: 'A rede social *****',
+                    upperMessage: 'Pensou que ia preencher um monte de formulários?',
+
+                    emailInput: 'Email',
+                    usernameInput: 'Nome de usuário',
+                    passwordInput: 'Senha',
+
+                    rateMessage: 'Avalie você mesmo:',
+
+                    signUpButton: 'Cadastrar',
+                    agreementMessage: [
+                        'Ao se cadastrar você concorda com todas as nossas ',
+                        'Políticas.'
+                    ],
+
+                    emailStatus: 'Este e-mail não está disponível',
+                    usernameStatus: 'Este nome de usuário não está disponível',
+                    passwordStatus: 'A senha deve ter ao menos 6 caracteres',
+
+                    usernameIsAcceptable: 'O nome de usuário deve conter apenas letras sem acento minúsculas, números ou sublinhados ( _ )',
+                    passwordIsAcceptable: 'A senha deve conter apenas letras sem acento minúsculas, números ou sublinhados ( _ )',
+
+                    verificationMessage: [
+                        'Um código de verificação foi enviado para o seu e-mail.',
+                        'Digite o código de verificação abaixo:',
+                    ],
+                    verifyButton: 'Verificar',
+                },
+                'en-US': {
+                    fDyteLogo: 'The ***** social network',
+                    upperMessage: 'Thought you were going to fill a bunch of forms?',
+
+                    emailInput: 'Email',
+                    usernameInput: 'Username',
+                    passwordInput: 'Password',
+
+                    rateMessage: 'Rate yourself:',
+
+                    signUpButton: 'Sign up',
+                    agreementMessage: [
+                        'By signing up, you agree with all of our ',
+                        'Policies.'
+                    ],
+
+                    emailStatus: 'This email is not available',
+                    usernameStatus: 'This username is not available',
+                    passwordStatus: 'The password must have at least 6 characters',
+
+                    usernameIsAcceptable: 'The username should contain only lowercase english letters, numbers or underscores ( _ )',
+                    passwordIsAcceptable: 'The password should contain only lowercase english letters, numbers or underscores ( _ )',
+
+                    verificationMessage: [
+                        'A verification code was sent to your email account.',
+                        'Type the verification code bellow:',
+                    ],
+                    verifyButton: 'Verify',
+                },
+            }
         }
     }
 
@@ -75,6 +136,10 @@ export default class SignUp extends Component {
         this.setState({
             currentStyle: dailyOrNightly(),
         })
+
+        if(!localStorage.getItem('language')) {
+            localStorage.setItem('language', navigator.language);
+        }
     }
 
     handleChange = e => {
@@ -92,8 +157,15 @@ export default class SignUp extends Component {
                 .then(response => {
                     //if the email is not available
                     if(response.data) {
+                        const { staticText } = this.state;
+
                         this.setState({
-                            emailStatus: 'This email is not available',
+                            emailStatus: (
+                                (staticText[localStorage.getItem('language')]) ?
+                                staticText[localStorage.getItem('language')].emailStatus
+                                :
+                                staticText['en-US'].emailStatus
+                            ),
                             emailAvailable: false,
                         }, () => {
                             document.getElementById("sgnp-submit-button").disabled = true;
@@ -125,11 +197,18 @@ export default class SignUp extends Component {
         }
         
         if(hasUnacceptableValue) {
+            const { staticText } = this.state;
+
             document.getElementById("sgnp-submit-button").disabled = true;
 
             this.setState({
                 [ e.target.name ]: e.target.value,
-                usernameIsAcceptable: 'The username should contain only lowercase english letters, numbers or underscores ( _ )'
+                usernameIsAcceptable: (
+                    (staticText[localStorage.getItem('language')]) ?
+                    staticText[localStorage.getItem('language')].usernameIsAcceptable
+                    :
+                    staticText['en-US'].usernameIsAcceptable
+                ),
             })
         }
 
@@ -144,8 +223,15 @@ export default class SignUp extends Component {
                     .then(response => {
                         //if the username is not available
                         if(response.data) {
+                            const { staticText } = this.state;
+
                             this.setState({
-                                usernameStatus: 'This username is not available',
+                                usernameStatus: (
+                                    (staticText[localStorage.getItem('language')]) ?
+                                    staticText[localStorage.getItem('language')].usernameStatus
+                                    :
+                                    staticText['en-US'].usernameStatus
+                                ),
                                 usernameAvailable: false,
                             }, () => {
                                 document.getElementById("sgnp-submit-button").disabled = true;
@@ -178,8 +264,14 @@ export default class SignUp extends Component {
         }
         
         if(hasUnacceptableValue) {
-            this.passwordMessageDiv.current.innerText = 'The password should contain' + 
-                ' only lowercase english letters, numbers or underscores ( _ )';
+            const { staticText } = this.state;
+
+            this.passwordMessageDiv.current.innerText = (
+                (staticText[localStorage.getItem('language')]) ?
+                staticText[localStorage.getItem('language')].passwordIsAcceptable
+                :
+                staticText['en-US'].passwordIsAcceptable
+            );
 
             document.getElementById("sgnp-submit-button").disabled = true;
 
@@ -196,8 +288,15 @@ export default class SignUp extends Component {
                 [ e.target.name ]: e.target.value
             }, () => {
                 if(this.state.password.length < 6) {
+                    const { staticText } = this.state;
+
                     this.setState({
-                        passwordStatus: 'The password must have at least 6 characters'
+                        passwordStatus: (
+                            (staticText[localStorage.getItem('language')]) ?
+                            staticText[localStorage.getItem('language')].passwordStatus
+                            :
+                            staticText['en-US'].passwordStatus
+                        ),
                     }, () => {
                         document.getElementById("sgnp-submit-button").disabled = true;
                     })
@@ -296,7 +395,7 @@ export default class SignUp extends Component {
         
         const { email, password, username, emailStatus,
             usernameStatus, passwordStatus, usernameIsAcceptable,
-            rate, userDataSubmitted, currentStyle } = this.state;
+            rate, userDataSubmitted, currentStyle, staticText } = this.state;
 
 
         console.log(this.state);
@@ -316,7 +415,14 @@ export default class SignUp extends Component {
                                 </div>
 
                                 <div>
-                                    <h1>The ***** social network</h1>
+                                    <h1>
+                                        {
+                                            (staticText[localStorage.getItem('language')]) ?
+                                            staticText[localStorage.getItem('language')].fDyteLogo
+                                            :
+                                            staticText['en-US'].fDyteLogo
+                                        }
+                                    </h1>
                                 </div>
                             </section>
                             
@@ -324,11 +430,21 @@ export default class SignUp extends Component {
                                 
                                 <div className="sign-up-verification-upper-message">
                                     <p>
-                                        A verification code was sent to your email account.
+                                        {
+                                            (staticText[localStorage.getItem('language')]) ?
+                                            staticText[localStorage.getItem('language')].verificationMessage[0]
+                                            :
+                                            staticText['en-US'].verificationMessage[0]
+                                        }
                                     </p>
                                     
                                     <p>
-                                        Type the verification code bellow:
+                                        {
+                                            (staticText[localStorage.getItem('language')]) ?
+                                            staticText[localStorage.getItem('language')].verificationMessage[1]
+                                            :
+                                            staticText['en-US'].verificationMessage[1]
+                                        }
                                     </p>
                                 </div>
 
@@ -350,7 +466,12 @@ export default class SignUp extends Component {
                                             <button
                                                 type="submit"
                                             >
-                                                Verify
+                                                {
+                                                    (staticText[localStorage.getItem('language')]) ?
+                                                    staticText[localStorage.getItem('language')].verifyButton
+                                                    :
+                                                    staticText['en-US'].verifyButton
+                                                }
                                             </button>
                                         </div>
                                     </form>
@@ -376,25 +497,41 @@ export default class SignUp extends Component {
                             </div>
 
                             <div>
-                                <h1>The ***** social network</h1>
+                                <h1>
+                                    {
+                                        (staticText[localStorage.getItem('language')]) ?
+                                        staticText[localStorage.getItem('language')].fDyteLogo
+                                        :
+                                        staticText['en-US'].fDyteLogo
+                                    }
+                                </h1>
                             </div>
                         </section>
 
                         <section className="sign-up-form">
                             <form id="user-password" onSubmit={this.onSubmit}> 
-
                                 <div
                                     className="sign-up-upper-message-outter-container"
                                 >
                                     <p>
-                                        Thought you were going to fill a bunch of forms?
+                                        {
+                                            (staticText[localStorage.getItem('language')]) ?
+                                            staticText[localStorage.getItem('language')].upperMessage
+                                            :
+                                            staticText['en-US'].upperMessage
+                                        }
                                     </p>
                                 </div>
 
                                 <div className="sign-up-input-outter-container">
                                     <input 
                                         type="email" 
-                                        placeholder="Email"
+                                        placeholder={
+                                            (staticText[localStorage.getItem('language')]) ?
+                                            staticText[localStorage.getItem('language')].emailInput
+                                            :
+                                            staticText['en-US'].emailInput
+                                        }
                                         name="email"
 
                                         maxLength="1000"
@@ -415,7 +552,12 @@ export default class SignUp extends Component {
                                 <div className="sign-up-input-outter-container">
                                     <input 
                                         type="text" 
-                                        placeholder="username"
+                                        placeholder={
+                                            (staticText[localStorage.getItem('language')]) ?
+                                            staticText[localStorage.getItem('language')].usernameInput
+                                            :
+                                            staticText['en-US'].usernameInput
+                                        }
                                         name="username"
 
                                         minLength="1"
@@ -441,7 +583,12 @@ export default class SignUp extends Component {
                                 <div className="sign-up-input-outter-container">
                                     <input 
                                         type="password" 
-                                        placeholder="Password"
+                                        placeholder={
+                                            (staticText[localStorage.getItem('language')]) ?
+                                            staticText[localStorage.getItem('language')].passwordInput
+                                            :
+                                            staticText['en-US'].passwordInput
+                                        }
                                         name="password"
                                         id="sign-up-password-input"
 
@@ -473,13 +620,20 @@ export default class SignUp extends Component {
                                     </div>
 
                                     <div>
-                                        { passwordStatus }
+                                        {
+                                            passwordStatus
+                                        }
                                     </div>
                                 </div>
 
                                 <div className="sign-up-slider-input-outter-container">
                                     <p>
-                                        Rate yourself:
+                                        {
+                                            (staticText[localStorage.getItem('language')]) ?
+                                            staticText[localStorage.getItem('language')].rateMessage
+                                            :
+                                            staticText['en-US'].rateMessage
+                                        }
                                     </p>
 
                                     <input
@@ -509,7 +663,12 @@ export default class SignUp extends Component {
                                         type="submit"
                                         id="sgnp-submit-button"
                                     >
-                                        Sign Up
+                                        {
+                                            (staticText[localStorage.getItem('language')]) ?
+                                            staticText[localStorage.getItem('language')].signUpButton
+                                            :
+                                            staticText['en-US'].signUpButton
+                                        }
                                     </button>
                                 </div>
                                 
@@ -519,10 +678,20 @@ export default class SignUp extends Component {
                         <div className="to-policies-outter-container">
                             <Link className="sign-up-link" to="/">
                                 <p>
-                                    By signing up, you agree with all of our 
-                                    {` `}
+                                    {
+                                        (staticText[localStorage.getItem('language')]) ?
+                                        staticText[localStorage.getItem('language')].agreementMessage[0]
+                                        :
+                                        staticText['en-US'].agreementMessage[0]
+                                    }
+
                                     <span>
-                                        Policies.
+                                        {
+                                            (staticText[localStorage.getItem('language')]) ?
+                                            staticText[localStorage.getItem('language')].agreementMessage[1]
+                                            :
+                                            staticText['en-US'].agreementMessage[1]
+                                        }
                                     </span>
                                 </p>
                             </Link>
