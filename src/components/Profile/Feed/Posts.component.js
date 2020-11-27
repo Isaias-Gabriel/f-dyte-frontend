@@ -124,7 +124,7 @@ export default class Posts extends Component {
 
             staticText: {
                 'pt-BR': {
-                    postButton: 'postar',
+                    postButton: 'Postar',
                     yes: 'Sim',
                     no: 'Não',
                     segredinhoShow: 'mostrar texto',
@@ -134,7 +134,7 @@ export default class Posts extends Component {
                     optionsDelete: 'Deletar',
                 },
                 'en-US': {
-                    postButton: 'post',
+                    postButton: 'Post',
                     yes: 'Yes',
                     no: 'No',
                     segredinhoShow: 'show text',
@@ -143,7 +143,7 @@ export default class Posts extends Component {
                     segredinhoHideRandomly: 'hide randomly',
                     optionsDelete: 'Delete',
                 },
-            }
+            },
         }
     }
 
@@ -1171,7 +1171,7 @@ export default class Posts extends Component {
                                         name="files"
                                         
                                         //accept=".jpeg,.pjpeg,.png,.gif,.jpg,.mp4,.3gp,.webm"
-                                        accept=".jpeg,.pjpeg,.png,.jpg"
+                                        accept=".jpeg,.pjpeg,.png,.gif,.jpg"
                                         
                                         onChange={this.handleChangeFile}
 

@@ -27,7 +27,7 @@
 
     position: fixed;
 
-    top: 20vh;
+    top: 11vh;
     left: 7vw;
 
     min-height: 400px;
@@ -91,7 +91,7 @@
 
 .profile-posts-add-post-form-outter-container,
 .profile-posts-add-segredinho-form-outter-container {
-    height: calc(60vh - ((5px + 1vh + 2vw) + ((5px + 1vh + 2vw) * 1.7)));
+    height: 150%;
 
     margin-top: calc((5px + 1vh + 2vw) / 1.4);
 }

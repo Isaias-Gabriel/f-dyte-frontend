@@ -16,7 +16,7 @@ export default class Test extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props)
+        //console.log(this.props)
 
         // this.setState({
         //     parentState: this.props.state,
@@ -24,7 +24,7 @@ export default class Test extends Component {
     }
 
     componentDidUpdate() {
-        console.log(this.props);
+        // console.log(this.props);
     }
     
     render() {

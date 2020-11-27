@@ -329,7 +329,7 @@ export default class CreateObject extends Component {
                                 name="files"
                                 
                                 //accept=".jpeg,.pjpeg,.png,.gif,.jpg,.mp4,.3gp,.webm"
-                                accept=".pjpeg,.png,.jpg"
+                                accept=".jpeg,.pjpeg,.png,.gif,.jpg"
                                 
                                 onChange={this.handleChangeFile}
 

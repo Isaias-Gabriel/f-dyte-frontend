@@ -35,7 +35,7 @@
 
     position: fixed;
 
-    top: 14vh;
+    top: 9vh;
     left: 4vw;
 
     min-height: 400px;
@@ -79,7 +79,7 @@
 }
 
 .profile-belle-add-belle-form-outter-container {
-    height: 100%;
+    height: 200%;
 }
 
 .profile-belle-add-belle-div-inner-container form {

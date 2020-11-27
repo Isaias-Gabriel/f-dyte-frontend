@@ -12,6 +12,21 @@ export default class LogOut extends Component {
 
         this.state = {
             loggedOut: null,
+
+            staticText: {
+                'pt-BR': {
+                    logOut: 'Sair',
+                },
+                'en-US': {
+                    logOut: 'Log out',
+                },
+            }
+        }
+    }
+
+    componentDidMount() {
+        if(!localStorage.getItem('language')) {
+            localStorage.setItem('language', navigator.language);
         }
     }
 
@@ -31,13 +46,21 @@ export default class LogOut extends Component {
     }
     
     render() {
+
+        const { staticText } = this.state;
+
         if(this.state.loggedOut) {
             return <Redirect to="/log_in" />;
         }
 
         return (
             <span onClick={this.logOut}>
-                Log out
+                {
+                    (staticText[localStorage.getItem('language')]) ?
+                    staticText[localStorage.getItem('language')].logOut
+                    :
+                    staticText['en-US'].logOut
+                }
             </span>
         )
     }

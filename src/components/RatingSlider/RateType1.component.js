@@ -10,7 +10,7 @@ import './rateType1Styles.css';
 
 require('dotenv/config');
 
-export default class RatingSlider extends Component {
+export default class RateType1 extends Component {
     constructor(props) {
         super(props);
 

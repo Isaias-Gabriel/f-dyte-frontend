@@ -111,11 +111,37 @@ export default class QueimaPost extends Component {
             uniqueImageIndex: 0,
 
             showAsGrid: true,
+
+            staticText: {
+                'pt-BR': {
+                    postButton: 'Postar',
+                    yes: 'Sim',
+                    no: 'Não',
+
+                    caption: 'Escreva uma legenda:',
+
+                    noPostMessage: [
+                        'Poste seus queimas!',
+                        'Poste apenas sua fotos mais feias, sebosas e lixosas.',
+                    ],
+                },
+                'en-US': {
+                    postButton: 'Post',
+                    yes: 'Yes',
+                    no: 'No',
+
+                    caption: 'Write a caption:',
+
+                    noPostMessage: [
+                        'Post your queimas!',
+                        'Post only your most lousy, ugly, cringe, karen-ish photos.',
+                    ],
+                },
+            },
         }
     }
 
     async componentDidMount() {
-
         this.setState({
             userUsername: await getUserUsername(),
         })
@@ -159,6 +185,10 @@ export default class QueimaPost extends Component {
                 })
 
             })
+
+        if(!localStorage.getItem('language')) {
+            localStorage.setItem('language', navigator.language);
+        }
     }
 
     handleChange(e) {
@@ -677,6 +707,8 @@ export default class QueimaPost extends Component {
             userUsername: visitorUsername,
 
             showAsGrid,
+
+            staticText,
         } = this.state;
 
         const { username: visitedUsername } = this.props;
@@ -761,7 +793,7 @@ export default class QueimaPost extends Component {
                                             name="files"
                                             
                                             //accept=".jpeg,.pjpeg,.png,.gif,.jpg,.mp4,.3gp,.webm"
-                                            accept=".jpeg,.pjpeg,.png,.jpg"
+                                            accept=".jpeg,.pjpeg,.png,.gif,.jpg"
                                             
                                             onChange={this.handleChangeFile}
     
@@ -769,7 +801,12 @@ export default class QueimaPost extends Component {
                                         />
                                         
                                         <p className="profile-queima-add-queima-caption-message">
-                                            Write a caption:
+                                            {
+                                                (staticText[localStorage.getItem('language')]) ?
+                                                staticText[localStorage.getItem('language')].caption
+                                                :
+                                                staticText['en-US'].caption
+                                            }
                                         </p>
     
                                         <Linkify>
@@ -790,7 +827,12 @@ export default class QueimaPost extends Component {
                                             disabled
                                             ref={this.addQueimaSubmitButton}
                                         >
-                                            Post
+                                            {
+                                                (staticText[localStorage.getItem('language')]) ?
+                                                staticText[localStorage.getItem('language')].postButton
+                                                :
+                                                staticText['en-US'].postButton
+                                            }
                                         </button>
                                     </form>
                                 </div>
@@ -950,7 +992,7 @@ export default class QueimaPost extends Component {
                                             name="files"
                                             
                                             //accept=".jpeg,.pjpeg,.png,.gif,.jpg,.mp4,.3gp,.webm"
-                                            accept=".jpeg,.pjpeg,.png,.jpg"
+                                            accept=".jpeg,.pjpeg,.png,.gif,.jpg"
                                             
                                             onChange={this.handleChangeFile}
     
@@ -958,7 +1000,12 @@ export default class QueimaPost extends Component {
                                         />
                                         
                                         <p className="profile-queima-add-queima-caption-message">
-                                            Write a caption:
+                                            {
+                                                (staticText[localStorage.getItem('language')]) ?
+                                                staticText[localStorage.getItem('language')].caption
+                                                :
+                                                staticText['en-US'].caption
+                                            }
                                         </p>
     
                                         <Linkify>
@@ -979,7 +1026,12 @@ export default class QueimaPost extends Component {
                                             disabled
                                             ref={this.addQueimaSubmitButton}
                                         >
-                                            Post
+                                            {
+                                                (staticText[localStorage.getItem('language')]) ?
+                                                staticText[localStorage.getItem('language')].postButton
+                                                :
+                                                staticText['en-US'].postButton
+                                            }
                                         </button>
                                     </form>
                                 </div>
@@ -1190,7 +1242,7 @@ export default class QueimaPost extends Component {
                                         name="files"
                                         
                                         //accept=".jpeg,.pjpeg,.png,.gif,.jpg,.mp4,.3gp,.webm"
-                                        accept=".jpeg,.pjpeg,.png,.jpg"
+                                        accept=".jpeg,.pjpeg,.png,.gif,.jpg"
                                         
                                         onChange={this.handleChangeFile}
 
@@ -1198,7 +1250,12 @@ export default class QueimaPost extends Component {
                                     />
                                     
                                     <p className="profile-queima-add-queima-caption-message">
-                                        Write a caption:
+                                        {
+                                            (staticText[localStorage.getItem('language')]) ?
+                                            staticText[localStorage.getItem('language')].caption
+                                            :
+                                            staticText['en-US'].caption
+                                        }
                                     </p>
 
                                     <Linkify>
@@ -1219,7 +1276,12 @@ export default class QueimaPost extends Component {
                                         disabled
                                         ref={this.addQueimaSubmitButton}
                                     >
-                                        Post
+                                        {
+                                            (staticText[localStorage.getItem('language')]) ?
+                                            staticText[localStorage.getItem('language')].postButton
+                                            :
+                                            staticText['en-US'].postButton
+                                        }
                                     </button>
                                 </form>
                             </div>
@@ -1228,11 +1290,21 @@ export default class QueimaPost extends Component {
 
                     <div className="profile-queima-posts-no-posts-message-for-user-outter-container">
                         <p className="profile-queima-posts-no-posts-message-for-user-1">
-                            Post your queimas!
+                            {
+                                (staticText[localStorage.getItem('language')]) ?
+                                staticText[localStorage.getItem('language')].noPostMessage[0]
+                                :
+                                staticText['en-US'].noPostMessage[0]
+                            }
                         </p>
 
                         <p className="profile-queima-posts-no-posts-message-for-user-2">
-                            Post only your most lousy, ugly, cringe, karen-ish photos.
+                            {
+                                (staticText[localStorage.getItem('language')]) ?
+                                staticText[localStorage.getItem('language')].noPostMessage[1]
+                                :
+                                staticText['en-US'].noPostMessage[1]
+                            }
                         </p>
                     </div>
 

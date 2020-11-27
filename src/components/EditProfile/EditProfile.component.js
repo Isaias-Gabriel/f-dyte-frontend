@@ -471,8 +471,8 @@ export default class EditProfile extends Component {
                                         id="profile-picture-input"
                                         className="edit-profile-profile-picture-input"
                                         
-                                        accept=".pjpeg,.png,.jpg"
                                         //accept=".jpeg,.pjpeg,.png,.gif,.jpg"
+                                        accept=".jpeg,.pjpeg,.png,.gif,.jpg"
                                         
                                         onChange={this.handleChangeProfilePicture}
                                     />

@@ -11,9 +11,9 @@ import Menu from '../../Menu/Menu.component';
 import Posts from './Posts.component';
 import FollowUser from '../../FollowUser/FollowUser.component';
 
-import NonSignedInPosts from '../../ProfileNonSignedIn/NonSignedInPosts.component';
+import RateType2 from '../../RatingSlider/RateType2.component';
 
-import Notification from '../../Notification/Notification.component';
+import NonSignedInPosts from '../../ProfileNonSignedIn/NonSignedInPosts.component';
 
 import './FeedStyles.css';
 
@@ -32,6 +32,8 @@ export default class Feed extends Component {
 
         this.submitRate = this.submitRate.bind(this);
 
+        this.updateRate = this.updateRate.bind(this);
+
         this.state = {
             evaluator: {
                 rate: {}
@@ -42,7 +44,7 @@ export default class Feed extends Component {
 
             rateToSubmit: 0,
 
-            canBeRated: false,
+            isRated: false,
 
             userFound: true,
         }
@@ -95,8 +97,11 @@ export default class Feed extends Component {
                     //if the user can rate the evaluator from the profile, it will return true, else, return false :v
                     axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/user_can_rate_or_follow_user', formInfo)
                         .then(res => {
+                            // console.log(res.data);
+
                             this.setState({
-                                canBeRated: res.data.canBeRated,
+                                //if canBeRated is true then isRated is false '-' (yeah, confusing and clearly a mistake, I know)
+                                isRated: !(res.data.canBeRated),
                                 isFollowed: res.data.isFollowed,
                             })
                         })
@@ -123,7 +128,7 @@ export default class Feed extends Component {
     }
 
     showRatingSlider() {
-        if(this.state.canBeRated) {
+        if(this.state.isRated) {
             const { rateToSubmit } = this.state;
 
             return(
@@ -184,14 +189,51 @@ export default class Feed extends Component {
                 
                 this.setState({
                     evaluator: res.data,
-                    canBeRated: false,
+                    isRated: false,
                 })
             })
             .catch(err => console.log(err));
     }
 
+    updateRate(rate) {
+        let temp_rate = parseFloat(rate.$numberDecimal);
+        let rateIntegerPart, rateFirst2Decimals;
+        
+        if(typeof temp_rate === typeof 5) {
+            if(temp_rate === 0) {
+                rateIntegerPart = '0';
+                rateFirst2Decimals = '00';
+            }
+
+            else if(temp_rate > 0 && temp_rate < 1) {
+                temp_rate = (parseFloat(temp_rate) * 100).toString();
+            
+                rateIntegerPart = '0';
+                rateFirst2Decimals = temp_rate[0] + temp_rate[1];
+            }
+
+            else {
+                temp_rate = (parseFloat(temp_rate) * 100).toString();
+            
+                rateIntegerPart = temp_rate[0];
+                rateFirst2Decimals = temp_rate[1] + temp_rate[2];
+            }
+        }
+
+        const tempEvaluator = this.state.evaluator;
+        tempEvaluator.rateNumber = tempEvaluator.rateNumber + 1;
+
+        this.setState({
+            rateIntegerPart,
+            rateFirst2Decimals,
+            evaluator: tempEvaluator,
+            isRated: !(this.state.isRated),
+        })
+    }
+
     render() {
         const { userFound } = this.state;
+
         if(userFound) {
             const { _id: id,
                     name,
@@ -204,10 +246,14 @@ export default class Feed extends Component {
                 isFollowed,
                 rateIntegerPart,
                 rateFirst2Decimals,
+
+                isRated,
             } = this.state;
 
             // console.log(rateIntegerPart, rateFirst2Decimals);
             //console.log(this.state);
+
+            // console.log({isRatedFeed: isRated});
 
             return(
                     <div id="profile-feed-outter-container">
@@ -258,9 +304,14 @@ export default class Feed extends Component {
 
                                 <div className="profile-feed-main-content-outter-container">
                                     <div className="profile-feed-rate-and-follow-outter-container">
-                                        <div className="profile-feed-main-icons">
-                                            <HiOutlineStar />
-                                        </div>
+                                        <RateType2
+                                            isRated={isRated}
+
+                                            updateRate={this.updateRate}
+
+                                            type={'evaluator'}
+                                            id={id}
+                                        />
 
                                         {
                                             (username && name && (typeof isFollowed !== typeof undefined) && 
@@ -303,54 +354,6 @@ export default class Feed extends Component {
                             </div>
                         </div>
                     </div>
-
-                // <div id="profile-container">
-                //     <GoHome/>
-                //     <Notification />
-                //     <LogOut/>
-
-                //     <div>
-                //         <h1>
-                //             { name }
-                //         </h1>
-                        
-                //         <p>
-                //                 @{ username }
-                //         </p>
-
-                //         <span>
-                //             Rate: { Number(rate.$numberDecimal).toFixed(2) }
-                //         </span>
-                        
-                //         <p>
-                //             Number of rates: { rateNumber }
-                //         </p>
-                //     </div>
-                    
-                //     {
-                //         this.showRatingSlider()
-                //     }
-
-                //     {
-                //         this.showFollowButton()
-                //     }
-
-                //     <Link to={"/profile/" + this.props.match.params.username + "/queima"}>
-                //         Queima
-                //     </Link>
-
-                //     <Link to={"/profile/" + this.props.match.params.username + "/belle"}>
-                //         Belle
-                //     </Link>
-                    
-                //     <section>
-                //         <div>
-                //             <Posts
-                //                 username={ this.props.match.params.username }
-                //             />
-                //         </div>
-                //     </section>
-                // </div>
             );
         }
 

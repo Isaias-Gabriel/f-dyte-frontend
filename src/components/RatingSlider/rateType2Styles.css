@@ -1,0 +1,142 @@
+
+
+.rate-type-2-outter-container svg {
+    position: relative;
+
+    min-height: 25px;
+    height: 4vh;
+    min-width: 25px;
+    width: 4vh;
+
+    fill: rgba(190, 0, 48, 0.849);
+
+    stroke: rgba(190, 0, 48, 0.849);
+
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.rate-type-2-outter-container {
+    min-height: 10px;
+    height: 4.2vh;
+    
+    overflow: hidden;
+}
+
+.rate-type-2-outter-container * {
+    overflow: hidden;
+}
+
+.rate-type-2-outter-container svg {
+    min-height: 25px;
+    height: 4vh;
+    min-width: 25px;
+    width: 4vh;
+
+    fill: rgba(190, 0, 48, 0.849);
+
+    stroke: rgba(190, 0, 48, 0.849);
+
+    cursor: pointer;
+
+    outline: none;
+}
+
+.rate-type-2-form-outter-container {
+    display: none;
+
+    width: 100%;
+}
+
+.rate-type-2-form {
+    display: flex;
+
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.rate-type-2-form div {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-right: 2vw;
+}
+
+.rate-type-2-form span {
+    font-size: calc(7px + 1.4vh + 0.7vw);
+}
+
+.rate-type-2-form input {
+    height: 1vh;
+    width: 49vw;
+}
+
+.rate-type-2-rate-rate-number-and-rate-icon-outter-container {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-evenly;
+
+    width: 100%;
+}
+
+.rate-type-2-rate-rate-number-and-rate-icon-outter-container .rate-type-2-rate-integer-part {
+    font-size: calc(9px + 2.1vh + 0.7vw);
+}
+
+.rate-type-2-rate-number-outter-container,
+.rate-type-2-rate-rate-number-and-rate-icon-outter-container .rate-type-2-rate-decimal-part {
+    font-size: calc(9px + 0.9vh + 0.3vw);
+}
+
+.rate-type-2-loading-icon {
+    display: none;
+
+    height: 4vh;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+}
+
+.rate-type-2-loading-icon img {
+    height: 8vh;
+    width: 8vh;
+}
+
+@media only screen and (min-width: 600px) {
+    .rate-type-2-outter-container {
+        min-height: 20px;
+        height: 6.7vh;
+        
+        overflow: hidden;
+    }
+}

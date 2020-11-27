@@ -44,6 +44,33 @@ export default class Menu extends Component {
 
             searchString: '',
             resultsFromSearch: [],
+
+            staticText: {
+                'pt-BR': {
+                    searchPlaceholder: 'procure por objectos ou usuários',
+
+                    editProfile: 'Editar perfil',
+                    createObject: 'Criar objeto',
+                    language: 'Língua',
+
+                    languages: [
+                        ['inglês', 'english'],
+                        ['português', 'português'],
+                    ]
+                },
+                'en-US': {
+                    searchPlaceholder: 'search for objects or users',
+
+                    editProfile: 'Edit profile',
+                    createObject: 'Create object',
+                    language: 'Language',
+
+                    languages: [
+                        ['english', 'english'],
+                        ['portuguese', 'português'],
+                    ]
+                },
+            }
         }
     }
 
@@ -52,12 +79,28 @@ export default class Menu extends Component {
             userUsername: await getUserUsername(),
         })
 
-        for(let option of document.getElementsByTagName('option')) {
-            console.log();
-
-            if(option.value === localStorage.getItem('language')) {
-                option.selected = true;
+        if(localStorage.getItem('language')) {
+            for(let option of document.getElementsByTagName('option')) {
+                console.log();
+    
+                if(option.value === localStorage.getItem('language')) {
+                    option.selected = true;
+                }
             }
+        }
+
+        else {
+            for(let option of document.getElementsByTagName('option')) {
+                console.log();
+    
+                if(option.value === 'en-US') {
+                    option.selected = true;
+                }
+            }
+        }
+
+        if(!localStorage.getItem('language')) {
+            localStorage.setItem('language', navigator.language);
         }
     }
 
@@ -70,7 +113,7 @@ export default class Menu extends Component {
                 searchFor: this.state.searchString
             })
             .then(response => {
-                console.log(response.data);
+                // console.log(response.data);
 
                 this.setState({
                     resultsFromSearch: response.data,
@@ -90,7 +133,9 @@ export default class Menu extends Component {
         const {
             userUsername,
             searchString,
-            resultsFromSearch
+            resultsFromSearch,
+
+            staticText,
         } = this.state;
 
         return(
@@ -120,7 +165,12 @@ export default class Menu extends Component {
 
                     <div className="search-outter-container" ref={this.search}>
                         <input
-                            placeholder="search for objects or evaluators"
+                            placeholder={
+                                (staticText[localStorage.getItem('language')]) ?
+                                staticText[localStorage.getItem('language')].searchPlaceholder
+                                :
+                                staticText['en-US'].searchPlaceholder
+                            }
                             
                             value={searchString}
                             onChange={this.onChange}
@@ -204,26 +254,65 @@ export default class Menu extends Component {
 
                         <Link to='/edit_profile'>
                             <div className="other-option-outter-container">
-                                Edit profile
+                                {
+                                    (staticText[localStorage.getItem('language')]) ?
+                                    staticText[localStorage.getItem('language')].editProfile
+                                    :
+                                    staticText['en-US'].editProfile
+                                }
                             </div>
                         </Link>
 
                         <Link to='/create_object'>
                             <div className="other-option-outter-container">
-                                Create object
+                                {
+                                    (staticText[localStorage.getItem('language')]) ?
+                                    staticText[localStorage.getItem('language')].createObject
+                                    :
+                                    staticText['en-US'].createObject
+                                }
                             </div>
                         </Link>
 
                         <div className="other-option-outter-container language-option">
-                            Language: 
+                            {
+                                (staticText[localStorage.getItem('language')]) ?
+                                staticText[localStorage.getItem('language')].language
+                                :
+                                staticText['en-US'].language
+                            }
 
                             <select onChange={this.onSelect} ref={this.select}>
                                 <option value="en-US">
-                                    english - english
+                                    {
+                                        (staticText[localStorage.getItem('language')]) ?
+                                        staticText[localStorage.getItem('language')].languages[0][0]
+                                        :
+                                        staticText['en-US'].languages[0][0]
+                                    }
+                                    {` - `}
+                                    {
+                                        (staticText[localStorage.getItem('language')]) ?
+                                        staticText[localStorage.getItem('language')].languages[0][1]
+                                        :
+                                        staticText['en-US'].languages[0][1]
+                                    }
                                 </option>
 
                                 <option value="pt-BR">
-                                    portuguese - português
+                                    {
+                                        (staticText[localStorage.getItem('language')]) ?
+                                        staticText[localStorage.getItem('language')].languages[1][0]
+                                        :
+                                        staticText['en-US'].languages[1][0]
+                                    }
+                                    {` - `}
+                                    {
+                                        (staticText[localStorage.getItem('language')]) ?
+                                        staticText[localStorage.getItem('language')].languages[1][1]
+                                        :
+                                        staticText['en-US'].languages[1][1]
+                                    }
                                 </option>
                             </select>
                         </div>

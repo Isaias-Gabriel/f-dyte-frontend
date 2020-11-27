@@ -37,6 +37,8 @@ export default class Queima extends Component {
 
             rateIntegerPart: '0',
             rateFirst2Decimals: '00',
+
+            
         }
     }
 
@@ -97,6 +99,10 @@ export default class Queima extends Component {
                 })
             })
             .catch(err => console.log(err));
+
+        if(!localStorage.getItem('language')) {
+            localStorage.setItem('language', navigator.language);
+        }
 
     }
 

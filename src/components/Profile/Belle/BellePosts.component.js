@@ -111,6 +111,33 @@ export default class BellePost extends Component {
             uniqueImageIndex: 0,
 
             showAsGrid: true,
+
+            staticText: {
+                'pt-BR': {
+                    postButton: 'Postar',
+                    yes: 'Sim',
+                    no: 'Não',
+
+                    caption: 'Escreva uma legenda:',
+
+                    noPostMessage: [
+                        'Poste seus belles!',
+                        'Poste apenas suas fotos mais incríveis, deslumbrantes, bonitas *** *******.',
+                    ],
+                },
+                'en-US': {
+                    postButton: 'Post',
+                    yes: 'Yes',
+                    no: 'No',
+
+                    caption: 'Write a caption:',
+
+                    noPostMessage: [
+                        'Post your belles!',
+                        'Post only your most amazing, astonishing, ******* beautiful photos.',
+                    ],
+                },
+            },
         }
     }
 
@@ -159,6 +186,10 @@ export default class BellePost extends Component {
                 })
 
             })
+
+        if(!localStorage.getItem('language')) {
+            localStorage.setItem('language', navigator.language);
+        }
     }
 
     handleChange(e) {
@@ -675,6 +706,8 @@ export default class BellePost extends Component {
             userUsername: visitorUsername,
 
             showAsGrid,
+
+            staticText,
         } = this.state;
 
         const { username: visitedUsername } = this.props;
@@ -759,7 +792,7 @@ export default class BellePost extends Component {
                                             name="files"
                                             
                                             //accept=".jpeg,.pjpeg,.png,.gif,.jpg,.mp4,.3gp,.webm"
-                                            accept=".jpeg,.pjpeg,.png,.jpg"
+                                            accept=".jpeg,.pjpeg,.png,.gif,.jpg"
                                             
                                             onChange={this.handleChangeFile}
     
@@ -767,7 +800,12 @@ export default class BellePost extends Component {
                                         />
                                         
                                         <p className="profile-belle-add-belle-caption-message">
-                                            Write a caption:
+                                            {
+                                                (staticText[localStorage.getItem('language')]) ?
+                                                staticText[localStorage.getItem('language')].caption
+                                                :
+                                                staticText['en-US'].caption
+                                            }
                                         </p>
     
                                         <Linkify>
@@ -788,7 +826,12 @@ export default class BellePost extends Component {
                                             disabled
                                             ref={this.addBelleSubmitButton}
                                         >
-                                            Post
+                                            {
+                                                (staticText[localStorage.getItem('language')]) ?
+                                                staticText[localStorage.getItem('language')].postButton
+                                                :
+                                                staticText['en-US'].postButton
+                                            }
                                         </button>
                                     </form>
                                 </div>
@@ -950,7 +993,7 @@ export default class BellePost extends Component {
                                             name="files"
                                             
                                             //accept=".jpeg,.pjpeg,.png,.gif,.jpg,.mp4,.3gp,.webm"
-                                            accept=".jpeg,.pjpeg,.png,.jpg"
+                                            accept=".jpeg,.pjpeg,.png,.gif,.jpg"
                                             
                                             onChange={this.handleChangeFile}
     
@@ -958,7 +1001,12 @@ export default class BellePost extends Component {
                                         />
                                         
                                         <p className="profile-belle-add-belle-caption-message">
-                                            Write a caption:
+                                            {
+                                                (staticText[localStorage.getItem('language')]) ?
+                                                staticText[localStorage.getItem('language')].caption
+                                                :
+                                                staticText['en-US'].caption
+                                            }
                                         </p>
     
                                         <Linkify>
@@ -979,7 +1027,12 @@ export default class BellePost extends Component {
                                             disabled
                                             ref={this.addBelleSubmitButton}
                                         >
-                                            Post
+                                            {
+                                                (staticText[localStorage.getItem('language')]) ?
+                                                staticText[localStorage.getItem('language')].postButton
+                                                :
+                                                staticText['en-US'].postButton
+                                            }
                                         </button>
                                     </form>
                                 </div>
@@ -1298,7 +1351,7 @@ export default class BellePost extends Component {
                                         name="files"
                                         
                                         //accept=".jpeg,.pjpeg,.png,.gif,.jpg,.mp4,.3gp,.webm"
-                                        accept=".jpeg,.pjpeg,.png,.jpg"
+                                        accept=".jpeg,.pjpeg,.png,.gif,.jpg"
                                         
                                         onChange={this.handleChangeFile}
 
@@ -1306,7 +1359,12 @@ export default class BellePost extends Component {
                                     />
                                     
                                     <p className="profile-belle-add-belle-caption-message">
-                                        Write a caption:
+                                        {
+                                            (staticText[localStorage.getItem('language')]) ?
+                                            staticText[localStorage.getItem('language')].caption
+                                            :
+                                            staticText['en-US'].caption
+                                        }
                                     </p>
 
                                     <Linkify>
@@ -1327,7 +1385,12 @@ export default class BellePost extends Component {
                                         disabled
                                         ref={this.addBelleSubmitButton}
                                     >
-                                        Post
+                                        {
+                                            (staticText[localStorage.getItem('language')]) ?
+                                            staticText[localStorage.getItem('language')].postButton
+                                            :
+                                            staticText['en-US'].postButton
+                                        }
                                     </button>
                                 </form>
                             </div>
@@ -1336,11 +1399,21 @@ export default class BellePost extends Component {
 
                     <div className="profile-belle-posts-no-posts-message-for-user-outter-container">
                         <p className="profile-belle-posts-no-posts-message-for-user-1">
-                            Post your belles!
+                            {
+                                (staticText[localStorage.getItem('language')]) ?
+                                staticText[localStorage.getItem('language')].noPostMessage[0]
+                                :
+                                staticText['en-US'].noPostMessage[0]
+                            }
                         </p>
 
                         <p className="profile-belle-posts-no-posts-message-for-user-2">
-                            Post only your most amazing, astonishing, ******* beautiful photos.
+                            {
+                                (staticText[localStorage.getItem('language')]) ?
+                                staticText[localStorage.getItem('language')].noPostMessage[1]
+                                :
+                                staticText['en-US'].noPostMessage[1]
+                            }
                         </p>
                     </div>
 

@@ -36,7 +36,7 @@ export default class ForYou extends Component {
     }
 
     scrolledTooHigh() {
-        console.log('function to be exectuted');
+        //console.log('function to be exectuted');
 
         const formInfo = {
             "sessionId": localStorage.getItem('e'),
@@ -56,18 +56,18 @@ export default class ForYou extends Component {
 
         axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/get_recommendations', formInfo)
             .then(response => {
-                console.log({
-                    responseLength: response.data.rec.length,
-                })
+                // console.log({
+                //     responseLength: response.data.rec.length,
+                // })
 
                 const end = this.state.recommendations.length - Math.floor(this.state.recommendations.length / 5);
                 let temp_recommendations = this.state.recommendations.slice(0, end);
                 
-                console.log({
-                    end,
-                    length: this.state.recommendations.length,
+                // console.log({
+                //     end,
+                //     length: this.state.recommendations.length,
 
-                })
+                // })
 
                 temp_recommendations = response.data.rec.concat(temp_recommendations);
                 
@@ -85,9 +85,9 @@ export default class ForYou extends Component {
                     // console.log({
                     //     diff,
                     // })
-                    console.log({
-                        recLen: this.state.recommendations.length,
-                    })
+                    // console.log({
+                    //     recLen: this.state.recommendations.length,
+                    // })
                     //console.log(document.getElementById('scrollable-outter-div').scrollTop);
                     //document.getElementById('scrollable-outter-div').scrollTop = document.getElementById('scrollable-outter-div').scrollTop + diff;
                     //console.log(document.getElementById('scrollable-outter-div').scrollTop);
@@ -95,7 +95,7 @@ export default class ForYou extends Component {
                         scrolledTooHighExecuted: true,
                     })
 
-                    console.log('function executed');
+                    //console.log('function executed');
                 })
             })
             .catch(err => console.log(err));
@@ -103,7 +103,7 @@ export default class ForYou extends Component {
     }
 
     scrolledTooLow() {
-        console.log('function to be exectuted');
+        //console.log('function to be exectuted');
 
         const formInfo = {
             "sessionId": localStorage.getItem('e'),
@@ -122,18 +122,18 @@ export default class ForYou extends Component {
 
         axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/get_recommendations', formInfo)
             .then(response => {
-                console.log({
-                    responseLength: response.data.rec.length,
-                })
+                // console.log({
+                //     responseLength: response.data.rec.length,
+                // })
 
                 const beginning = Math.floor(this.state.recommendations.length / 5);
                 let temp_recommendations = this.state.recommendations.slice(beginning);
                 
-                console.log({
-                    beginning,
-                    length: this.state.recommendations.length,
+                // console.log({
+                //     beginning,
+                //     length: this.state.recommendations.length,
 
-                })
+                // })
 
                 temp_recommendations = temp_recommendations.concat(response.data.rec);
                 
@@ -151,9 +151,9 @@ export default class ForYou extends Component {
                     // console.log({
                     //     diff,
                     // })
-                    console.log({
-                        recLen: this.state.recommendations.length,
-                    })
+                    // console.log({
+                    //     recLen: this.state.recommendations.length,
+                    // })
                     //console.log(document.getElementById('scrollable-outter-div').scrollTop);
                     //document.getElementById('scrollable-outter-div').scrollTop = document.getElementById('scrollable-outter-div').scrollTop + diff;
                     //console.log(document.getElementById('scrollable-outter-div').scrollTop);
@@ -161,7 +161,7 @@ export default class ForYou extends Component {
                         scrolledTooLowExecuted: true,
                     })
 
-                    console.log('function executed');
+                    //console.log('function executed');
                 })
             })
             .catch(err => console.log(err));
@@ -184,7 +184,7 @@ export default class ForYou extends Component {
             // })
 
             if((element.scrollTop >= (element.scrollHeight * 0.8)) && !newRecommendationsLoaded) {
-                console.log(newRecommendationsLoaded)
+                //console.log(newRecommendationsLoaded)
                 console.log('nha')
 
                 this.setState({
@@ -266,7 +266,7 @@ export default class ForYou extends Component {
 
         axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/get_recommendations', formInfo)
             .then(response => {
-                console.log(response.data)
+                //console.log(response.data)
 
                 this.setState({
                     recommendations: response.data.recommendations,
@@ -328,10 +328,9 @@ export default class ForYou extends Component {
         }
 
         //console.log(this.state);
-        console.log(this.props);
+        //console.log(this.props);
 
         if(this.state.redirectTo) {
-            console.log(this.state.redirectTo);
             return <Redirect to={this.state.redirectTo} />
         }
 
