@@ -16,7 +16,7 @@ import RatingSlider from '../RatingSlider/RatingSlider.component';
 
 import ShowMediaAndContent from '../ShowMediaAndContent/ShowMediaAndContent.component';
 
-import loadingIcon from '../../assets/loading-infinity-icon.svg';
+import loadingIcon from '../../../assets/loading-infinity-icon.svg';
 
 import './styles.css';
 

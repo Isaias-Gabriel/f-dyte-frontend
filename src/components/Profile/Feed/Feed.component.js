@@ -13,8 +13,6 @@ import FollowUser from '../../FollowUser/FollowUser.component';
 
 import RateType2 from '../../RatingSlider/RateType2.component';
 
-import NonSignedInPosts from '../../ProfileNonSignedIn/NonSignedInPosts.component';
-
 import './FeedStyles.css';
 
 require('dotenv/config');

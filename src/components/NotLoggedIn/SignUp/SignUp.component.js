@@ -4,11 +4,11 @@ import axios from 'axios';
 import { w3cwebsocket as W3CWebSocket } from 'websocket';
 import { AiOutlineEye } from 'react-icons/ai';
 
-import  dailyOrNightly from '../../functions/dailyOrNightlyStyle';
+import  dailyOrNightly from '../../../functions/dailyOrNightlyStyle';
 
 import './styles.css';
 
-import logoImg from '../../assets/complete_daily_logo.svg';
+import logoImg from '../../../assets/complete_daily_logo.svg';
 
 require('dotenv/config');
 

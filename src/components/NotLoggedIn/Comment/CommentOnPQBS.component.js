@@ -9,7 +9,7 @@ import Linkify from 'react-linkify';
 import ReturnReferenceAsLink from 
     '../ReturnReferenceAsLink/ReturnReferenceAsLink.component';
 
-import getUserUsername from '../../functions/getUserUsername';
+import getUserUsername from '../../../functions/getUserUsername';
 
 import CommentOnComment from './CommentOnComment.component';
 

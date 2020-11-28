@@ -14,7 +14,7 @@ import { MdClose } from 'react-icons/md';
 import LogOut from '../LogOut/LogOut.component';
 import Notification from '../Notification/Notification.component';
 
-import getUserUsername from '../../functions/getUserUsername';
+import getUserUsername from '../../../functions/getUserUsername';
 
 import './styles.css';
 

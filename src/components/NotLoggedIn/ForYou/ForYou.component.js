@@ -5,7 +5,7 @@ import axios from 'axios';
 import Menu from '../Menu/Menu.component';
 import ShowMediaAndContent from '../ShowMediaAndContent/ShowMediaAndContent.component';
 
-import loadingIcon from '../../assets/loading-infinity-icon.svg';
+import loadingIcon from '../../../assets/loading-infinity-icon.svg';
 
 import './styles.css';
 

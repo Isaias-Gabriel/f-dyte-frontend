@@ -34,7 +34,7 @@ import RateType1 from '../../RatingSlider/RateType1.component';
 
 import CommentOnPQBS from '../../Comment/CommentOnPQBS.component';
 
-import getUserUsername from '../../../functions/getUserUsername';
+import getUserUsername from '../../../../functions/getUserUsername';
 
 import './PostsStyles.css';
 

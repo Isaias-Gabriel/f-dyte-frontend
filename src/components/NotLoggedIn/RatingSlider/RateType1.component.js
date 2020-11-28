@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { HiOutlineStar } from 'react-icons/hi';
 
-import loadingIcon from '../../assets/loading-infinity-icon.svg';
+import loadingIcon from '../../../assets/loading-infinity-icon.svg';
 
 import './rateType1Styles.css';
 

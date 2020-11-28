@@ -5,7 +5,7 @@ import axios from 'axios';
 import ReactPlayer from 'react-player';
 import Linkify from 'react-linkify';
 
-import getUserUsername from '../../functions/getUserUsername';
+import getUserUsername from '../../../functions/getUserUsername';
 
 import CommentOnComment from './CommentOnComment.component';
 

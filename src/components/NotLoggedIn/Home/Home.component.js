@@ -11,7 +11,7 @@ import SearchFor from '../SearchFor/SearchFor.component';
 
 import ForYou from '../ForYou/ForYou.component';
 
-import getUserUsername from '../../functions/getUserUsername';
+import getUserUsername from '../../../functions/getUserUsername';
 
 import './styles.css';
 

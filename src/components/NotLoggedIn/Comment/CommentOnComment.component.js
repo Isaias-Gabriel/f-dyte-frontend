@@ -6,7 +6,7 @@ import { w3cwebsocket as W3CWebSocket } from 'websocket';
 import ReactPlayer from 'react-player';
 import Linkify from 'react-linkify';
 
-import getUserUsername from '../../functions/getUserUsername';
+import getUserUsername from '../../../functions/getUserUsername';
 
 import './CommentOnCommentStyles.css';
 

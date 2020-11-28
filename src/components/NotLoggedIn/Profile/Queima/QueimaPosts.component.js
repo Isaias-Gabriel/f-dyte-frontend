@@ -14,7 +14,7 @@ import { MdKeyboardArrowLeft } from 'react-icons/md';
 import { RiImageAddLine } from 'react-icons/ri';
 import { MdClose } from 'react-icons/md';
 
-import getUserUsername from '../../../functions/getUserUsername';
+import getUserUsername from '../../../../functions/getUserUsername';
 
 import RateType1 from '../../RatingSlider/RateType1.component';
 
