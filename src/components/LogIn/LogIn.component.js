@@ -25,6 +25,46 @@ export default class Home extends Component {
             password: '',
             logged: null,
             currentStyle: null,
+
+            staticText: {
+                'pt-BR': {
+                    fDyteLogo: 'A rede social *****',
+
+                    emailOrUsernamePlaceholder: 'E-mail ou nome de usuário',
+                    passwordPlaceholder: 'Senha',
+
+                    logInButton: 'Entrar',
+
+                    signUpMessage: [
+                        'Não tem uma conta? Vamos resolver isso! ',
+                        'Cadastre-se.'
+                    ],
+
+                    emailStatus: 'Este e-mail não está disponível',
+                    usernameStatus: 'Este nome de usuário não está disponível',
+                    passwordStatus: 'A senha deve ter ao menos 6 caracteres',
+                },
+                'en-US': {
+                    fDyteLogo: 'The ***** social network',
+
+                    emailOrUsernamePlaceholder: 'Email or username',
+                    passwordPlaceholder: 'Password',
+
+                    logInButton: 'Log in',
+
+                    signUpMessage: [
+                        'Don’t have an account? Let’s solve this! ',
+                        'Sign up.'
+                    ],
+
+                    emailStatus: 'This email is not available',
+                    usernameStatus: 'This username is not available',
+                    passwordStatus: 'The password must have at least 6 characters',
+
+                    usernameIsAcceptable: 'The username should contain only lowercase english letters, numbers or underscores ( _ )',
+                    passwordIsAcceptable: 'The password should contain only lowercase english letters, numbers or underscores ( _ )',
+                },
+            },
         }
     }
 
@@ -38,6 +78,10 @@ export default class Home extends Component {
         this.setState({
             currentStyle: dailyOrNightly(),
         })
+
+        if(!localStorage.getItem('language')) {
+            localStorage.setItem('language', navigator.language);
+        }
     }
 
     handleChange = e => {
@@ -102,7 +146,7 @@ export default class Home extends Component {
     }
 
     render() {
-        const { email, password, currentStyle } = this.state;
+        const { email, password, currentStyle, staticText } = this.state;
 
         if(localStorage.getItem(localStorage.getItem('e')) || this.state.logged) {
             return <Redirect to={this.state.logged} />
@@ -121,7 +165,14 @@ export default class Home extends Component {
                             </div>
 
                             <div>
-                                <h1>The ***** social network</h1>
+                                <h1>
+                                    {
+                                        (staticText[localStorage.getItem('language')]) ?
+                                        staticText[localStorage.getItem('language')].fDyteLogo
+                                        :
+                                        staticText['en-US'].fDyteLogo
+                                    }
+                                </h1>
                             </div>
                         </section>
 
@@ -138,7 +189,13 @@ export default class Home extends Component {
 
                                             required
 
-                                            placeholder="Email or username"
+                                            placeholder={
+                                                (staticText[localStorage.getItem('language')]) ?
+                                                staticText[localStorage.getItem('language')].emailOrUsernamePlaceholder
+                                                :
+                                                staticText['en-US'].emailOrUsernamePlaceholder
+                                            }
+
                                             value={email}
                                             onChange={this.handleChange}
                                         />
@@ -153,7 +210,13 @@ export default class Home extends Component {
                                             maxLength="100"
                                             required
 
-                                            placeholder="Password"
+                                            placeholder={
+                                                (staticText[localStorage.getItem('language')]) ?
+                                                staticText[localStorage.getItem('language')].passwordPlaceholder
+                                                :
+                                                staticText['en-US'].passwordPlaceholder
+                                            }
+
                                             value={password}
                                             onChange={this.handleChange}
                                         />
@@ -165,7 +228,12 @@ export default class Home extends Component {
                                         type="submit"
                                         ref={this.submitButton}
                                     >
-                                        Log in
+                                        {
+                                            (staticText[localStorage.getItem('language')]) ?
+                                            staticText[localStorage.getItem('language')].logInButton
+                                            :
+                                            staticText['en-US'].logInButton
+                                        }
                                     </button>
                                 </div>
                             </form>
@@ -174,10 +242,20 @@ export default class Home extends Component {
                         <div className="to-sign-up-paragraph-outter-container">
                             <Link className="sign-up-link" to="/sign_up">
                                 <p>
-                                    Don’t have an account? Let’s solve this! 
-                                    {` `}
+                                    {
+                                        (staticText[localStorage.getItem('language')]) ?
+                                        staticText[localStorage.getItem('language')].signUpMessage[0]
+                                        :
+                                        staticText['en-US'].signUpMessage[0]
+                                    }
+
                                     <span>
-                                        Sign up
+                                        {
+                                            (staticText[localStorage.getItem('language')]) ?
+                                            staticText[localStorage.getItem('language')].signUpMessage[1]
+                                            :
+                                            staticText['en-US'].signUpMessage[1]
+                                        }
                                     </span>
                                 </p>
                             </Link>

@@ -13,7 +13,7 @@ import Menu from '../Menu/Menu.component';
 import CommentOnObject from '../Comment/CommentOnObject.component';
 import FollowObject from '../FollowObject/FollowObject.component';
 
-import RatingSlider from '../RatingSlider/RatingSlider.component';
+import RateType2 from '../RatingSlider/RateType2.component';
 
 import './styles.css';
 
@@ -58,6 +58,8 @@ export default class FdObject extends Component {
 
         this.submitRate = this.submitRate.bind(this);
 
+        this.updateRate = this.updateRate.bind(this);
+
         this.state = {
             objectFound: true,
 
@@ -70,13 +72,14 @@ export default class FdObject extends Component {
                 urls: [ [], [] ],
             },
 
-            canBeRated: false,
+            isRated: false,
 
             rateToSubmit: 0,
 
             shareRate: false,
 
-            commentOnComment: '',
+            rateIntegerPart: '0',
+            rateFirst2Decimals: '00',
 
             rateSubmitted: null,
         }
@@ -118,6 +121,35 @@ export default class FdObject extends Component {
                 object: this.props.data[0][1],
             }, () => {
 
+                let temp_rate = parseFloat(this.state.object.rate.$numberDecimal);
+                let rateIntegerPart, rateFirst2Decimals;
+                
+                if(typeof temp_rate === typeof 5) {
+                    if(temp_rate === 0) {
+                        rateIntegerPart = '0';
+                        rateFirst2Decimals = '00';
+                    }
+
+                    else if(temp_rate > 0 && temp_rate < 1) {
+                        temp_rate = (parseFloat(temp_rate) * 100).toString();
+                    
+                        rateIntegerPart = '0';
+                        rateFirst2Decimals = temp_rate[0] + temp_rate[1];
+                    }
+
+                    else {
+                        temp_rate = (parseFloat(temp_rate) * 100).toString();
+                    
+                        rateIntegerPart = temp_rate[0];
+                        rateFirst2Decimals = temp_rate[1] + temp_rate[2];
+                    }
+                }
+
+                this.setState({
+                    rateIntegerPart,
+                    rateFirst2Decimals,
+                })
+
                 const formInfo = {
                     objectNickname: this.state.object.nickname,
                     sessionId: localStorage.getItem('e'),
@@ -127,8 +159,9 @@ export default class FdObject extends Component {
                 axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/user_can_rate_or_follow_object', formInfo)
                     .then(res => {
                         this.setState({
+                            //if canBeRated is true then isRated is false '-' (yeah, confusing and clearly a mistake, I know)
+                            isRated: !(res.data.canBeRated),
                             followersNumber: this.state.object.followedBy.length,
-                            canBeRated: res.data.canBeRated,
                             isFollowed: res.data.isFollowed,
                         })
                     })
@@ -146,6 +179,35 @@ export default class FdObject extends Component {
                     followersNumber: response.data.followersNumber,
                 }, () => {
 
+                    let temp_rate = parseFloat(this.state.object.rate.$numberDecimal);
+                    let rateIntegerPart, rateFirst2Decimals;
+                    
+                    if(typeof temp_rate === typeof 5) {
+                        if(temp_rate === 0) {
+                            rateIntegerPart = '0';
+                            rateFirst2Decimals = '00';
+                        }
+
+                        else if(temp_rate > 0 && temp_rate < 1) {
+                            temp_rate = (parseFloat(temp_rate) * 100).toString();
+                        
+                            rateIntegerPart = '0';
+                            rateFirst2Decimals = temp_rate[0] + temp_rate[1];
+                        }
+
+                        else {
+                            temp_rate = (parseFloat(temp_rate) * 100).toString();
+                        
+                            rateIntegerPart = temp_rate[0];
+                            rateFirst2Decimals = temp_rate[1] + temp_rate[2];
+                        }
+                    }
+
+                    this.setState({
+                        rateIntegerPart,
+                        rateFirst2Decimals,
+                    })
+
                     const formInfo = {
                         objectNickname: this.props.match.params.nickname,
                         sessionId: localStorage.getItem('e'),
@@ -155,7 +217,8 @@ export default class FdObject extends Component {
                     axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/user_can_rate_or_follow_object', formInfo)
                         .then(res => {
                             this.setState({
-                                canBeRated: res.data.canBeRated,
+                                //if canBeRated is true then isRated is false '-' (yeah, confusing and clearly a mistake, I know)
+                                isRated: !(res.data.canBeRated),
                                 isFollowed: res.data.isFollowed,
                             })
                         })
@@ -324,27 +387,71 @@ export default class FdObject extends Component {
             .catch(err => console.log(err));
     }
 
+    updateRate(rate) {
+        let temp_rate = parseFloat(rate.$numberDecimal);
+        let rateIntegerPart, rateFirst2Decimals;
+        
+        if(typeof temp_rate === typeof 5) {
+            if(temp_rate === 0) {
+                rateIntegerPart = '0';
+                rateFirst2Decimals = '00';
+            }
+
+            else if(temp_rate > 0 && temp_rate < 1) {
+                temp_rate = (parseFloat(temp_rate) * 100).toString();
+            
+                rateIntegerPart = '0';
+                rateFirst2Decimals = temp_rate[0] + temp_rate[1];
+            }
+
+            else {
+                temp_rate = (parseFloat(temp_rate) * 100).toString();
+            
+                rateIntegerPart = temp_rate[0];
+                rateFirst2Decimals = temp_rate[1] + temp_rate[2];
+            }
+        }
+
+        const tempObject = this.state.object;
+        tempObject.rateNumber = tempObject.rateNumber + 1;
+
+        this.setState({
+            rateIntegerPart,
+            rateFirst2Decimals,
+            object: tempObject,
+            isRated: !(this.state.isRated),
+        })
+    }
+
     render() {
         const { objectFound } = this.state;
 
         if(objectFound) {
-            const { rateSubmitted } = this.state;
+            
+            const { 
+                _id: id,
+                urls,
+                name,
+                nickname,
+                description,
+                rateNumber,
+            } = this.state.object;
+
+            const {
+                rateSubmitted,
+
+                rateIntegerPart,
+                rateFirst2Decimals,
+
+                isRated,
+            } = this.state;
+
+            const categories = this.state.object.categories[0];
+
+            console.log(this.state);
 
             if(rateSubmitted) {
                 return <Redirect to={"/redirect_to_object/" + this.props.match.params.nickname} />;
-            }
-
-            const { _id: id, urls, name, nickname, description, rateNumber } = this.state.object;
-            const categories = this.state.object.categories[0];
-
-            let temp_rate = this.state.object.rate.$numberDecimal;
-            let rateIntegerPart, rateFirst2Decimals;
-            
-            if(temp_rate) {
-                temp_rate = (parseFloat(temp_rate) * 100).toString();
-               
-                rateIntegerPart = temp_rate[0];
-                rateFirst2Decimals = temp_rate[1] + temp_rate[2];
             }
 
             return(
@@ -400,13 +507,14 @@ export default class FdObject extends Component {
 
                         <div className="object-main-content-outter-container">
                             <div className="object-rate-comment-and-follow-outter-container">
-                                <div className="object-main-icons">
-                                    <FaRegCommentAlt />
-                                </div>
+                                <RateType2
+                                    isRated={isRated}
 
-                                <div className="object-main-icons">
-                                    <HiOutlineStar />
-                                </div>
+                                    updateRate={this.updateRate}
+
+                                    type={'object'}
+                                    id={id}
+                                />
 
                                 <div className="object-main-icons">
                                     <RiUserFollowLine />
@@ -484,12 +592,14 @@ export default class FdObject extends Component {
                                             :
                                             ''
                                         }
-
-                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div className="object-main-icons">
+                        <FaRegCommentAlt />
                     </div>
                 </div>
                 

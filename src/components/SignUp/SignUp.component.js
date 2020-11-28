@@ -123,7 +123,7 @@ export default class SignUp extends Component {
                     ],
                     verifyButton: 'Verify',
                 },
-            }
+            },
         }
     }
 

@@ -16,7 +16,7 @@ export default class EditProfile extends Component {
 
         this.canSubmit = this.canSubmit.bind(this);
 
-        this.handleChange = this.handleChange.bind(this);
+        this.onChangeName = this.onChangeName.bind(this);
         this.handleChangeProfilePicture = this.handleChangeProfilePicture.bind(this);
         this.onChangeUsername = this.onChangeUsername.bind(this);
         this.onChangeEmail = this.onChangeEmail.bind(this);
@@ -51,7 +51,7 @@ export default class EditProfile extends Component {
             usernameIsAcceptable: '',
 
             emailAvailable: true,
-            usernameAvailable: false,
+            usernameAvailable: true,
 
             message: '',
 
@@ -63,6 +63,41 @@ export default class EditProfile extends Component {
                 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
                 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8',
                 '9', '_', ],
+            
+            staticText: {
+                'pt-BR': {
+                    updateProfilePicture: 'Atualizar foto de perfil',
+
+                    namePlaceholder: 'Nome',
+                    usernamePlaceholder: 'Nome de usuário',
+
+                    save: 'Salvar',
+
+                    messageProfile: 'Perfil atualizado',
+                    messageProfilePicture: 'Foto de perfil atualizada',
+
+                    usernameIsAcceptable: 'O nome de usuário deve conter apenas letras sem acento minúsculas, números ou sublinhados ( _ )',
+                    usernameStatus: 'Este nome de usuário não está disponível',
+
+                    emailStatus: 'Este e-mail não está disponível',
+                },
+                'en-US': {
+                    updateProfilePicture: 'Update profile picture',
+
+                    namePlaceholder: 'Name',
+                    usernamePlaceholder: 'Username',
+
+                    save: 'Save',
+
+                    messageProfile: 'Profile updated',
+                    messageProfilePicture: 'Profile picture updated',
+
+                    usernameIsAcceptable: 'The username should contain only lowercase english letters, numbers or underscores ( _ )',
+                    usernameStatus: 'This username is not available',
+
+                    emailStatus: 'This email is not available',
+                },
+            },
         }
     }
 
@@ -89,6 +124,10 @@ export default class EditProfile extends Component {
             })
             .catch(err => console.log(err));
 
+        if(!localStorage.getItem('language')) {
+            localStorage.setItem('language', navigator.language);
+        }
+
     }
 
     canSubmit() {
@@ -104,7 +143,7 @@ export default class EditProfile extends Component {
         }
     }
 
-    handleChange(e) {
+    onChangeName(e) {
 
         if(!(e.target.value.length)) {
             this.submitButton.current.disabled = true;
@@ -112,7 +151,7 @@ export default class EditProfile extends Component {
 
         else {
             const {
-                name,
+                username,
                 email,
     
                 originalName,
@@ -123,8 +162,8 @@ export default class EditProfile extends Component {
                 emailAvailable,
             } = this.state;
     
-            if((e.target.value === originalUsername) &&
-                (name === originalName) &&
+            if((e.target.value === originalName) &&
+                (username === originalUsername) &&
                 (email === originalEmail)) {
                 this.submitButton.current.disabled = true;
             }
@@ -215,10 +254,17 @@ export default class EditProfile extends Component {
             }
             
             if(hasUnacceptableValue) {
+                const { staticText } = this.state;
+                
                 this.submitButton.current.disabled = true;
     
                 this.setState({
-                    usernameIsAcceptable: 'The username should contain only lowercase english letters, numbers or underscores ( _ )'
+                    usernameIsAcceptable: (
+                        (staticText[localStorage.getItem('language')]) ?
+                        staticText[localStorage.getItem('language')].usernameIsAcceptable
+                        :
+                        staticText['en-US'].usernameIsAcceptable
+                    ),
                 })
             }
     
@@ -234,8 +280,15 @@ export default class EditProfile extends Component {
                         .then(response => {
                             //if the username is not available
                             if(response.data) {
+                                const { staticText } = this.state;
+
                                 this.setState({
-                                    usernameStatus: 'This username is not available',
+                                    usernameStatus: (
+                                        (staticText[localStorage.getItem('language')]) ?
+                                        staticText[localStorage.getItem('language')].usernameStatus
+                                        :
+                                        staticText['en-US'].usernameStatus
+                                    ),
                                     usernameAvailable: false,
                                 }, () => {
                                     this.submitButton.current.disabled = true;
@@ -305,8 +358,15 @@ export default class EditProfile extends Component {
                     .then(response => {
                         //if the email is not available
                         if(response.data) {
+                            const { staticText } = this.state;
+
                             this.setState({
-                                emailStatus: 'This email is not available',
+                                emailStatus: (
+                                    (staticText[localStorage.getItem('language')]) ?
+                                    staticText[localStorage.getItem('language')].emailStatus
+                                    :
+                                    staticText['en-US'].emailStatus
+                                ),
                                 emailAvailable: false,
                             }, () => {
                                 this.submitButton.current.disabled = true;
@@ -355,10 +415,12 @@ export default class EditProfile extends Component {
             email,
         }
 
-        // console.log('submitted');
+        //  console.log('submitted');
 
         axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/update_evaluator_info', formInfo)
             .then(response => {
+                const { staticText } = this.state;
+
                 this.setState({
                     evaluator: response.data,
 
@@ -366,7 +428,12 @@ export default class EditProfile extends Component {
                     originalUsername: response.data.username,
                     originalEmail: response.data.email,
 
-                    message: 'Profile updated',
+                    message: (
+                        (staticText[localStorage.getItem('language')]) ?
+                        staticText[localStorage.getItem('language')].messageProfile
+                        :
+                        staticText['en-US'].messageProfile
+                    ),
                 }, () => {
                     this.auxDiv.current.style.display = 'block';
                     this.messageDiv.current.style.display = 'flex';
@@ -395,9 +462,15 @@ export default class EditProfile extends Component {
             }
         })
             .then(response => {
+                const { staticText } = this.state;
                 
                 this.setState({
-                    message: 'Profile picture updated'
+                    message: (
+                        (staticText[localStorage.getItem('language')]) ?
+                        staticText[localStorage.getItem('language')].messageProfilePicture
+                        :
+                        staticText['en-US'].messageProfilePicture
+                    ),
                 }, () => {
                     this.auxDiv.current.style.display = 'block';
                     this.messageDiv.current.style.display = 'flex';
@@ -424,6 +497,8 @@ export default class EditProfile extends Component {
 
             profilePicturePreviewUrl,
             message,
+
+            staticText,
         } = this.state;
 
         // console.log(this.state);
@@ -483,7 +558,12 @@ export default class EditProfile extends Component {
                                         type="submit"
                                         ref={this.submitPictureButton}
                                     >
-                                        Update profile picture
+                                        {
+                                            (staticText[localStorage.getItem('language')]) ?
+                                            staticText[localStorage.getItem('language')].updateProfilePicture
+                                            :
+                                            staticText['en-US'].updateProfilePicture
+                                        }
                                     </button>
                                 </form>
                             </div>
@@ -499,9 +579,14 @@ export default class EditProfile extends Component {
                                         minLength="1"
                                         maxLength="120"
 
-                                        placeholder="name"
+                                        placeholder={
+                                            (staticText[localStorage.getItem('language')]) ?
+                                            staticText[localStorage.getItem('language')].namePlaceholder
+                                            :
+                                            staticText['en-US'].namePlaceholder
+                                        }
                                         value={name}
-                                        onChange={this.handleChange}
+                                        onChange={this.onChangeName}
                                     />
                                 </div>
 
@@ -518,7 +603,13 @@ export default class EditProfile extends Component {
                                         minLength="1"
                                         maxLength="120"
                                         
-                                        placeholder="username"
+                                        placeholder={
+                                            (staticText[localStorage.getItem('language')]) ?
+                                            staticText[localStorage.getItem('language')].usernamePlaceholder
+                                            :
+                                            staticText['en-US'].usernamePlaceholder
+                                        }
+
                                         value={username}
                                         onChange={this.onChangeUsername}
                                     />
@@ -559,7 +650,12 @@ export default class EditProfile extends Component {
                                     type="submit"
                                     ref={this.submitButton}
                                 >
-                                    Save
+                                    {
+                                        (staticText[localStorage.getItem('language')]) ?
+                                        staticText[localStorage.getItem('language')].save
+                                        :
+                                        staticText['en-US'].save
+                                    }
                                 </button>
                             </form>
                         </div>

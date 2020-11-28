@@ -1,11 +1,12 @@
+.follow-user-outter-container {
+    width: 43vw;
+}
 
 .follow-user-inner-container {
     display: flex;
 
     align-items: center;
     justify-content: space-between;
-
-    width: 39vw;
 
     font-size: calc(9px + 1.3vh);
 }
@@ -47,28 +48,22 @@
 
     position: fixed;
 
-    top: 35vh;
+    top: 25vh;
     left: 7vw;
 
     height: 19vh;
     width: 86vw;
 
-    color: rgb(57, 57, 57);
-
-    white-space: pre;
-
-    font-weight: 600;
-    letter-spacing: 0.03rem;
-    font-size: calc(3px + 1.9vh + 1.3vw);
-
     box-shadow: 0 0 7px 3px rgb(249, 249, 249);
 
     background: white;
-    background: linear-gradient(57deg, 
+    background: linear-gradient(67deg, 
         rgb(255, 255, 255) 0%,
-        rgba(255, 255, 255, 0.932) 50%,
-        rgba(255, 255, 255, 0.87) 70%,
-        rgba(255, 255, 255, 0.774) 87%,
+        rgba(255, 255, 255, 0.925) 50%,
+        rgba(255, 255, 255, 0.90) 70%,
+        rgba(255, 255, 255, 0.75) 80%,
+        rgba(255, 255, 255, 0.5) 90%,
+        rgba(255, 255, 255, 0.3) 95%,
         rgba(255, 255, 255, 0) 100%);
 
     z-index: 2;
@@ -93,6 +88,18 @@
         rgba(255, 240, 223, 0.178) 15%,
         rgb(238, 216, 16) 40%,
         rgba(212, 15, 196, 0.719) 100%);
+}
+
+.follow-user-follow-inner-container {
+    width: 76vw;
+    
+    text-align: center;
+
+    color: rgb(57, 57, 57);
+
+    font-weight: 600;
+    letter-spacing: 0.03rem;
+    font-size: calc(3px + 1.9vh + 1.3vw);
 }
 
 .follow-user-follow-buttons-outter-container {

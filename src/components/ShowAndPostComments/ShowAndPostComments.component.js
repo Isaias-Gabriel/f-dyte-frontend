@@ -83,6 +83,9 @@ export default class ShowAndPostComments extends Component {
 
                     placeholder: 'Comente algo :D',
                     placeholderReply: 'Responda @',
+
+                    showReply: 'mostrar respostas',
+                    hideReply: 'esconder respostas',
                 },
                 'en-US': {
                     yes: 'Yes',
@@ -93,6 +96,9 @@ export default class ShowAndPostComments extends Component {
 
                     placeholder: 'Comment something :D',
                     placeholderReply: 'Reply to @',
+
+                    showReply: 'show replies',
+                    hideReply: 'hide replies',
                 },
             }
         }
@@ -296,9 +302,11 @@ export default class ShowAndPostComments extends Component {
 
         else {
 
-            this.showFormDiv.current.style.display = 'block';
-            this.textarea.current.placeholder = "Comment something :D";
-            this.formDiv.current.style.display = 'none';
+            if(this.showFormDiv.current) {
+                this.showFormDiv.current.style.display = 'block';
+                this.textarea.current.placeholder = "Comment something :D";
+                this.formDiv.current.style.display = 'none';
+            }
 
             //if the user is commenting on another comment
             if(this.state.replyOnInnerComment) {

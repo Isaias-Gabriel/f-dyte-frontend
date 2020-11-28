@@ -25,6 +25,33 @@ export default class FollowUser extends Component {
             username: '',
             isFollowed: false,
             followersNumber: 0,
+
+            staticText: {
+                'pt-BR': {
+                    follow: 'Seguir ',
+                    unfollow: 'Deixar de seguir ',
+    
+                    yes: 'Sim',
+                    no: 'Não',
+
+                    followers: [
+                        'seguidor',
+                        'seguidores',
+                    ]
+                },
+                'en-US': {
+                    follow: 'Follow ',
+                    unfollow: 'Unfollow ',
+
+                    yes: 'Yes',
+                    no: 'No',
+
+                    followers: [
+                        'follower',
+                        'followers',
+                    ]
+                },
+            },
         }
     }
 
@@ -98,6 +125,8 @@ export default class FollowUser extends Component {
             isFollowed,
 
             name,
+
+            staticText,
         } = this.state;
 
         // console.log(this.props);
@@ -122,13 +151,16 @@ export default class FollowUser extends Component {
                         ref={this.followMessageDiv}
                     >
                         <div className="follow-user-follow-inner-container">
-                            Follow
-                            
-                            <span>
-                                { ` ${name}` }
-                            </span>
+                            {
+                                (staticText[localStorage.getItem('language')]) ?
+                                staticText[localStorage.getItem('language')].follow
+                                :
+                                staticText['en-US'].follow
+                            }
 
-                            ?
+                            <div>
+                                { `${name}?` }
+                            </div>
                         </div>
 
                         <div className="follow-user-follow-buttons-outter-container">
@@ -136,7 +168,12 @@ export default class FollowUser extends Component {
                                 className="follow-user-follow-button"
                                 onClick={this.follow}
                             >
-                                Yes
+                                {
+                                    (staticText[localStorage.getItem('language')]) ?
+                                    staticText[localStorage.getItem('language')].yes
+                                    :
+                                    staticText['en-US'].yes
+                                }
                             </button>
 
                             <button
@@ -146,7 +183,12 @@ export default class FollowUser extends Component {
                                     this.followMessageDiv.current.style.display = 'none';
                                 }}
                             >
-                                No
+                                {
+                                    (staticText[localStorage.getItem('language')]) ?
+                                    staticText[localStorage.getItem('language')].no
+                                    :
+                                    staticText['en-US'].no
+                                }
                             </button>
                         </div>
                     </div>
@@ -160,7 +202,25 @@ export default class FollowUser extends Component {
                         />
 
                         <span>
-                            { `${followersNumber} followers` }
+                            { 
+                                `${followersNumber} ${
+                                    (followersNumber === 1)
+                                    ?
+                                    (
+                                        (staticText[localStorage.getItem('language')]) ?
+                                        staticText[localStorage.getItem('language')].followers[0]
+                                        :
+                                        staticText['en-US'].followers[0]
+                                    )
+                                    :
+                                    (
+                                        (staticText[localStorage.getItem('language')]) ?
+                                        staticText[localStorage.getItem('language')].followers[1]
+                                        :
+                                        staticText['en-US'].followers[1]
+                                    )
+                                }`
+                            }
                         </span>
                     </div>
                 </div>
@@ -186,13 +246,16 @@ export default class FollowUser extends Component {
                         ref={this.followMessageDiv}
                     >
                         <div className="follow-user-follow-inner-container">
-                            Unfollow
-                            
-                            <span>
-                                { ` ${name}` }
-                            </span>
+                            {
+                                (staticText[localStorage.getItem('language')]) ?
+                                staticText[localStorage.getItem('language')].unfollow
+                                :
+                                staticText['en-US'].unfollow
+                            }
 
-                            ?
+                            <div>
+                                { `${name}?` }
+                            </div>
                         </div>
 
                         <div className="follow-user-follow-buttons-outter-container">
@@ -200,7 +263,12 @@ export default class FollowUser extends Component {
                                 className="follow-user-follow-button"
                                 onClick={this.unfollow}
                             >
-                                Yes
+                                {
+                                    (staticText[localStorage.getItem('language')]) ?
+                                    staticText[localStorage.getItem('language')].yes
+                                    :
+                                    staticText['en-US'].yes
+                                }
                             </button>
 
                             <button
@@ -210,7 +278,12 @@ export default class FollowUser extends Component {
                                     this.followMessageDiv.current.style.display = 'none';
                                 }}
                             >
-                                No
+                                {
+                                    (staticText[localStorage.getItem('language')]) ?
+                                    staticText[localStorage.getItem('language')].no
+                                    :
+                                    staticText['en-US'].no
+                                }
                             </button>
                         </div>
                     </div>
@@ -224,7 +297,25 @@ export default class FollowUser extends Component {
                         />
 
                         <span>
-                            { `${followersNumber} followers` }
+                            { 
+                                `${followersNumber} ${
+                                    (followersNumber === 1)
+                                    ?
+                                    (
+                                        (staticText[localStorage.getItem('language')]) ?
+                                        staticText[localStorage.getItem('language')].followers[0]
+                                        :
+                                        staticText['en-US'].followers[0]
+                                    )
+                                    :
+                                    (
+                                        (staticText[localStorage.getItem('language')]) ?
+                                        staticText[localStorage.getItem('language')].followers[1]
+                                        :
+                                        staticText['en-US'].followers[1]
+                                    )
+                                }`
+                            }
                         </span>
                     </div>
                 </div>

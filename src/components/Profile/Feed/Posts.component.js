@@ -1295,7 +1295,12 @@ export default class Posts extends Component {
                                         this.addPostTextarea.current.focus();
                                     }}
                                 >
-                                    Post
+                                    {
+                                        (staticText[localStorage.getItem('language')]) ?
+                                        staticText[localStorage.getItem('language')].postButton
+                                        :
+                                        staticText['en-US'].postButton
+                                    }
                                 </button>
 
                                 <button
