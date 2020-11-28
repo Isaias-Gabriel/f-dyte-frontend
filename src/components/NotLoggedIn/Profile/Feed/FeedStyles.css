@@ -1,0 +1,219 @@
+
+#profile-feed-media-header-and-rate-outter-container {
+    position: relative;
+}
+
+.profile-feed-media-inner-container {
+    min-height: 300px;
+    height: 50vh;
+    width: 100%;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+#profile-feed-header-outter-container {
+    min-height: 180px;
+    height: 30vh;
+    width: 100%;
+
+    padding: 0 0 calc(3px + 1.5vh) calc(3px + 4vw);
+
+    position: absolute;
+
+    bottom: 0;
+
+    background: rgb(0, 0, 0);
+    background: linear-gradient(180deg, 
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.034) 30%,
+        rgba(0, 0, 0, 0.096) 55%,
+        rgba(0, 0, 0, 0.237) 100%);
+
+    display: flex;
+    align-items: flex-end;
+}
+
+#profile-feed-header-outter-container * {
+    position: relative;
+}
+
+#profile-feed-header-outter-container div {
+    max-width: 60vw;
+}
+
+#profile-feed-header-outter-container p, #profile-feed-header-outter-container p b {
+    color: white;
+}
+
+#profile-feed-header-outter-container #profile-feed-header-name {
+    font-size: calc(11px + 3vh + 0.9vw);
+}
+
+#profile-feed-header-outter-container #profile-feed-header-nickname {
+    font-size: calc(9px + 1.1vh);
+}
+
+#profile-feed-rate-outter-container {
+    position: absolute;
+
+    bottom: 0;
+    right: 0;
+
+    margin: 0 calc(7px + 5vw) calc(1px + 1vh) 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#profile-feed-rate-outter-container span {
+    color: white;
+
+    text-align: center;
+
+    font-size: calc(11px + 2.5vh);
+}
+
+#profile-feed-rate-outter-container #profile-feed-rate-integer-part {
+    font-weight: 600;
+    font-size: calc(13px + 5.1vh);
+}
+
+#profile-feed-rate-outter-container #profile-feed-rate-decimal-part {
+    font-weight: 600;
+    font-size: calc(11px + 1.3vh);
+}
+
+.profile-feed-main-content-outter-container {
+    position: relative;
+
+    background:  rgb(255, 255, 255);
+    background: linear-gradient(70deg, 
+        rgb(255, 255, 255) 0%,
+        rgb(250, 251, 255) 10%,
+        rgb(246, 248, 255) 40%,
+        rgb(255, 248, 246) 60%,
+        rgb(255, 251, 249) 90%,
+        rgb(255, 255, 255) 100%);
+
+        /* background:  rgb(255, 247, 233);
+    background: linear-gradient(0deg, 
+        rgb(252, 240, 247) 0%,
+        rgb(253, 253, 253) 50%,
+        rgb(255, 247, 234) 100%); */
+}
+
+.profile-feed-main-content-outter-container::after {
+    content: '';
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+
+    min-height: 2.3px;
+    height: calc(1px + 0.3vh);
+    width: 100%;
+
+    background: rgb(253, 220, 214);
+    background: linear-gradient(45deg, 
+        rgb(255, 255, 255) 0%,
+        rgb(255, 251, 246) 3%,
+        rgb(255, 240, 223) 5%,
+        rgb(240, 137, 19) 10%,
+        rgba(212, 15, 107, 0.719) 90%,
+        rgba(255, 216, 234, 0.719) 95%,
+        rgba(255, 240, 247, 0.719) 97%,
+        rgba(255, 255, 255, 0.719) 100%);
+}
+
+.profile-feed-rate-and-follow-outter-container {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-evenly;
+    
+    position: relative;
+
+    min-height: 50px;
+    height: 7vh;
+    width: 100%;
+
+    margin-top: calc(1px + 1vw + 0.7vh);
+}
+
+.profile-feed-main-icons {
+    cursor: pointer;
+}
+
+.profile-feed-main-icons:nth-child(1) {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 25vw;
+}
+
+.profile-feed-main-icons:nth-child(2) {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    width: 39vw;
+
+    font-size: calc(9px + 1.3vh);
+}
+
+.profile-feed-main-icons svg {
+    position: relative;
+
+    min-height: 25px;
+    height: 4vh;
+    min-width: 25px;
+    width: 4vh;
+
+    fill: rgba(190, 0, 48, 0.849);
+
+    stroke: rgba(190, 0, 48, 0.849);
+}
+
+.profile-feed-queima-and-belle-links-outter-container {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-around;
+
+    padding: 0 calc(2px + 2vw + 1vh) calc(2px + 2vw + 1vh);
+}
+
+.profile-feed-queima-link-outter-container, .profile-feed-belle-link-outter-container {
+    display: inline-block;
+
+    position: relative;
+
+    margin-right: calc(1px + 0.5vh + 1vw);
+
+    padding: 0 calc(1px + 0.3vh + 0.7vw) calc(0.1vh + 0.2vw);
+
+    font-size: calc(9px + 1.1vh + 0.7vw);
+}
+
+.profile-feed-queima-link-outter-container::after, .profile-feed-belle-link-outter-container::after {
+    content: '';
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+
+    min-height: 2.3px;
+    height: calc(1px + 0.3vh);
+    width: 100%;
+
+    background: rgb(253, 220, 214);
+    background: linear-gradient(90deg, 
+        rgb(240, 137, 19) 0%,
+        rgba(212, 15, 107, 0.719) 100%);
+}
+

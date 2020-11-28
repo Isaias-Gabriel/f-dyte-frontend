@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
+import MainHub from './components/MainHub/MainHub.component';
+
 import Home from './components/Home/Home.component';
 import ForYou from './components/ForYou/ForYou.component';
 
@@ -45,17 +47,7 @@ export default function Routes() {
             <Route path="/object/:nickname" component={FdObject} />
             <Route path="/redirect_to_object/:nickname" component={RedirectToObject} />
 
-            {
-                (localStorage.getItem('e'))
-                ?
-                (
-                    <Route path="/profile/:username" exact component={Feed} />
-                )
-                :
-                (
-                    <Route path="/profile/:username" exact component={NonSignInFeed} />
-                )
-            }
+            <Route path="/profile/:username" exact component={MainHub} />
 
             <Route path="/post/:id" exact component={Posts} />
             <Route path="/redirect_to_profile/:nickname" component={RedirectToProfile} />

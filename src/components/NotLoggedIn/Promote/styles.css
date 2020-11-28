@@ -1,0 +1,40 @@
+.promote-outter-most-container {
+    margin-left: 10vw;
+    margin-top: 10vh;
+
+    height: 80vh;
+    width: 80vw;
+
+    box-sizing: border-box;
+    padding: 5%;
+
+    background-color: rgb(255, 251, 253);
+
+    border: solid 1px rgb(255, 243, 249);
+    box-shadow: 0 0 30px 0.5px rgb(255, 245, 250);
+}
+
+.promote-option-clickable-paragraph {
+    margin: 0;
+    cursor: pointer;
+}
+
+.promote-option-clickable-paragraph:hover {
+    background-color: rgb(255, 244, 250);
+}
+
+.options-container {
+    height: 100%;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.options-container::-webkit-scrollbar {
+display: none;
+}
+
+.promote-option {
+    min-height: 64px;
+}
+

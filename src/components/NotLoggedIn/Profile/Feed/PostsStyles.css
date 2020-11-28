@@ -1,0 +1,746 @@
+
+.profile-posts-add-post-and-segredinho-outter-container {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-around;
+
+    padding: calc(3px + 1.3vh + 1.1vw) 0 calc(4px + 0.2vh);
+
+    background: rgb(254, 254, 254);
+    background: linear-gradient(0deg, 
+        rgb(255, 255, 255) 0%,
+        rgb(254.5, 254.5, 254.5) 20%,
+        rgb(253, 253, 253) 100%);
+}
+
+.profile-posts-add-post-div-outter-container,
+.profile-posts-add-post-div-outter-container *,
+.profile-posts-add-segredinho-div-outter-container,
+.profile-posts-add-segredinho-div-outter-container * {
+    z-index: 3;
+}
+
+.profile-posts-add-post-div-outter-container,
+.profile-posts-add-segredinho-div-outter-container {
+    display: none;
+
+    position: fixed;
+
+    top: 11vh;
+    left: 7vw;
+
+    min-height: 400px;
+    height: 60vh;
+    min-width: 300px;
+    width: 86vw;
+
+    border-radius: 1px;
+
+    background: white;
+
+    box-shadow: 0 0 5px 1px rgb(201, 201, 201);
+
+    margin: auto;
+}
+
+.profile-posts-add-post-div-inner-container,
+.profile-posts-add-segredinho-div-inner-container {
+    position: relative;
+
+    height: 100%;
+
+    padding: calc(5px + 1vh + 2vw);
+    padding-top: calc((5px + 1vh + 2vw) * 1.7);
+}
+
+.profile-posts-add-post-aux-div,
+.profile-posts-add-segredinho-aux-div,
+.user-options-aux-div {
+    display: none;
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    height: 100vh;
+    width: 100vw;
+
+    z-index: 2;
+}
+
+.profile-posts-add-post-close-icon-outter-container,
+.profile-posts-add-segredinho-close-icon-outter-container {
+    position: absolute;
+    top: calc((5px + 1vh + 2vw) / 3);
+    right: calc((5px + 1vh + 2vw) / 3);
+
+    cursor: pointer;
+}
+
+.profile-posts-add-post-close-icon-outter-container svg,
+.profile-posts-add-segredinho-close-icon-outter-container svg {
+    height: calc((5px + 1vh + 2vw) * 1.7);
+    width: calc((5px + 1vh + 2vw) * 1.7);
+
+    fill: rgba(190, 0, 48, 0.849);
+
+    stroke: rgba(190, 0, 48, 0.849);
+}
+
+.profile-posts-add-post-form-outter-container,
+.profile-posts-add-segredinho-form-outter-container {
+    height: 150%;
+
+    margin-top: calc((5px + 1vh + 2vw) / 1.4);
+}
+
+.profile-posts-add-post-div-inner-container form,
+.profile-posts-add-segredinho-div-inner-container form {
+    display: flex;
+
+    flex-direction: column;
+}
+
+.profile-posts-add-post-div-inner-container textarea,
+.profile-posts-add-segredinho-div-inner-container textarea {
+    min-height: calc(100px + 18vh + 4vw);
+    width: 100%;
+
+    letter-spacing: 0.1rem;
+    font-weight: 800;
+    font-size: calc(7px + 1.5vh + 1.2vw);
+
+    outline: none;
+}
+
+.profile-posts-add-segredinho-div-inner-container textarea {
+    min-height: calc(100px + 11vh + 4vw);
+}
+
+.profile-posts-add-post-media-preview {
+    margin: calc((5px + 1vh + 2vw) / 1.7) 0;
+}
+
+.profile-posts-add-post-media-preview-unique-image div {
+    min-height: 100px;
+    height: 45vh;
+
+    margin: 3px;
+    border-radius: 1px;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+    box-shadow: 0 0 5px 1px rgb(201, 201, 201);
+}
+
+.profile-posts-add-post-media-preview-all-images {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-top: calc((5px + 1vh + 2vw) / 6);
+}
+
+.profile-posts-add-post-media-preview-all-images div {
+    min-height: 62px;
+    height: calc(9vh + 5vw);
+    max-height: calc(((86vw - (5px + 1vh + 2vw + ((5px + 1vh + 2vw) / 12))) / 4) - 5vw);
+
+    min-width: 62px;
+    width: calc(9vh + 5vw);
+    max-width: calc(((86vw - (5px + 1vh + 2vw + ((5px + 1vh + 2vw) / 12))) / 4) - 5vw);
+
+    margin: 0 calc((5px + 1vh + 2vw) / 12);
+    border-radius: 1.7px;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+    cursor: pointer;
+}
+
+.profile-posts-add-post-label {
+    background: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: calc((5px + 1vh + 2vw) / 1.7) 0;
+}
+
+.profile-posts-add-post-label svg {
+    height: calc(10px + 2vh + 1vw);
+    width: calc(10px + 2vh + 1vw);
+
+    fill: rgba(190, 0, 48, 0.849);
+}
+
+.profile-posts-add-post-file-input {
+    display: none;
+}
+
+.profile-posts-add-post-button-on-form,
+.profile-posts-add-segredinho-button-on-form {
+    margin: calc(2px + 0.7vh + 0.5vw) calc(10px + 5vh + 5vw);
+}
+
+.profile-posts-add-segredinho-show-and-hide-buttons-outter-container {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: calc(5px + 1.3vh + 0.7vw);
+}
+
+.profile-posts-add-segredinho-show-and-hide-buttons-outter-container div {
+    display: flex;
+
+    align-items: center;
+    justify-content: stretch;
+
+    width: 100%;
+}
+
+.profile-posts-add-segredinho-show-and-hide-buttons-outter-container button {
+    display: block;
+
+    min-height: 37px;
+    height: calc(3.7vh + 2.9vw);
+
+    width: 50%;
+
+    margin: 2px;
+    border-radius: 1px;
+
+    color: rgb(136, 30, 30);
+
+    letter-spacing: 0.07rem;
+    font-size: calc(3px + 1.3vh + 0.7vw);
+    font-weight: 700;
+
+    text-align: center;
+
+    background: rgb(253, 253, 253);
+
+    box-shadow: 0 0 3px 1px rgb(249, 249, 249);
+
+    transition: background 1s, box-shadow 270ms;
+
+    outline: none;
+}
+
+.profile-posts-add-segredinho-show-and-hide-buttons-outter-container button:hover {
+    background: rgb(250, 250, 250);
+
+    box-shadow: 0 0 5px 1px rgb(201, 201, 201);
+
+    outline: none;
+}
+
+.profile-posts-add-button {
+    min-height: 47px;
+    height: calc(5.6vh + 3.9vw);
+
+    min-width: 80px;
+    
+    padding: 0 calc(2px + 2.7vh + 2.1vw);
+
+    border-radius: 1px;
+
+    color: rgb(136, 30, 30);
+    font-weight: 700;
+
+    background: rgb(253, 253, 253);
+
+    box-shadow: 0 0 3px 1px rgb(249, 249, 249);
+
+    transition: background 1s, box-shadow 270ms;
+
+    outline: none;
+}
+
+.profile-posts-add-button:hover {
+    background: rgb(250, 250, 250);
+
+    box-shadow: 0 0 5px 1px rgb(201, 201, 201);
+
+    outline: none;
+}
+
+.profile-posts-add-post {
+    letter-spacing: 0.12rem;
+    font-size: calc(7px + 1.3vh + 0.8vw);
+}
+
+.profile-posts-add-post:hover {
+    letter-spacing: 0.13rem;
+}
+
+.profile-posts-add-segredinho {
+    letter-spacing: 0.05rem;
+    font-size: calc(5px + 1.25vh + 0.75vw);
+}
+
+.profile-posts-add-segredinho:hover {
+    letter-spacing: 0.052rem;
+}
+
+.profile-posts-display-posts-outter-container {
+    position: relative;
+
+    min-height: 600px;
+    height: 100vh;
+
+    padding: 6vh 0 3vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-posts-display-posts-outter-container::before, 
+.profile-posts-display-posts-outter-container::after {
+    content: '';
+
+    position: absolute;
+    
+    left: 0;
+
+    height: 5vh;
+    width: 100vw;
+
+    z-index: 2;
+}
+
+.profile-posts-display-posts-outter-container::before {
+    top: calc(6vh - 10px);
+
+    background: rgb(255, 255, 255);
+    background: linear-gradient(0deg, 
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.438) 30%,
+        rgba(255, 255, 255, 0.973) 60%,
+        rgb(255, 255, 255) 100%);
+}
+
+.profile-posts-display-posts-outter-container::after {
+    bottom: calc(3vh - 10px);
+
+    background: rgb(255, 255, 255);
+    background: linear-gradient(0deg, 
+         rgb(255, 255, 255) 0%,
+         rgba(255, 255, 255, 0.973) 30%,
+        rgba(255, 255, 255, 0.438) 60%,
+        rgba(255, 255, 255, 0)  100%);
+}
+
+.profile-posts-display-posts-inner-container-1 {
+    position: relative;
+
+    height: 91vh;    
+    width: 90vw;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-posts-display-posts-inner-container-2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    height: 400vh;
+    width: 90vw;
+
+    padding-top: 4vh;
+
+    background: white;
+}
+
+.profile-posts-display-single-post-outter-container {
+    position: relative;
+    
+    margin-bottom: calc(4px + 2vh + 1.3vw);
+    padding-bottom: calc(2px + 0.7vh + 0.5vw);
+}
+
+.profile-posts-display-single-post-outter-container::after {
+    content: '';
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+
+    min-height: 2.7px;
+    height: calc(1px + 0.25vh);
+    width: 100%;
+
+    background: rgb(253, 220, 214);
+    background: linear-gradient(45deg, 
+        rgb(255, 255, 255) 0%,
+        rgb(255, 251, 246) 3%,
+        rgb(255, 240, 223) 5%,
+        rgb(238, 216, 16) 10%,
+        rgba(212, 15, 196, 0.719) 90%,
+        rgba(255, 216, 234, 0.719) 95%,
+        rgba(255, 240, 247, 0.719) 97%,
+        rgba(255, 255, 255, 0.719) 100%);
+}
+
+.user-options-icon-outter-container {
+    position: absolute;
+
+    top: 0;
+    right: calc(1px + 1.5vh);
+}
+
+.user-options-icon-outter-container svg {
+    height: 4.3vh;
+    width: 4.3vh;
+
+    fill: rgba(190, 0, 48, 0.849);
+}
+
+.user-options-outter-container {
+    position: fixed;
+
+    top: 30vh;
+    left: 15vw;
+
+    display: none;
+
+    height: 40vh;
+    width: 70vw;
+
+    padding: calc(1px + 1.1vh + 0.7vw);
+
+    border-radius: 2px;
+
+    background: white;
+    background: linear-gradient(57deg, 
+        rgb(255, 255, 255) 0%,
+        rgba(255, 255, 255, 0.952) 50%,
+        rgba(255, 255, 255, 0.849) 70%,
+        rgba(255, 255, 255, 0.651) 87%,
+        rgba(255, 255, 255, 0.37) 97%,
+        rgba(255, 255, 255, 0) 100%);
+
+    box-shadow: 0 0 3px 1px rgb(237, 237, 237);
+
+    z-index: 3;
+}
+
+.user-options-outter-container::after {
+    content: '';
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+
+    min-height: 1.7px;
+    height: calc(0.25vh + 0.1vw);
+    width: 100%;
+
+    background: rgb(253, 220, 214);
+    background: linear-gradient(45deg, 
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 251, 246, 0.089) 3%,
+        rgba(255, 240, 223, 0.116) 5%,
+        rgba(255, 240, 223, 0.178) 15%,
+        rgb(238, 216, 16) 40%,
+        rgba(212, 15, 196, 0.719) 100%);
+}
+
+.user-option {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+
+    min-height: 27px;
+    height: 7.3vh;
+    width: 100%;
+
+    font-size: calc(3px + 2.1vh + 1.75vw);
+}
+
+.user-option::after {
+    content: '';
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+
+    min-height: 1px;
+    height: calc(0.15vh + 0.1vw);
+    width: 100%;
+
+    background: rgb(253, 220, 214);
+    background: linear-gradient(45deg, 
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 251, 246, 0.089) 3%,
+        rgba(255, 240, 223, 0.116) 5%,
+        rgba(255, 240, 223, 0.13) 15%,
+        rgba(243, 234, 151, 0.164) 30%,
+        rgba(252, 241, 245, 0.103) 57%,
+        rgba(235, 217, 233, 0.178) 87%,
+        rgba(255, 255, 255, 0) 100%);
+}
+
+.delete-message-outter-container {
+    display: none;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    position: fixed;
+
+    top: 35vh;
+    left: 7vw;
+
+    height: 19vh;
+    width: 86vw;
+
+    color: rgb(57, 57, 57);
+
+    white-space: pre;
+
+    font-weight: 600;
+    letter-spacing: 0.03rem;
+    font-size: calc(3px + 1.9vh + 1.3vw);
+
+    box-shadow: 0 0 7px 3px rgb(249, 249, 249);
+
+    background: white;
+    background: linear-gradient(57deg, 
+        rgb(255, 255, 255) 0%,
+        rgba(255, 255, 255, 0.932) 50%,
+        rgba(255, 255, 255, 0.87) 70%,
+        rgba(255, 255, 255, 0.774) 87%,
+        rgba(255, 255, 255, 0) 100%);
+
+    z-index: 5;
+}
+
+.delete-message-outter-container::after {
+    content: '';
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+
+    min-height: 1px;
+    height: calc(0.15vh + 0.1vw);
+    width: 100%;
+
+    background: rgb(253, 220, 214);
+    background: linear-gradient(45deg, 
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 251, 246, 0.089) 3%,
+        rgba(255, 240, 223, 0.116) 5%,
+        rgba(255, 240, 223, 0.178) 15%,
+        rgb(238, 216, 16) 40%,
+        rgba(212, 15, 196, 0.719) 100%);
+}
+
+.delete-message-buttons-outter-container {
+    margin-top: calc(1px + 1.3vh);
+
+    padding: calc(1px + 0.7vh);
+}
+
+.delete-message-button {
+    min-height: 37px;
+    height: calc(3.7vh + 2.3vw);
+    min-width: 80px;
+
+    margin-left: calc(3px + 1vh + 0.7vw);
+    
+    padding: 0 calc(3px + 1.7vh + 1.1vw);
+
+    border-radius: 1px;
+
+    color: rgb(136, 30, 30);
+    font-weight: 700;
+    font-size: calc(1px + 1.7vh + 0.9vw);
+
+    background: rgb(253, 253, 253);
+
+    box-shadow: 0 0 4px 1px rgb(247, 247, 247);
+
+    transition: background 1s, box-shadow 270ms;
+
+    outline: none;
+}
+
+.delete-message-button:hover {
+    background: rgb(250, 250, 250);
+
+    box-shadow: 0 0 5px 1px rgb(201, 201, 201);
+
+    outline: none;
+}
+
+.profile-posts-display-single-post-header-outter-container {
+    display: flex;
+    
+    align-items: center;
+    justify-content: flex-start;
+
+    margin-bottom: calc(2px + 0.7vh + 0.5vw);
+}
+
+.profile-posts-display-single-post-profile-picture-container {
+    min-height: 50px;
+    height: calc(7.5vh + 4.5vw);
+
+    min-width: calc(7.5vh + 4.5vw);
+    width: calc(7.5vh + 4.5vw);
+
+    margin-right: calc(3px + 0.3vh + 0.1vw);
+    border-radius: 50%;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.profile-posts-display-single-post-name-and-username-outter-container {
+    height: calc(7.5vh + 4.5vw);
+    max-width: 61vw;
+}
+
+.profile-posts-display-single-post-name-outter-container,
+.profile-posts-display-single-post-username-outter-container {
+    word-wrap: break-word;
+
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+}
+
+.profile-posts-display-single-post-name-outter-container {
+    font-size: 1.35rem;
+}
+
+.profile-posts-display-single-post-username-outter-container {
+    font-size: 1rem;
+}
+
+.profile-posts-display-single-post-content-outter-container {
+    margin-bottom: calc(2px + 0.7vh + 0.5vw);
+
+    word-wrap: break-word;
+
+    white-space: pre-wrap;
+
+    text-align: start;
+    text-align-last: auto;
+
+    font-weight: 600;
+    font-size: 1.43rem;
+    line-height: 1.67rem;
+
+    letter-spacing: 0.05rem;
+}
+
+.profile-posts-display-single-post-media-outter-container {
+    margin-bottom: calc(2px + 0.7vh + 0.5vw);
+}
+
+.profile-posts--display-single-post-media-preview-unique-image div {
+    min-height: 100px;
+    height: 55vh;
+
+    margin: 3px;
+    border-radius: 1px;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+    box-shadow: 0 0 5px 1px rgb(201, 201, 201);
+}
+
+.profile-posts-rate-and-comment-outter-container {
+    position: relative;
+
+    min-height: 50px;
+    height: 5vh;
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-posts-main-icon {
+    margin-right: 17vw;
+    cursor: pointer;
+}
+
+.profile-posts-main-icon svg {
+    min-height: 25px;
+    height: 4vh;
+    min-width: 25px;
+    width: 4vh;
+
+    fill: rgba(190, 0, 48, 0.849);
+
+    stroke: rgba(190, 0, 48, 0.849);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,13 @@
+span {
+    white-space: pre-line;
+}
+
+div#add-post {
+    white-space: pre-wrap;
+}
+
+pre {
+
+    white-space: pre-wrap;
+
+}

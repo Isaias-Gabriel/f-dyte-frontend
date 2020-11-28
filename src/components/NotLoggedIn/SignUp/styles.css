@@ -1,0 +1,765 @@
+#daily-sign-up-outter-container, #nightly-sign-up-outter-container {
+    min-height: 500px;
+    height: 100vh;
+
+    overflow: auto;
+
+    color: rgb(109, 0, 0);
+
+    z-index: 9;
+}
+
+#daily-sign-up-outter-container {
+    background: rgb(253, 220, 214);
+    background: linear-gradient(180deg, 
+        rgb(255, 155, 137) 0%,
+        rgb(255, 195, 185) 9%, 
+        rgb(253, 220, 214) 20%,
+        rgb(255, 255, 255) 100%);
+}
+
+#nightly-sign-up-outter-container {
+    
+    background: rgb(247, 247, 247);
+    background: linear-gradient(180deg, 
+    rgb(255, 255, 255) 0%,
+    rgb(247, 247, 247) 80%,
+        rgb(49, 49, 49) 84%,
+        rgb(0, 0, 0) 100%);
+}
+
+#nightly-sign-up-outter-container::after {
+    position: relative;
+    top: -1vh;
+    content: '';
+
+    border-radius: 30% 30% 50% 50%;
+
+    box-shadow: 0 0 20px 7px  white;
+
+    background: none;
+
+    display: block;
+
+    width: calc(100vw - (2 * (12px + 9vw)));
+    height: 1vh;
+
+    margin-left: calc(12px + 9vw);
+
+    z-index: 11;
+}
+
+#daily-sign-up-inner-container, #nightly-sign-up-inner-container {
+    position: relative;
+
+    box-sizing: border-box;
+
+    width: calc(100vw - (2 * (12px + 9vw)));
+    min-height: 420px;
+
+    border-radius: 1px;
+
+    margin: calc(5px + 5vh) calc(12px + 9vw) 0;
+    padding: calc(5px + 3vh) calc(12px + 2vw) calc(12px + 3vh);
+
+    background-color: white;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    z-index: 13;
+}
+
+#daily-sign-up-inner-container::-webkit-scrollbar, #nightly-sign-up-inner-container::-webkit-scrollbar {
+    display: none;
+}
+
+#daily-sign-up-inner-container {
+    height: calc(100vh - (5px + 5vh));
+}
+
+#nightly-sign-up-inner-container {
+    height: calc(100vh - (9px + 8vh));
+    margin-top: calc(4px + 3.5vh);
+    padding-top: calc(4px + 2.3vh);
+}
+
+#main-sign-up-section {
+    position: relative;
+
+    height: 100%;
+
+    background-color: white;
+}
+
+.sign-up-logo-and-phrase-outter-container {
+    margin-bottom: calc(7px + 1.7vh);
+}
+
+.sign-up-logo-outter-container {
+    display: flex;
+
+    margin: 0 calc(2px + 1vw) calc(2px + 1vh) 0;
+
+    align-items: center;
+    justify-content: center;
+
+    background-color: white;
+}
+
+.sign-up-logo-outter-container img {
+    height: calc(47px + 2.3vh);
+}
+
+.sign-up-logo-and-phrase-outter-container h1 {
+    margin: 0 0 0 calc(2px + 1vw);
+
+    font-size: calc(17px + 1.4vh);
+    text-align: center;
+}
+
+.sign-up-upper-message-outter-container {
+    margin-bottom: calc(4px + 1.3vh);
+    width: 100%;
+}
+
+.sign-up-upper-message-outter-container p {
+    margin: 0 calc(7px + 2.5vw) 0;
+
+    font-size: calc(7px + 1.35vh);
+    text-align: center;
+}
+
+.sign-up-input-outter-container {
+    position: relative;
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.sign-up-input-outter-container input {
+    width: 100%;
+    height: calc(35px + 0.7vh);
+    
+    margin: 0 calc(7px + 1.3vw) 0;
+
+    border: solid 1px rgb(255, 195, 185);
+    border-radius: 1px;
+
+    background-color: white;
+
+    padding: 1vh;
+
+    box-sizing: border-box;
+
+    font-size: calc(12px + 0.6vh);
+
+    outline-color:rgb(252, 149, 130);
+}
+
+.sign-up-input-message-outter-container {
+    min-height: calc(5px + 1.4vh);
+    margin: 0 calc(7px + 1.3vw) 0;
+
+    padding-top: calc(1px + 0.2vh);
+}
+
+.sign-up-input-message-outter-container div {
+    margin-bottom: calc(1px + 0.2vh);
+
+    color: black;
+
+    font-size: calc(9px + 0.55vh);
+}
+
+.sign-up-input-outter-container #sign-up-password-input {
+    padding-right: 20%;
+}
+
+.sign-up-show-password-outter-container {
+    position: absolute;
+
+    bottom: 0;
+    right: 0;
+
+    width: 20%;
+    height: calc(35px + 0.7vh);
+    
+    margin: 0 calc(7px + 1.3vw) 0;
+    border: none;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.sign-up-show-password-outter-container span {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+}
+
+.sign-up-show-password-outter-container span svg {
+    height: calc(27px);
+    width: calc(27px);
+    fill: rgb(90, 57, 0);
+
+    transition: 200ms;
+}
+
+.sign-up-show-password-outter-container span svg:hover {
+    height: calc(30px);
+    width: calc(30px);
+    fill: rgb(41, 27, 1);
+}
+
+.sign-up-slider-input-outter-container {
+    margin-top: calc(1px + 0.2vh);
+    margin: calc(1px + 0.2vh) 0 calc(10px + 0.8vh);
+}
+
+.sign-up-slider-input-outter-container p {
+    font-size: calc(15px + 0.3vh);
+    text-align: center;
+}
+
+.sign-up-slider-input-outter-container input {
+    margin: calc(1px + 0.2vh) 0;
+}
+
+.slidecontainer {
+    width: 100%;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: calc(6px + 0.2vh);
+    border-radius: 1px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 7px;
+    border: 0;
+    border-radius: 1px;
+    background: #ff0000;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 23px;
+    height: 24px;
+    border: 0;
+    background: #ff0000;
+    cursor: pointer;
+}
+
+.sign-up-submit-button-outter-container {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.sign-up-submit-button-outter-container button {
+    margin-top: calc(1px + 0.1vh);
+    border: none;
+
+    width: calc(73px + 4vw);
+    height: calc(40px + 1vh);
+
+    box-sizing: border-box;
+
+    background: rgb(255, 234, 252, 0.5);
+
+    outline: none;
+
+    font-size: calc(13px + 0.4vh);
+    text-align: center;
+    color: rgb(150, 69, 139);
+
+    transition: 500ms;
+}
+
+.sign-up-submit-button-outter-container button:hover {
+    border: solid 1px rgb(224, 184, 220);
+
+    background:rgb(255, 234, 252, 1);
+    
+    outline: none;
+
+    font-size: calc(15px + 0.3vh);
+    color: rgb(92, 21, 84);
+}
+
+.sign-up-submit-button-outter-container button:active {
+    background: rgb(255, 180, 167);
+    color: rgb(250, 225, 247);
+    
+    transition: color 0s;
+    transition: background 300ms;
+
+    outline: none;
+}
+
+.to-policies-outter-container {
+    display: flex;
+
+    width: 100%;
+
+    margin: calc(10px + 0.8vh) 0;
+}
+
+.to-policies-outter-container a {
+
+    width: 100%;
+
+    color: rgb(230, 1, 89);
+
+    outline: none;
+}
+
+.to-policies-outter-container p {
+    width: 100%;
+
+    color: rgb(230, 1, 89);
+
+    font-size: calc(13px + 0.1vh);
+    text-align: center;
+}
+
+.to-policies-outter-container p span {
+    color: rgb(230, 1, 89);
+    
+    font-size: calc(14px + 0.1vh);
+}
+
+.sign-up-verification-section-outter-container {
+    padding-top: calc(7px + 1.7vh);
+}
+
+.sign-up-verification-upper-message {
+    margin-bottom: calc(7px + 1.7vh);
+}
+
+.sign-up-verification-upper-message p {
+    margin: 0 calc(7px + 2.5vw) calc(3px + 0.5vw);
+
+    font-size: calc(9px + 1.35vh);
+    text-align: justify;
+}
+
+@media only screen and (min-width: 500px) {
+    .sign-up-logo-and-phrase-outter-container {
+        margin-bottom: calc(13px + 1.9vh);
+    }
+    
+    .sign-up-logo-outter-container img {
+        height: calc(55px + 2.6vh);
+    }
+    
+    .sign-up-logo-and-phrase-outter-container h1 {
+        font-size: calc(19px + 1.5vh);
+    }
+
+    .sign-up-upper-message-outter-container {
+        margin-bottom: calc(10px + 1.8vh);
+        width: 100%;
+    }
+
+    .sign-up-upper-message-outter-container p {
+        font-size: calc(8px + 1.4vh);
+    }
+    
+    .sign-up-input-outter-container input {
+        height: calc(41px + 0.8vh);
+
+        font-size: calc(14px + 0.8vh);
+    }
+    
+    .sign-up-input-message-outter-container div {
+        font-size: calc(11px + 0.65vh);
+    }
+
+    .sign-up-show-password-outter-container {
+        height: calc(41px + 0.8vh);
+    }
+    
+    .sign-up-slider-input-outter-container {
+        margin-top: calc(1px + 0.2vh);
+        margin: calc(1px + 0.2vh) 0 calc(10px + 0.8vh);
+    }
+    
+    .sign-up-slider-input-outter-container p {
+        font-size: calc(16px + 0.4vh);
+    }
+    
+    .sign-up-submit-button-outter-container button {
+        margin-top: calc(2px + 0.2vh);
+
+        width: calc(77px + 4.3vw);
+        height: calc(43px + 1.3vh);
+
+        font-size: calc(15px + 0.45vh);
+    }
+    
+    .sign-up-submit-button-outter-container button:hover {
+        font-size: calc(16px + 0.5vh);
+    }
+    
+    .to-policies-outter-container {
+        margin: calc(12px + 0.9vh) 0;
+    }
+    
+    .to-policies-outter-container p {
+        font-size: calc(14px + 0.15vh);
+    }
+    
+    .to-policies-outter-container p span {
+        font-size: calc(15px + 0.2vh);
+    }
+    
+    .sign-up-verification-section-outter-container {
+        padding-top: calc(10px + 2.1vh);
+    }
+    
+    .sign-up-verification-upper-message {
+        margin-bottom: calc(12px + 2.3vh);
+    }
+    
+    .sign-up-verification-upper-message p {
+        font-size: calc(10px + 1.4vh);
+
+        line-height: calc(13px + 1.7vh);
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    #nightly-sign-up-outter-container::after {
+        width: calc(100vw - (2 * (31px + 9vw)));
+    
+        margin-left: calc(31px + 9vw);
+    }
+
+    #daily-sign-up-inner-container, #nightly-sign-up-inner-container {
+        width: calc(100vw - (2 * (31px + 9vw)));
+    
+        margin: calc(5px + 5vh) calc(31px + 9vw) 0;
+        padding: calc(19px + 3vh) calc(29px + 2vw) calc(13px + 2vh);
+
+    }
+    
+    #daily-sign-up-inner-container {
+        height: calc(100vh - (5px + 5vh));
+    }
+
+    #nightly-sign-up-inner-container {
+        height: calc(100vh - (9px + 9vh));
+
+        margin-top: calc(4px + 3.5vh);
+        padding-top: calc(17px + 2.6vh);
+    }
+
+    .sign-up-logo-and-phrase-outter-container {
+        display: flex;
+
+        width: 100%;
+
+        align-items: center;
+        justify-content: center;
+
+        margin-bottom: calc(13px + 1.9vh);
+    }
+    
+    .sign-up-logo-outter-container {
+        margin: 0;
+        margin-right: calc(5px + 1vw);
+    
+        background-color: white;
+    }
+    
+    .sign-up-logo-outter-container img {
+        height: calc(57px + 2.6vh);
+    }
+    
+    .sign-up-logo-and-phrase-outter-container h1 {
+        margin: 0;
+        margin-left: calc(5px + 1vw);
+    
+        font-size: calc(19px + 1.5vh);
+        text-align: center;
+    }
+
+    .sign-up-input-outter-container input {
+        width: 100%;
+        max-width: 53vw;
+        height: calc(40px + 0.5vh);
+        
+        margin: 0 calc(4px + 1vw);
+    }
+
+    .sign-up-input-message-outter-container {
+        margin: 0;
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+    }
+    
+    .sign-up-input-message-outter-container div {
+        width: 100%;
+        max-width: 53vw;
+    }
+
+    .sign-up-show-password-outter-container {
+        height: calc(40px + 0.5vh);
+        
+        margin: 0 calc(4px + 1vw);
+    }
+    
+    .sign-up-slider-input-outter-container p {
+        font-size: calc(13px + 0.7vh);
+    }
+
+    .sign-up-submit-button-outter-container button {
+        font-size: calc(13px + 0.65vh);
+    }
+    
+    .sign-up-submit-button-outter-container button:hover {
+        font-size: calc(14px + 0.65vh);
+    }
+}
+
+@media only screen and (min-width: 800px) {
+    #nightly-sign-up-outter-container::after {
+        width: calc(100vw - (2 * (50px + 19vw)));
+    
+        margin-left: calc(50px + 19vw);
+    }
+
+    #daily-sign-up-inner-container, #nightly-sign-up-inner-container {
+        width: calc(100vw - (2 * (50px + 19vw)));
+        height: calc(100vh - ((15px + 5vh) + (12px + 6vh)));
+    
+        margin: calc(15px + 5vh) calc(50px + 19vw) 0;
+        padding: calc(19px + 3vh) calc(12px + 2vw) calc(12px + 3vh);
+    }
+
+    #daily-sign-up-inner-container {
+        height: calc(100vh - (15px + 5vh));
+    }
+
+    #nightly-sign-up-inner-container {
+        height: calc(100vh - (11px + 10vh));
+
+        margin-top: calc(13px + 4vh);
+        padding-top: calc(11px + 2.5vh);
+    }
+    
+    #nightly-sign-up-inner-container::after {
+        width: calc(100vw - (2 * (50px + 19vw)));
+    }
+
+    .sign-up-input-outter-container input {
+        width: 100%;
+        max-width: 39vw;
+        height: calc(40px + 0.5vh);
+        
+        margin: 0 calc(4px + 1vw) 0;
+    }
+
+    .sign-up-input-message-outter-container {
+        margin: 0;
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+    }
+    
+    .sign-up-input-message-outter-container div {
+        width: 100%;
+        max-width: 39vw;;
+    }
+
+    .sign-up-show-password-outter-container {
+        height: calc(40px + 0.5vh);
+        
+        margin: 0 calc(4px + 1vw) 0;
+    }
+    
+    .sign-up-slider-input-outter-container p {
+        font-size: calc(13px + 0.7vh);
+    }
+
+    .sign-up-submit-button-outter-container button {
+        font-size: calc(13px + 0.65vh);
+    }
+    
+    .sign-up-submit-button-outter-container button:hover {
+        font-size: calc(14px + 0.65vh);
+    }
+}
+
+@media only screen and (min-width: 1100px) {
+    #nightly-sign-up-outter-container::after {
+        width: calc(100vw - (2 * (40px + 26vw)));
+    
+        margin-left: calc(40px + 26vw);
+    }
+
+    #daily-sign-up-inner-container, #nightly-sign-up-inner-container {
+        width: calc(100vw - (2 * (40px + 26vw)));
+
+        margin: calc(15px + 5vh) calc(40px + 26vw) 0;
+
+        padding: calc(19px + 3vh) calc(12px + 2vw) calc(12px + 3vh);
+    }
+
+    #daily-sign-up-inner-container {
+        height: calc(100vh - (15px + 5vh));
+    }
+    
+    #nightly-sign-up-inner-container {
+        height: calc(100vh - (10px + 9vh));
+
+        margin-top: calc(11px + 3.5vh);
+        padding-top: calc(14px + 2.1vh);
+    }
+
+    #nightly-sign-up-inner-container::after {
+        width: 40vw;
+    }
+
+    .sign-up-logo-and-phrase-outter-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        margin-bottom: calc(11px + 2vh);
+    }
+
+    .sign-up-logo-outter-container {
+        display: inline-block;
+    
+        margin: 0;
+        margin-right: calc(2px + 0.1vw);
+    }
+
+    .sign-up-logo-outter-container img {
+        height: calc(25px + 10vh);
+    }
+
+    .sign-up-logo-and-phrase-outter-container h1 {
+        margin: 0;
+        margin-left: calc(2px + 0.1vw);
+
+        width: calc(50px + 10vw);
+    
+        font-size: calc(5px + 3vh);
+    }
+
+    .sign-up-input-outter-container input {
+        width: 100%;
+        height: calc(20px + 4vh);
+        
+        margin: 0 2vw;
+
+        padding: 1vh;
+
+        box-sizing: border-box;
+
+        font-size: calc(4px + 1.9vh);
+    }
+
+    .sign-up-input-message-outter-container {
+        margin: 0;
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+    }
+    
+    .sign-up-input-message-outter-container div {
+        width: 100%;
+        padding: 0 2vw;
+    }
+
+    .sign-up-show-password-outter-container {
+        height: calc(20px + 4vh);
+        
+        margin: 0 2vw;
+    }
+
+    .sign-up-submit-button-outter-container {
+        margin-top: 0.1vh;
+    }
+
+    .sign-up-submit-button-outter-container button {
+        width: calc(55px + 7vw);
+        height: calc(21px + 4.1vh);
+
+        font-size: calc(5px + 1.8vh);
+    }
+
+    .sign-up-submit-button-outter-container button:hover {
+        font-size: calc(6px + 1.8vh);
+        color: rgb(92, 21, 84);
+    }
+
+    .sign-up-submit-button-outter-container button:active {
+        color: rgb(250, 225, 247);
+    
+        transition: color 0s;
+
+        font-size: calc(6px + 1.8vh);
+    }
+
+    .to-policies-outter-container p {
+        font-size: calc(6px + 1.2vh);
+    }
+
+    .to-policies-outter-container p span {
+        font-size: calc(7px + 1.3vh);
+    }
+
+    .sign-up-verification-section-outter-container {
+        padding-top: calc(7px + 1.7vh);
+    }
+    
+    .sign-up-verification-upper-message {
+        margin-bottom: calc(7px + 1.7vh);
+    }
+    
+    .sign-up-verification-upper-message p {
+        margin: 0 calc(7px + 1.1vw) calc(3px + 0.5vw);
+    
+        font-size: calc(9px + 1.6vh);
+        text-align: justify;
+    }
+}
+    
