@@ -18,8 +18,6 @@ import Feed from '../Profile/Feed/Feed.component';
 import Posts from '../Profile/Feed/Posts.component';
 import RedirectToProfile from '../RedirectToProfile/RedirectToProfile.component';
 
-
-import NonSignInFeed from '../ProfileNonSignedIn/NonSignedInFeed.component';
 // import Posts from './components/Profile/Posts.component';
 // import RedirectToProfile from './components/RedirectToProfile/RedirectToProfile.component';
 

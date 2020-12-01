@@ -17,7 +17,7 @@ import './FeedStyles.css';
 
 require('dotenv/config');
 
-export default class Feed extends Component {
+export default class NotLoggedInFeed extends Component {
 
     constructor(props) {
         super(props);
@@ -116,6 +116,8 @@ export default class Feed extends Component {
 
             return(
                     <div id="profile-feed-outter-container">
+                        <Menu />
+                        
                         <div id="profile-feed-inner-container">
                             <div className="profile-feed-user-information-outter-container">
                                 <div id="profile-feed-media-header-and-rate-outter-container">

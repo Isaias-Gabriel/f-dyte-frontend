@@ -709,7 +709,22 @@
     stroke: rgba(190, 0, 48, 0.849);
 }
 
+.loading-icon-outter-container {
+    display: flex;
 
+    align-items: center;
+    justify-content: center;
+
+    height: 100vh;
+    width: 100%;
+}
+
+.loading-icon-outter-container img {
+    min-height: 30px;
+    height: calc(9vh + 11vw);
+    min-width: 30px;
+    width: calc(9vh + 11vw);
+}
 
 
 

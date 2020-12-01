@@ -22,7 +22,7 @@ import './styles.css';
 
 require('dotenv/config');
 
-export default class ShowAndPostComments extends Component {
+export default class NotLoggedInShowAndPostComments extends Component {
     constructor(props) {
         super(props);
 
@@ -107,34 +107,31 @@ export default class ShowAndPostComments extends Component {
     componentDidMount() {
         const formInfo = {
             id: this.props.id,
-            sessionId: localStorage.getItem('e'),
+            type: this.props.type,
         }
 
-        axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/get_' + this.props.type + '_comments', formInfo)
+        axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/get_comments', formInfo)
             .then(response => {
 
                 this.setState({
                     comments: response.data.comments,
-                    ratedComments: response.data.ratedComments,
 
-                    clicked: true,
                     loaded: true,
                 }, () => {
                     let formInfo
 
-                    this.state.comments.map(comm => {
-                        if(1 <= comm.comments.length <= 3) {
+                    this.state.comments.map(comment => {
+                        if(comment.comments.length === 1) {
                             formInfo = {
-                                id: comm._id,
-                                sessionId: localStorage.getItem('e'),
+                                id: comment._id,
+                                type: 'comment',
                             }
                     
-                            axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/get_comment_comments', formInfo)
+                            axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/get_comments', formInfo)
                                 .then(response => {
                                     this.setState({
-                                        [ comm._id + "Comments" ]: response.data.comments,
-                                        [ comm._id + "RatedComments" ]: response.data.ratedComments,
-                                        [ comm._id + "Length" ]: comm.comments.length,
+                                        [ comment._id + "Comments" ]: response.data.comments,
+                                        [ comment._id + "Length" ]: comment.comments.length,
                                     })
                                 })
                                 .catch(err => console.log(err));
@@ -142,7 +139,8 @@ export default class ShowAndPostComments extends Component {
 
                         else {
                             this.setState({
-                                [ comm._id + "Length" ]: comm.comments.length,
+                                [ comment._id + "Length" ]: comment.comments.length,
+                                [ comment._id + "Comments" ]: [],
                             })
                         }
                     })
@@ -191,52 +189,21 @@ export default class ShowAndPostComments extends Component {
             .catch(err => console.log(err));
     }
 
-    loadComments() {
+    async loadComments() {
+
+        const id = this.state.controlId;
 
         const formInfo = {
-            id: this.props.id,
-            sessionId: localStorage.getItem('e'),
+            id,
+            type: 'comment',
         }
 
-        axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/get_' + this.props.type + '_comments', formInfo)
-            .then(response => {
-
-                this.setState({
-                    comments: response.data.comments,
-                    ratedComments: response.data.ratedComments,
-
-                    clicked: true,
-                }, () => {
-                    let formInfo
-
-                    this.state.comments.map(comm => {
-                        if(1 <= comm.comments.length <= 3) {
-                            formInfo = {
-                                id: comm._id,
-                                sessionId: localStorage.getItem('e'),
-                            }
-                    
-                            axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/get_comment_comments', formInfo)
-                                .then(response => {
-                                    this.setState({
-                                        [ comm._id + "Comments" ]: response.data.comments,
-                                        [ comm._id + "RatedComments" ]: response.data.ratedComments,
-                                        [ comm._id + "Length" ]: comm.comments.length,
-                                    })
-                                })
-                                .catch(err => console.log(err));
-                        }
-
-                        else {
-                            this.setState({
-                                [ comm._id + "Length" ]: comm.comments.length,
-                            })
-                        }
-                    })
-                })
-            })
-            .catch(err => console.log(err));
+        const response = await axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/get_comments', formInfo)
         
+        await this.setState({
+            [ id + "Comments" ]: response.data.comments,
+            [ id + "Length" ]: response.data.comments.length,
+        })
     }
 
     showRatingSlider(id) {
@@ -637,7 +604,7 @@ export default class ShowAndPostComments extends Component {
                                                 <RateType1
                                                     rate={comment.rate.$numberDecimal}
                                                     rateNumber={comment.rateNumber}
-                                                    isRated={this.state.ratedComments.includes(comment._id) ? true: false}
+                                                    isRated={true}
 
                                                     type={comment.type}
                                                     id={comment._id}
@@ -669,16 +636,27 @@ export default class ShowAndPostComments extends Component {
                                                 (
                                                     <div className="comment-replies-outter-container">
                                                         <div
-                                                            className="comment-replies-number-outter-container"
+                                                            className={
+                                                                (this.state[ comment._id + "Length" ] === 1)
+                                                                ?
+                                                                'comment-replies-number-outter-container-not-show'
+                                                                :
+                                                                'comment-replies-number-outter-container'
+                                                            }
                                                             id={'comment-replies-number-outter-container-' + index}
-                                                            onClick={() => {
-
-                                                                console.log((!document.getElementById('comment-replies-inner-container-1-' + index) ||
-                                                                (document.getElementById('comment-replies-inner-container-1-' + index).style.display === 'none' || 
-                                                                document.getElementById('comment-replies-inner-container-1-' + index).style.display === '')))
+                                                            onClick={async () => {
 
                                                                 if(document.getElementById('comment-replies-inner-container-1-' + index).style.display === 'none' || 
                                                                     document.getElementById('comment-replies-inner-container-1-' + index).style.display === '') {
+
+                                                                    if(!this.state[ comment._id + "Comments" ].length) {
+                                                                        await this.setState({
+                                                                            controlId: comment._id,
+                                                                        });
+
+                                                                        await this.loadComments();
+                                                                    }
+
                                                                     document.getElementById('comment-replies-inner-container-1-' + index).style.display = 'flex';
                                                                     document.getElementById('comment-replies-number-outter-container-' + index).innerText = 
                                                                     (
@@ -723,12 +701,19 @@ export default class ShowAndPostComments extends Component {
                                                         </div>
 
                                                         <div
-                                                            className="comment-replies-inner-container-1"
+                                                            className={
+                                                                (this.state[ comment._id + "Length" ] === 1)
+                                                                ?
+                                                                'comment-replies-inner-container-1-show'
+                                                                :
+                                                                'comment-replies-inner-container-1'
+                                                            }
                                                             id={'comment-replies-inner-container-1-' + index}
                                                         >
                                                             <div className="comment-replies-vertical-rectangle-outter-container">
                                                                 <div></div>
                                                             </div>
+
                                                             <div className="comment-replies-inner-container-2">
                                                                 {
                                                                     this.state[ comment._id + "Comments" ].map((reply, index1) => {
@@ -768,7 +753,7 @@ export default class ShowAndPostComments extends Component {
                                                                                     <RateType1
                                                                                         rate={reply.rate.$numberDecimal}
                                                                                         rateNumber={reply.rateNumber}
-                                                                                        isRated={this.state[comment._id + "RatedComments"].includes(reply._id) ? true: false}
+                                                                                        isRated={true}
 
                                                                                         type={reply.type}
                                                                                         id={reply._id}

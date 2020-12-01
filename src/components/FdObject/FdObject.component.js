@@ -455,11 +455,11 @@ export default class FdObject extends Component {
             }
 
             return(
-                <div id="object-outter-container">
+                <div className="object-outter-container">
                     <Menu />
 
-                    <div id="object-inner-container">
-                        <div id="object-media-header-and-rate-outter-container">
+                    <div className="object-inner-container">
+                        <div className="object-media-header-and-rate-outter-container">
                             <section id="object-media-outter-container">
                                 {
                                     urls[0][0] && (
@@ -598,7 +598,7 @@ export default class FdObject extends Component {
                         </div>
                     </div>
 
-                    <div className="object-main-icons">
+                    <div className="object-comment-icon-outter-container">
                         <FaRegCommentAlt />
                     </div>
                 </div>

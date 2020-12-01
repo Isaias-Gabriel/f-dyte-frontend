@@ -74,7 +74,7 @@ export default class MainHub extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props);
+        //console.log(this.props);
     }
     
     render() {

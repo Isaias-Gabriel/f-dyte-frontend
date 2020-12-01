@@ -236,6 +236,11 @@
 
 
 
+
+.comment-replies-number-outter-container-not-show {
+    display: none;
+}
+
 .comment-replies-number-outter-container {
     width: 100%;
 
@@ -252,6 +257,10 @@
         rgba(255, 251, 251, 0.99) 100%);
 
     cursor: pointer;
+}
+
+.comment-replies-inner-container-1-show {
+    position: relative;
 }
 
 .comment-replies-inner-container-1 {
@@ -291,9 +300,6 @@
 }
 
 .comment-reply-outter-container {
-
-    margin-bottom: calc(1px + 0.9vh + 0.3vw);
-
     border: solid 1px rgba(254, 254, 254, 0.990);
     border-radius: 1px;
 

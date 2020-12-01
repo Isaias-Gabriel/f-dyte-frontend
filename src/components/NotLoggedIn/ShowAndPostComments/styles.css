@@ -292,8 +292,6 @@
 
 .comment-reply-outter-container {
 
-    margin-bottom: calc(1px + 0.9vh + 0.3vw);
-
     border: solid 1px rgba(254, 254, 254, 0.990);
     border-radius: 1px;
 

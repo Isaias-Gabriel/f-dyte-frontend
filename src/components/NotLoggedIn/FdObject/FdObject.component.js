@@ -15,7 +15,7 @@ import FollowObject from '../FollowObject/FollowObject.component';
 
 import RateType2 from '../RatingSlider/RateType2.component';
 
-import './styles.css';
+//import './styles.css';
 
 require('dotenv/config');
 
@@ -448,7 +448,7 @@ export default class FdObject extends Component {
 
             const categories = this.state.object.categories[0];
 
-            console.log(this.state);
+            // console.log(this.state);
 
             if(rateSubmitted) {
                 return <Redirect to={"/redirect_to_object/" + this.props.match.params.nickname} />;

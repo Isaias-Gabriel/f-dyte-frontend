@@ -1,14 +1,19 @@
-#object-outter-container {
-    height: calc(100vh - (11px + 4vh));
 
-    z-index: 1;
+.object-outter-container {
+    min-height: 500px;
+    height: 100vh;
+
+    overflow: hidden;
 }
 
-#object-inner-container {
-    height: calc(100vh - (11px + 4vh));
+.object-inner-container {
+    min-height: 410px;
+    height: 94vh;
+
+    overflow: hidden;
 }
 
-#object-media-header-and-rate-outter-container {
+.object-media-header-and-rate-outter-container {
     position: relative;
 }
 
@@ -95,13 +100,18 @@
 }
 
 .object-main-content-outter-container {
-    height: calc((100vh - (11px + 4vh)) - 40vh);
+    min-height: 170px;
+    height: 47vh;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
 
     background:  rgb(255, 247, 233);
-    background: linear-gradient(331deg, 
-        rgb(255, 246, 251) 0%,
-        rgb(255, 255, 255) 50%,
-        rgb(255, 253, 250) 100%);
+    background: linear-gradient(331deg,
+        rgb(255, 255, 255) 0%,
+        rgb(255, 246, 251) 30%,
+        rgb(255, 255, 255) 40%,
+        rgb(251, 250, 255) 100%);
 }
 
 .object-rate-comment-and-follow-outter-container {
@@ -123,7 +133,8 @@
     cursor: pointer;
 }
 
-.object-main-icons svg {
+.object-main-icons svg,
+.object-comment-icon-outter-container svg {
     position: relative;
 
     min-height: 25px;
@@ -177,12 +188,7 @@
 
     justify-content: center;
 
-    height: 35vh;
-
-    overflow-y: scroll;
-    overflow-x: hidden;
-
-    padding: 0 calc(2px + 2vw + 1vh) calc(3px + 3vw + 2vh);
+    padding: 0 calc(2px + 2vw + 1vh);
 }
 
 .object-default-description-outter-container, .object-volatile-description-outter-container {
@@ -238,3 +244,16 @@
         rgba(218, 135, 243, 0.712) 50%,
         rgb(111, 245, 171) 100%);
 }
+
+.object-comment-icon-outter-container {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 30px;
+    height: 6vh;
+    width: 100%;
+}
+
+

@@ -36,6 +36,8 @@ import CommentOnPQBS from '../../Comment/CommentOnPQBS.component';
 
 import getUserUsername from '../../../functions/getUserUsername';
 
+import loadingIcon from '../../../assets/loading-infinity-icon.svg';
+
 import './PostsStyles.css';
 
 require('dotenv/config');
@@ -122,6 +124,8 @@ export default class Posts extends Component {
 
             whichComponent: null,
 
+            loaded: false,
+
             staticText: {
                 'pt-BR': {
                     postButton: 'Postar',
@@ -155,8 +159,6 @@ export default class Posts extends Component {
         //     sp = ( this.props.match.params.sp === "true" ? true : false);
         // }
         //console.log(this.props);
-
-        this.addPostSubmitButton.current.disabled = true;
         
         this.setState({
             userUsername: await getUserUsername(),
@@ -235,6 +237,8 @@ export default class Posts extends Component {
                             this.setState({
                                 posts: response.data.posts,
                                 ratedPosts: response.data.ratedPosts,
+
+                                loaded: true,
                             }, () => {
                                 this.state.posts.map(post => {
 
@@ -1074,11 +1078,27 @@ export default class Posts extends Component {
             tempUrls,
             uniqueImageIndex,
             posts,
+
+            loaded,
+
             staticText,
         } = this.state;
         const { username: visitedUsername } = this.props;
 
         // console.log(this.state);
+
+        if(!loaded) {
+            return(
+                <div className="profile-posts-outter-container">
+                    <div className="loading-icon-outter-container">
+                        <img
+                            src={loadingIcon}
+                            alt="Loading"
+                        />
+                    </div>
+                </div>
+            )
+        }
 
         return(
             <div id="profile-posts-outter-container">
@@ -1180,6 +1200,7 @@ export default class Posts extends Component {
 
                                     <button
                                         className="profile-posts-add-button profile-posts-add-post profile-posts-add-post-button-on-form"
+                                        disabled
                                         ref={this.addPostSubmitButton}
                                     >
                                         {
