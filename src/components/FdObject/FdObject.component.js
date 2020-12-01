@@ -121,28 +121,22 @@ export default class FdObject extends Component {
                 object: this.props.data[0][1],
             }, () => {
 
-                let temp_rate = parseFloat(this.state.object.rate.$numberDecimal);
+                let temp_rate = this.state.object.rate.$numberDecimal;
                 let rateIntegerPart, rateFirst2Decimals;
-                
-                if(typeof temp_rate === typeof 5) {
-                    if(temp_rate === 0) {
-                        rateIntegerPart = '0';
-                        rateFirst2Decimals = '00';
-                    }
 
-                    else if(temp_rate > 0 && temp_rate < 1) {
-                        temp_rate = (parseFloat(temp_rate) * 100).toString();
-                    
-                        rateIntegerPart = '0';
-                        rateFirst2Decimals = temp_rate[0] + temp_rate[1];
-                    }
-
-                    else {
-                        temp_rate = (parseFloat(temp_rate) * 100).toString();
-                    
-                        rateIntegerPart = temp_rate[0];
-                        rateFirst2Decimals = temp_rate[1] + temp_rate[2];
-                    }
+                if(temp_rate.length === 1) {
+                    rateIntegerPart = temp_rate;
+                    rateFirst2Decimals = '00';
+                }
+        
+                else if(temp_rate.length === 3) {
+                    rateIntegerPart = temp_rate[0];
+                    rateFirst2Decimals = temp_rate[2] + '0';
+                }
+        
+                else if(temp_rate.length > 3) {
+                    rateIntegerPart = temp_rate[0];
+                    rateFirst2Decimals = temp_rate[2] + temp_rate[3];
                 }
 
                 this.setState({
@@ -179,28 +173,22 @@ export default class FdObject extends Component {
                     followersNumber: response.data.followersNumber,
                 }, () => {
 
-                    let temp_rate = parseFloat(this.state.object.rate.$numberDecimal);
+                    let temp_rate = this.state.object.rate.$numberDecimal;
                     let rateIntegerPart, rateFirst2Decimals;
-                    
-                    if(typeof temp_rate === typeof 5) {
-                        if(temp_rate === 0) {
-                            rateIntegerPart = '0';
-                            rateFirst2Decimals = '00';
-                        }
 
-                        else if(temp_rate > 0 && temp_rate < 1) {
-                            temp_rate = (parseFloat(temp_rate) * 100).toString();
-                        
-                            rateIntegerPart = '0';
-                            rateFirst2Decimals = temp_rate[0] + temp_rate[1];
-                        }
-
-                        else {
-                            temp_rate = (parseFloat(temp_rate) * 100).toString();
-                        
-                            rateIntegerPart = temp_rate[0];
-                            rateFirst2Decimals = temp_rate[1] + temp_rate[2];
-                        }
+                    if(temp_rate.length === 1) {
+                        rateIntegerPart = temp_rate;
+                        rateFirst2Decimals = '00';
+                    }
+            
+                    else if(temp_rate.length === 3) {
+                        rateIntegerPart = temp_rate[0];
+                        rateFirst2Decimals = temp_rate[2] + '0';
+                    }
+            
+                    else if(temp_rate.length > 3) {
+                        rateIntegerPart = temp_rate[0];
+                        rateFirst2Decimals = temp_rate[2] + temp_rate[3];
                     }
 
                     this.setState({
@@ -388,28 +376,22 @@ export default class FdObject extends Component {
     }
 
     updateRate(rate) {
-        let temp_rate = parseFloat(rate.$numberDecimal);
+        let temp_rate = rate.$numberDecimal;
         let rateIntegerPart, rateFirst2Decimals;
-        
-        if(typeof temp_rate === typeof 5) {
-            if(temp_rate === 0) {
-                rateIntegerPart = '0';
-                rateFirst2Decimals = '00';
-            }
 
-            else if(temp_rate > 0 && temp_rate < 1) {
-                temp_rate = (parseFloat(temp_rate) * 100).toString();
-            
-                rateIntegerPart = '0';
-                rateFirst2Decimals = temp_rate[0] + temp_rate[1];
-            }
+        if(temp_rate.length === 1) {
+            rateIntegerPart = temp_rate;
+            rateFirst2Decimals = '00';
+        }
 
-            else {
-                temp_rate = (parseFloat(temp_rate) * 100).toString();
-            
-                rateIntegerPart = temp_rate[0];
-                rateFirst2Decimals = temp_rate[1] + temp_rate[2];
-            }
+        else if(temp_rate.length === 3) {
+            rateIntegerPart = temp_rate[0];
+            rateFirst2Decimals = temp_rate[2] + '0';
+        }
+
+        else if(temp_rate.length > 3) {
+            rateIntegerPart = temp_rate[0];
+            rateFirst2Decimals = temp_rate[2] + temp_rate[3];
         }
 
         const tempObject = this.state.object;
