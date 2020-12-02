@@ -1,5 +1,5 @@
 
-.comment-outter-container {
+.comment-on-object-outter-container {
     position: fixed;
     background-color: white;
 
@@ -29,16 +29,17 @@
     overflow: hidden;
 }
 
-.comment-inner-container {
+.comment-on-object-inner-container {
     position: relative;
 
-    height: calc(86vh - (2px + 7.6vh + 5.4vw));
+    height: calc(86vh - (2px + 12.3vh + 5.4vw));
     width: 100%;
 
+    margin-top: calc(1px + 0.7vh);
     padding: 0 calc(1px + 2.3vh + 1.7vw);
 }
 
-.comment-close-button-outter-container {
+.comment-on-object-close-button-outter-container {
     position: absolute;
 
     top: calc(1px + 0.1vh + 0.5vw);
@@ -49,8 +50,8 @@
     outline: none;
 }
 
-.comment-close-button-outter-container svg,
-.comment-form-close-button-outter-container svg {
+.comment-on-object-close-button-outter-container svg,
+.comment-on-object-form-close-button-outter-container svg {
     min-height: 20px;
     height: 4.1vh;
     min-width: 20px;
@@ -61,14 +62,14 @@
     cursor: pointer;
 }
 
-.comment-add-comment-icon-outter-container {
+.comment-on-object-add-comment-icon-outter-container {
     position: absolute;
 
     bottom: calc(1px + 0.5vh);
     left: 41vw;
 }
 
-.comment-add-comment-icon-outter-container svg {
+.comment-on-object-add-comment-icon-outter-container svg {
     min-height: 20px;
     height: 4.1vh;
     min-width: 20px;
@@ -79,11 +80,11 @@
     cursor: pointer;
 }
 
-.comment-form-outter-container {
+.comment-on-object-form-outter-container {
     display: none;
 }
 
-.comment-form-close-button-outter-container {
+.comment-on-object-form-close-button-outter-container {
     position: absolute;
 
     top: calc(1px + 0.1vh + 0.3vw);
@@ -101,7 +102,7 @@
 
 
 
-.comment-single-comment-outter-container {
+.comment-on-object-single-comment-outter-container {
 
     margin-bottom: calc(1px + 0.9vh + 0.3vw);
 
@@ -113,7 +114,7 @@
     background: rgba(254, 254, 254, 0.990);
 }
 
-.comment-single-comment-header-outter-container {
+.comment-on-object-single-comment-header-outter-container {
     display: flex;
     
     align-items: center;
@@ -122,7 +123,7 @@
     margin-bottom: calc(2px + 0.7vh + 0.5vw);
 }
 
-.comment-single-comment-profile-picture-container {
+.comment-on-object-single-comment-profile-picture-container {
     min-height: 30px;
     height: 14.7vw;
 
@@ -137,12 +138,12 @@
     background-size: cover;
 }
 
-.comment-single-comment-name-and-username-outter-container {
+.comment-on-object-single-comment-name-and-username-outter-container {
     height: 14.7vw;
 }
 
-.comment-single-comment-name-outter-container,
-.comment-single-comment-username-outter-container {
+.comment-on-object-single-comment-name-outter-container,
+.comment-on-object-single-comment-username-outter-container {
     word-wrap: break-word;
 
     white-space: nowrap;
@@ -150,15 +151,15 @@
     text-overflow: ellipsis;
 }
 
-.comment-single-comment-name-outter-container {
+.comment-on-object-single-comment-name-outter-container {
     font-size: 1.15rem;
 }
 
-.comment-single-comment-username-outter-container {
+.comment-on-object-single-comment-username-outter-container {
     font-size: 0.91rem;
 }
 
-.comment-single-comment-content-outter-container {
+.comment-on-object-single-comment-content-outter-container {
 
     word-wrap: break-word;
 
@@ -172,7 +173,7 @@
     overflow: hidden;
 }
 
-.comment-single-comment-rate-and-comment-outter-container {
+.comment-on-object-single-comment-rate-and-comment-outter-container {
     position: relative;
 
     min-height: 30px;
@@ -187,7 +188,7 @@
     justify-content: center;
 }
 
-.comment-outter-container .rate-type-1-outter-container {
+.comment-on-object-outter-container .rate-type-1-outter-container {
     width: 57vw;
 
     height: 4.2vh;
@@ -197,28 +198,28 @@
     overflow: hidden;
 }
 
-.comment-outter-container .rate-type-1-form span {
+.comment-on-object-outter-container .rate-type-1-form span {
     font-size: calc(5px + 1.3vh + 0.7vw);
 }
 
-.comment-outter-container .rate-type-1-rate-rate-number-and-rate-icon-outter-container 
+.comment-on-object-outter-container .rate-type-1-rate-rate-number-and-rate-icon-outter-container 
 .rate-type-1-rate-integer-part {
     font-size: calc(5px + 2vh + 0.7vw);
 }
 
-.comment-outter-container .rate-type-1-rate-number-outter-container,
-.comment-outter-container .rate-type-1-rate-rate-number-and-rate-icon-outter-container 
+.comment-on-object-outter-container .rate-type-1-rate-number-outter-container,
+.comment-on-object-outter-container .rate-type-1-rate-rate-number-and-rate-icon-outter-container 
 .rate-type-1-rate-decimal-part {
     font-size: calc(5px + 1.25vh + 0.5vw);
 }
 
-.comment-single-comment-main-icon {
+.comment-on-object-single-comment-main-icon {
     margin-right: 5vw;
     margin-bottom: 0.6vh;
     cursor: pointer;
 }
 
-.comment-single-comment-main-icon svg {
+.comment-on-object-single-comment-main-icon svg {
     min-height: 20px;
     height: 3.7vh;
     min-width: 20px;
@@ -236,11 +237,11 @@
 
 
 
-.comment-replies-number-outter-container-not-show {
+.comment-on-object-replies-number-outter-container-not-show {
     display: none;
 }
 
-.comment-replies-number-outter-container {
+.comment-on-object-replies-number-outter-container {
     width: 100%;
 
     /* border-top: solid calc(1px + 0.01vh + 0.05vw) rgb(200, 200, 200); */
@@ -258,17 +259,17 @@
     cursor: pointer;
 }
 
-.comment-replies-inner-container-1-show {
+.comment-on-object-replies-inner-container-1-show {
     position: relative;
 }
 
-.comment-replies-inner-container-1 {
+.comment-on-object-replies-inner-container-1 {
     display: none;
 
     position: relative;
 }
 
-.comment-replies-vertical-rectangle-outter-container {
+.comment-on-object-replies-vertical-rectangle-outter-container {
     position: absolute;
 
     top: 0;
@@ -282,7 +283,7 @@
     justify-content: center;
 }
 
-.comment-replies-vertical-rectangle-outter-container div {
+.comment-on-object-replies-vertical-rectangle-outter-container div {
     position: absolute;
 
     top: 0;
@@ -294,11 +295,11 @@
     background: rgb(117, 23, 6);
 }
 
-.comment-replies-inner-container-2 {
+.comment-on-object-replies-inner-container-2 {
     margin-left: 5vw;
 }
 
-.comment-reply-outter-container {
+.comment-on-object-reply-outter-container {
     border: solid 1px rgba(254, 254, 254, 0.990);
     border-radius: 1px;
 
@@ -307,7 +308,7 @@
     background: rgba(254, 254, 254, 0.990);
 }
 
-.comment-reply-header-outter-container {
+.comment-on-object-reply-header-outter-container {
     display: flex;
     
     align-items: center;
@@ -316,7 +317,7 @@
     margin-bottom: calc(2px + 0.7vh + 0.5vw);
 }
 
-.comment-reply-profile-picture-container {
+.comment-on-object-reply-profile-picture-container {
     min-height: 20px;
     height: 13.1vw;
 
@@ -331,12 +332,12 @@
     background-size: cover;
 }
 
-.comment-reply-name-and-username-outter-container {
+.comment-on-object-reply-name-and-username-outter-container {
     height: 14.7vw;
 }
 
-.comment-reply-name-outter-container,
-.comment-reply-username-outter-container {
+.comment-on-object-reply-name-outter-container,
+.comment-on-object-reply-username-outter-container {
     word-wrap: break-word;
 
     white-space: nowrap;
@@ -344,15 +345,15 @@
     text-overflow: ellipsis;
 }
 
-.comment-reply-name-outter-container {
+.comment-on-object-reply-name-outter-container {
     font-size: 1.03rem;
 }
 
-.comment-reply-username-outter-container {
+.comment-on-object-reply-username-outter-container {
     font-size: 0.87rem;
 }
 
-.comment-reply-content-outter-container {
+.comment-on-object-reply-content-outter-container {
 
     word-wrap: break-word;
 
@@ -366,7 +367,7 @@
     overflow: hidden;
 }
 
-.comment-reply-rate-and-comment-outter-container {
+.comment-on-object-reply-rate-and-comment-outter-container {
     position: relative;
 
     min-height: 30px;
@@ -381,7 +382,7 @@
     justify-content: center;
 }
 
-.comment-outter-container .rate-type-1-outter-container {
+.comment-on-object-outter-container .rate-type-1-outter-container {
     width: 57vw;
 
     height: 4.2vh;
@@ -391,28 +392,28 @@
     overflow: hidden;
 }
 
-.comment-outter-container .rate-type-1-form span {
+.comment-on-object-outter-container .rate-type-1-form span {
     font-size: calc(5px + 1.3vh + 0.7vw);
 }
 
-.comment-outter-container .rate-type-1-rate-rate-number-and-rate-icon-outter-container 
+.comment-on-object-outter-container .rate-type-1-rate-rate-number-and-rate-icon-outter-container 
 .rate-type-1-rate-integer-part {
     font-size: calc(5px + 2vh + 0.7vw);
 }
 
-.comment-outter-container .rate-type-1-rate-number-outter-container,
-.comment-outter-container .rate-type-1-rate-rate-number-and-rate-icon-outter-container 
+.comment-on-object-outter-container .rate-type-1-rate-number-outter-container,
+.comment-on-object-outter-container .rate-type-1-rate-rate-number-and-rate-icon-outter-container 
 .rate-type-1-rate-decimal-part {
     font-size: calc(5px + 1.25vh + 0.5vw);
 }
 
-.comment-reply-main-icon {
+.comment-on-object-reply-main-icon {
     margin-right: 5vw;
     margin-bottom: 0.6vh;
     cursor: pointer;
 }
 
-.comment-reply-main-icon svg {
+.comment-on-object-reply-main-icon svg {
     min-height: 20px;
     height: 3.7vh;
     min-width: 20px;
@@ -440,17 +441,151 @@
 
 
 
-.comment-message-outter-container {
+
+
+
+.comment-on-object-sections-outter-container {
+    display: flex;
+
+    align-items: center;
+    justify-content: flex-start;
+
+    min-height: 30px;
+    height: calc(3.5vh);
+    min-width: 30px;
+    width: 100%;
+}
+
+.comment-on-object-section,
+.comment-on-object-section-highlighted {
+    display: flex;
+
+    align-items: flex-end;
+    justify-content: center;
+
+    position: relative;
+
+    height: calc(3.5vh);
+    width: calc(88vw / 3);
+}
+
+.comment-on-object-section span {
+    margin-bottom: 0.23vh;
+
+    letter-spacing: 0.033rem;
+    font-size: calc(1px + 2.07vh);
+}
+
+.comment-on-object-section-highlighted span {
+    margin-bottom: 0.23vh;
+
+    letter-spacing: 0.033rem;
+    font-weight: 600;
+    font-size: calc(1px + 2.13vh);
+}
+
+.common::after, .lover::after, .hater::after,
+.common-highlighted::after, .lover-highlighted::after, .hater-highlighted::after {
+    content: '';
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+
+    min-height: 1.75px;
+    height: calc(0.19vh + 0.27vw);
+    width: 100%;
+}
+
+.common,
+.common-highlighted {
+    background: white;
+    background: radial-gradient(ellipse at 20% -10%, 
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.11) 50%,
+        rgba(255, 255, 255, 0.377) 70%,
+        rgba(255, 255, 255, 0.616) 87%,
+        rgba(255, 255, 255) 100%);
+}
+
+.common::after {
+    background: rgba(228, 8, 143, 0.767);
+    background: linear-gradient(90deg, 
+        rgba(231, 231, 231, 0.432) 0%,
+        rgba(193, 193, 193, 0.74) 60%,
+        rgb(251, 251, 251) 100%);
+}
+
+.common-highlighted::after {
+    bottom: calc(-0.19vh);
+    height: calc(0.39vh + 0.31vw);
+
+    background: silver;
+}
+
+.lover {
+    background: white;
+    background: radial-gradient(ellipse at 20% -10%, 
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.11) 50%,
+    rgba(255, 255, 255, 0.377) 70%,
+    rgba(255, 255, 255, 0.616) 87%,
+    rgba(255, 255, 255) 100%);
+}
+
+.lover::after {
+    background: rgba(228, 8, 143, 0.767);
+    background: linear-gradient(90deg, 
+        rgba(253, 217, 176, 0.767) 0%,
+        rgba(228, 8, 143, 0.767) 40%,
+        rgba(228, 8, 74, 0.897) 100%);
+}
+
+.lover-highlighted::after {
+    bottom: calc(-0.19vh);
+    height: calc(0.39vh + 0.31vw);
+
+    background: rgba(228, 8, 74, 0.897);
+}
+
+.hater {
+    background: white;
+    background: radial-gradient(ellipse at 20% -10%, 
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.11) 50%,
+        rgba(255, 255, 255, 0.377) 70%,
+        rgba(255, 255, 255, 0.616) 87%,
+        rgba(255, 255, 255) 100%);
+}
+
+.hater::after {
+    background: rgba(228, 8, 143, 0.767);
+    background: linear-gradient(90deg, 
+        rgba(97, 165, 142, 0.253) 0%,
+        rgba(190, 138, 59, 0.795) 40%,
+        rgba(173, 102, 8, 0.87) 100%);
+}
+
+.hater-highlighted::after {
+    bottom: calc(-0.19vh);
+    height: calc(0.39vh + 0.31vw);
+
+    background: rgba(173, 102, 8, 0.87);
+}
+
+.comment-on-object-message-outter-container {
+    margin-top: calc(3px + 1.7vh);
+
     text-align: center;
     font-size: calc(1px + 2.7vh + 1.7vw);
 }
 
-.comment-message-outter-container::-webkit-scrollbar {
+.comment-on-object-message-outter-container::-webkit-scrollbar {
     display: none;
 }
 
-.comment-no-comments-form-outter-container,
-.comment-form-outter-container {
+.comment-on-object-no-comments-form-outter-container,
+.comment-on-object-form-outter-container {
     position: absolute;
 
     bottom: 0;
@@ -466,8 +601,8 @@
 }
 
 
-.comment-no-comments-form-outter-container form,
-.comment-form-outter-container form {
+.comment-on-object-no-comments-form-outter-container form,
+.comment-on-object-form-outter-container form {
     display: flex;
 
     align-items: center;
@@ -478,8 +613,8 @@
     width: 100%;
 }
 
-.comment-no-comments-form-outter-container form textarea,
-.comment-form-outter-container form textarea {
+.comment-on-object-no-comments-form-outter-container form textarea,
+.comment-on-object-form-outter-container form textarea {
     min-height: 70px;
     height: 20vh;
     width: 67vw;
@@ -491,13 +626,13 @@
     outline: none;
 }
 
-.comment-no-comments-form-outter-container form textarea::placeholder,
-.comment-form-outter-container form textarea::placeholder {
+.comment-on-object-no-comments-form-outter-container form textarea::placeholder,
+.comment-on-object-form-outter-container form textarea::placeholder {
     font-size: calc(1px + 1.9vh + 1.1vw);
 }
 
-.comment-no-comments-form-outter-container form button,
-.comment-form-outter-container form button {
+.comment-on-object-no-comments-form-outter-container form button,
+.comment-on-object-form-outter-container form button {
 
     margin-right: calc(1px + 0.3vh + 0.7vw);
 
@@ -506,8 +641,8 @@
     outline: none;
 }
 
-.comment-no-comments-form-outter-container form button svg,
-.comment-form-outter-container form button svg {
+.comment-on-object-no-comments-form-outter-container form button svg,
+.comment-on-object-form-outter-container form button svg {
     min-height: 20px;
     height: 4.1vh;
     min-width: 20px;
@@ -520,7 +655,7 @@
 
 
 
-.comment-outter-container .loading-icon-outter-container {
+.comment-on-object-outter-container .loading-icon-outter-container {
     display: flex;
 
     align-items: center;
@@ -531,7 +666,7 @@
     width: 100%;
 }
 
-.comment-outter-container .loading-icon-outter-container img {
+.comment-on-object-outter-container .loading-icon-outter-container img {
     min-height: 30px;
     height: calc(9vh + 11vw);
     min-width: 30px;
@@ -625,7 +760,7 @@
     left: 39vw;
 }
 
-.comment-on-for-you-editable-container {
+.comment-on-object-on-for-you-editable-container {
     display: none;
 
     /* min-height: 140px;
@@ -640,13 +775,13 @@
     right: 33.7px;
 }
 
-.comment-on-for-you-editable-caption {
+.comment-on-object-on-for-you-editable-caption {
     height: 32px;
 
     background-color: rgb(240, 240, 255);
 }
 
-.comment-on-for-you-textarea {
+.comment-on-object-on-for-you-textarea {
     /* min-height: 120px; */
     /* height: 80%; */
     min-height: 12vh;
@@ -667,7 +802,7 @@
     overflow-x: hidden;
 }
 
-.comment-on-for-you-textarea::-webkit-scrollbar {
+.comment-on-object-on-for-you-textarea::-webkit-scrollbar {
     display: none;
 }
 

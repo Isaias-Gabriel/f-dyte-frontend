@@ -339,6 +339,7 @@ export default class ShowAndPostComments extends Component {
                         //if the user is commenting on the post/queima/belle/object
                         if((this.state.controlId === this.props.id) && (this.state.controlType === this.props.type)) {
                             this.state.comments.unshift(response.data);
+                            this.state.ratedComments.unshift(response.data._id);
 
                             this.setState({});
                         }
@@ -608,7 +609,7 @@ export default class ShowAndPostComments extends Component {
                                                 <RateType1
                                                     rate={comment.rate.$numberDecimal}
                                                     rateNumber={comment.rateNumber}
-                                                    isRated={this.state.ratedComments.includes(comment._id) ? true: false}
+                                                    isRated={this.state.ratedComments.includes(comment._id)}
 
                                                     type={comment.type}
                                                     id={comment._id}
@@ -800,6 +801,11 @@ export default class ShowAndPostComments extends Component {
                         <button className="comment-form-close-button-outter-container">
                             <MdClose
                                 onClick={() => {
+                                    this.setState({
+                                        controlId: this.props.id,
+                                        controlType: this.props.type,
+                                    })
+
                                     this.showFormDiv.current.style.display = 'block';
                                     this.formDiv.current.style.display = 'none';
                                     this.textarea.current.placeholder = (

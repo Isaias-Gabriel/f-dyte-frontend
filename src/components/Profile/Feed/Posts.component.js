@@ -1482,12 +1482,20 @@ export default class Posts extends Component {
                                                         (
                                                             <div className="profile-posts-display-single-post-media-outter-container">
                                                                 <div className="profile-posts-display-single-post-media-preview">
-                                                                    <div className="profile-posts--display-single-post-media-preview-unique-image">
+                                                                    <div className="profile-posts-display-single-post-media-preview-unique-image">
                                                                         {
                                                                             post.content.urls[ this.state[ post._id + 'uniqueImageIndex' ] ] && (
                                                                                 <div
                                                                                     style={{
                                                                                         backgroundImage: `url(${post.content.urls[ this.state[ post._id + 'uniqueImageIndex' ] ]})`
+                                                                                    }}
+                                                                                    onClick={() => {
+                                                                                        this.setState({
+                                                                                            whichComponent: 'showMediaCompletely',
+                                                                                            componentProps: {
+                                                                                                url: post.content.urls[ this.state[ post._id + 'uniqueImageIndex' ] ]
+                                                                                            }
+                                                                                        });
                                                                                     }}
                                                                                 >
                                                                                 </div>

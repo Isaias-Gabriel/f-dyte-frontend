@@ -21,6 +21,8 @@ import RateType1 from '../../RatingSlider/RateType1.component';
 //import CommentOnBelle from '../Comment/CommentOnBelle.component';
 import CommentOnPQBS from '../../Comment/CommentOnPQBS.component';
 
+import ModalsHub from '../../ModalsHub/ModalsHub.component';
+
 import './QueimaPostsStyles.css';
 
 require('dotenv/config');
@@ -87,6 +89,8 @@ export default class QueimaPost extends Component {
 
         this.updateRate = this.updateRate.bind(this);
 
+        this.setComponentToNull = this.setComponentToNull.bind(this);
+
         this.addQueimaAuxDiv = React.createRef();
         this.addQueima = React.createRef();
         this.addQueimaFileInput = React.createRef();
@@ -111,6 +115,8 @@ export default class QueimaPost extends Component {
             uniqueImageIndex: 0,
 
             showAsGrid: true,
+
+            whichComponent: null,
 
             staticText: {
                 'pt-BR': {
@@ -697,6 +703,12 @@ export default class QueimaPost extends Component {
         })
     }
 
+    setComponentToNull() {
+        this.setState({
+            whichComponent: null,
+        })
+    }
+
     render() {
         const {
             tempUrls,
@@ -1096,6 +1108,14 @@ export default class QueimaPost extends Component {
                                                     style={{
                                                         backgroundImage: `url(${queima.content.urls[ this.state[ queima._id + 'uniqueImageIndex' ] ]})`
                                                     }}
+                                                    onClick={() => {
+                                                        this.setState({
+                                                            whichComponent: 'showMediaCompletely',
+                                                            componentProps: {
+                                                                url: queima.content.urls[ this.state[ queima._id + 'uniqueImageIndex' ] ]
+                                                            }
+                                                        });
+                                                    }}
                                                 >
                                                 </div>
                                             </div>
@@ -1160,6 +1180,13 @@ export default class QueimaPost extends Component {
                                 )
                             })
                         }
+
+                        <ModalsHub 
+                            whichComponent={this.state.whichComponent}
+                            componentProps={this.state.componentProps}
+
+                            setComponentToNull={this.setComponentToNull}
+                        />
                     </div>
                 )
             }

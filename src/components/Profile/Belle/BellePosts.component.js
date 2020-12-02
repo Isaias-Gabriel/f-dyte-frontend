@@ -21,6 +21,8 @@ import RateType1 from '../../RatingSlider/RateType1.component';
 //import CommentOnBelle from '../Comment/CommentOnBelle.component';
 import CommentOnPQBS from '../../Comment/CommentOnPQBS.component';
 
+import ModalsHub from '../../ModalsHub/ModalsHub.component';
+
 import './BellePostsStyles.css';
 
 require('dotenv/config');
@@ -87,6 +89,8 @@ export default class BellePost extends Component {
 
         this.updateRate = this.updateRate.bind(this);
 
+        this.setComponentToNull = this.setComponentToNull.bind(this);
+
         this.addBelleAuxDiv = React.createRef();
         this.addBelle = React.createRef();
         this.addBelleFileInput = React.createRef();
@@ -111,6 +115,8 @@ export default class BellePost extends Component {
             uniqueImageIndex: 0,
 
             showAsGrid: true,
+
+            whichComponent: null,
 
             staticText: {
                 'pt-BR': {
@@ -696,6 +702,12 @@ export default class BellePost extends Component {
         })
     }
 
+    setComponentToNull() {
+        this.setState({
+            whichComponent: null,
+        })
+    }
+
     render() {
         const {
             tempUrls,
@@ -992,7 +1004,7 @@ export default class BellePost extends Component {
                                             id="files"
                                             name="files"
                                             
-                                            //accept=".jpeg,.pjpeg,.png,.gif,.jpg,.mp4,.3gp,.webm"
+                                            //media-preview-unique-imaget=".jpeg,.pjpeg,.png,.gif,.jpg,.mp4,.3gp,.webm"
                                             accept=".jpeg,.pjpeg,.png,.gif,.jpg"
                                             
                                             onChange={this.handleChangeFile}
@@ -1097,6 +1109,14 @@ export default class BellePost extends Component {
                                                     style={{
                                                         backgroundImage: `url(${belle.content.urls[ this.state[ belle._id + 'uniqueImageIndex' ] ]})`
                                                     }}
+                                                    onClick={() => {
+                                                        this.setState({
+                                                            whichComponent: 'showMediaCompletely',
+                                                            componentProps: {
+                                                                url: belle.content.urls[ this.state[ belle._id + 'uniqueImageIndex' ] ]
+                                                            }
+                                                        });
+                                                    }}
                                                 >
                                                 </div>
                                             </div>
@@ -1161,6 +1181,13 @@ export default class BellePost extends Component {
                                 )
                             })
                         }
+
+                        <ModalsHub 
+                            whichComponent={this.state.whichComponent}
+                            componentProps={this.state.componentProps}
+
+                            setComponentToNull={this.setComponentToNull}
+                        />
                     </div>
 
                     // <div className="profile-belle-posts-outter-container">

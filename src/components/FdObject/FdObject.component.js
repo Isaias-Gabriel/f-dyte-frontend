@@ -13,6 +13,8 @@ import Menu from '../Menu/Menu.component';
 import CommentOnObject from '../Comment/CommentOnObject.component';
 import FollowObject from '../FollowObject/FollowObject.component';
 
+import ModalsHub from '../ModalsHub/ModalsHub.component';
+
 import RateType2 from '../RatingSlider/RateType2.component';
 
 import './styles.css';
@@ -60,6 +62,8 @@ export default class FdObject extends Component {
 
         this.updateRate = this.updateRate.bind(this);
 
+        this.setComponentToNull = this.setComponentToNull.bind(this);
+
         this.state = {
             objectFound: true,
 
@@ -82,6 +86,9 @@ export default class FdObject extends Component {
             rateFirst2Decimals: '00',
 
             rateSubmitted: null,
+
+            whichComponent: null,
+            componentProps: null,
         }
     }
 
@@ -97,24 +104,24 @@ export default class FdObject extends Component {
             objectNickname = this.props.match.params.nickname;
         }
 
-        const client = new W3CWebSocket('ws://127.0.0.1:8000/');
+        // const client = new W3CWebSocket('ws://127.0.0.1:8000/');
 
-        client.onopen = () => {
-            client.send(JSON.stringify({
-                type: 'objectConnection',
-                sessionId: localStorage.getItem('e'),
-                objectNickname: objectNickname,
-            }))
-            console.log('Websocket client - object connected');
-        };
+        // client.onopen = () => {
+        //     client.send(JSON.stringify({
+        //         type: 'objectConnection',
+        //         sessionId: localStorage.getItem('e'),
+        //         objectNickname: objectNickname,
+        //     }))
+        //     console.log('Websocket client - object connected');
+        // };
 
-        client.onmessage = (message) => {
-            const dataFromServer = JSON.parse(message.data);
-            console.log(dataFromServer)
-            this.setState({
-                object: dataFromServer.object,
-            })
-        }
+        // client.onmessage = (message) => {
+        //     const dataFromServer = JSON.parse(message.data);
+        //     console.log(dataFromServer)
+        //     this.setState({
+        //         object: dataFromServer.object,
+        //     })
+        // }
 
         if(this.props.data) {
             this.setState({
@@ -405,6 +412,12 @@ export default class FdObject extends Component {
         })
     }
 
+    setComponentToNull() {
+        this.setState({
+            whichComponent: null,
+        })
+    }
+
     render() {
         const { objectFound } = this.state;
 
@@ -430,7 +443,7 @@ export default class FdObject extends Component {
 
             const categories = this.state.object.categories[0];
 
-            console.log(this.state);
+            // console.log(this.state);
 
             if(rateSubmitted) {
                 return <Redirect to={"/redirect_to_object/" + this.props.match.params.nickname} />;
@@ -581,8 +594,26 @@ export default class FdObject extends Component {
                     </div>
 
                     <div className="object-comment-icon-outter-container">
-                        <FaRegCommentAlt />
+                        <FaRegCommentAlt
+                            onClick={() => {
+                                this.setState({
+                                    whichComponent: 'commentOnObject',
+                                    componentProps: {
+                                        id: id,
+                                        name: name,
+                                        nickname: nickname,
+                                    }
+                                });
+                            }}
+                        />
                     </div>
+
+                    <ModalsHub 
+                        whichComponent={this.state.whichComponent}
+                        componentProps={this.state.componentProps}
+
+                        setComponentToNull={this.setComponentToNull}
+                    />
                 </div>
                 
                 

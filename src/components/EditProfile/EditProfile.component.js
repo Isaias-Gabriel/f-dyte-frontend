@@ -6,6 +6,8 @@ import Menu from '../Menu/Menu.component';
 
 import { RiImageAddLine } from 'react-icons/ri';
 
+import loadingIcon from '../../assets/loading-infinity-icon.svg';
+
 import './styles.css';
 
 require('dotenv/config');
@@ -63,6 +65,8 @@ export default class EditProfile extends Component {
                 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
                 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8',
                 '9', '_', ],
+
+            loaded: false,
             
             staticText: {
                 'pt-BR': {
@@ -390,8 +394,15 @@ export default class EditProfile extends Component {
         
     }
 
-    submitProfile(e) {
+    async submitProfile(e) {
         e.preventDefault();
+
+        await this.setState({
+            loaded: false,
+        });
+
+        this.auxDiv.current.style.display = 'block';
+        this.messageDiv.current.style.display = 'flex';
 
         let { name, username, email } = this.state;
         const { originalName, originalUsername, originalEmail } = this.state;
@@ -434,9 +445,8 @@ export default class EditProfile extends Component {
                         :
                         staticText['en-US'].messageProfile
                     ),
+                    loaded: true,
                 }, () => {
-                    this.auxDiv.current.style.display = 'block';
-                    this.messageDiv.current.style.display = 'flex';
 
                     setTimeout(() => {
                         this.auxDiv.current.style.display = 'none';
@@ -448,8 +458,15 @@ export default class EditProfile extends Component {
 
     }
 
-    submitProfilePicture(e) {
+    async submitProfilePicture(e) {
         e.preventDefault();
+
+        await this.setState({
+                loaded: false,
+            });
+
+        this.auxDiv.current.style.display = 'block';
+        this.messageDiv.current.style.display = 'flex';
 
         const fileData = new FormData();
 
@@ -471,9 +488,8 @@ export default class EditProfile extends Component {
                         :
                         staticText['en-US'].messageProfilePicture
                     ),
+                    loaded: true,
                 }, () => {
-                    this.auxDiv.current.style.display = 'block';
-                    this.messageDiv.current.style.display = 'flex';
 
                     setTimeout(() => {
                         this.auxDiv.current.style.display = 'none';
@@ -498,6 +514,8 @@ export default class EditProfile extends Component {
             profilePicturePreviewUrl,
             message,
 
+            loaded,
+
             staticText,
         } = this.state;
 
@@ -519,7 +537,19 @@ export default class EditProfile extends Component {
                         className="edit-profile-success-message-outter-container"
                         ref={this.messageDiv}
                     >
-                        { message }
+                        {
+                            (!loaded) ?
+                            (
+                                <div className="loading-icon-outter-container">
+                                    <img
+                                        src={loadingIcon}
+                                        alt="Loading"
+                                    />
+                                </div>
+                            )
+                            :
+                            `${ message }`
+                        }
                     </div>
 
                     <div className="edit-profile-profile-information-outter-container">

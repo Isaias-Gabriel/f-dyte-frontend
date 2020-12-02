@@ -666,7 +666,7 @@
     margin-bottom: calc(2px + 0.7vh + 0.5vw);
 }
 
-.profile-posts--display-single-post-media-preview-unique-image div {
+.profile-posts-display-single-post-media-preview-unique-image div {
     min-height: 100px;
     height: 55vh;
 

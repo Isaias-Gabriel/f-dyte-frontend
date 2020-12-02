@@ -1,0 +1,1419 @@
+import React, { Component } from 'react';
+import { Redirect, Link } from 'react-router-dom';
+import Linkify from 'react-linkify';
+import axios from 'axios';
+
+import { FaRegCommentAlt } from 'react-icons/fa';
+import { MdClose } from 'react-icons/md';
+import { IoMdSend } from 'react-icons/io';
+import { RiDeleteBin6Line } from 'react-icons/ri';
+
+import ReturnReferenceAsLink from 
+    '../ReturnReferenceAsLink/ReturnReferenceAsLink.component';
+    
+import RateType1 from '../RatingSlider/RateType1.component';
+import RatingSlider from '../RatingSlider/RatingSlider.component';
+
+import ShowMediaAndContent from '../ShowMediaAndContent/ShowMediaAndContent.component';
+
+import loadingIcon from '../../assets/loading-infinity-icon.svg';
+
+import './showAndPostCommentsOnObjectStyles.css';
+
+require('dotenv/config');
+
+export default class ShowAndPostCommentsOnObject extends Component {
+    constructor(props) {
+        super(props);
+
+        this.handleChange = this.handleChange.bind(this);
+        
+        this.showDeleteDiv = this.showDeleteDiv.bind(this);
+        this.hideDeleteDiv = this.hideDeleteDiv.bind(this);
+
+        this.deleteComment = this.deleteComment.bind(this);
+
+        this.loadComments = this.loadComments.bind(this);
+
+        this.showEditableDiv = this.showEditableDiv.bind(this);
+
+        this.sendComment = this.sendComment.bind(this);
+
+        this.onClickCloseAddCommentButton = this.onClickCloseAddCommentButton.bind(this);
+
+        this.onClickToShowReplies = this.onClickToShowReplies.bind(this);
+        this.hideReplies = this.hideReplies.bind(this);
+
+        this.editableDivCaption = React.createRef();
+        this.editableDivContainer = React.createRef();
+
+        this.deleteDiv = React.createRef();
+
+        this.showCommentDivButton = React.createRef();
+
+        this.formDiv = React.createRef();
+        this.textarea = React.createRef();
+        this.showFormDiv = React.createRef();
+        
+        this.state = {
+            comment: '',
+
+            comments: [],
+            ratedComments: [],
+
+            commonComments: [],
+            commonRatedComments: [],
+
+            loverComments: [],
+            loverRatedComments: [],
+
+            haterComments: [],
+            haterRatedComments: [],
+
+
+            commonSectionLoaded: false,
+            loverSectionLoaded: false,
+            haterSectionLoaded: false,
+
+            currentCommentSection: 'common',
+            userCommentSection: 'common',
+
+            clicked: true,
+
+            controlId: this.props.id,
+            controlType: 'object',
+            controlCommentSection: 'common',
+            controlCaption: 'Add a comment',
+            
+            replyOnInnerComment: false,
+
+            redirectTo: null,
+
+            pageLoaded: false,
+            loaded: false,
+
+            staticText: {
+                'pt-BR': {
+                    yes: 'Sim',
+                    no: 'Não',
+                    optionsDelete: 'Deletar',
+
+                    noCommentsMessage: "Ninguém comentou ainda ' -'",
+
+                    placeholder: [
+                        'Comente algo sobre ',
+                        {
+                            common: ' :D',
+                            hater: ' >:0',
+                            lover: ' :3',
+                        }
+                    ],
+                    placeholderReply: 'Responda @',
+
+                    showReply: 'mostrar respostas',
+                    hideReply: 'esconder respostas',
+                },
+                'en-US': {
+                    yes: 'Yes',
+                    no: 'No',
+                    optionsDelete: 'Delete',
+
+                    noCommentsMessage: "Nobody has commented yet ' -'",
+
+                    placeholder: [
+                        'Comment something about ',
+                        {
+                            common: ' :D',
+                            hater: ' >:0',
+                            lover: ' :3',
+                        }
+                    ],
+                    placeholderReply: 'Reply to @',
+
+                    showReply: 'show replies',
+                    hideReply: 'hide replies',
+                },
+            }
+        }
+    }
+
+    componentDidMount() {
+
+        const formInfo = {
+            id: this.props.nickname,
+            sessionId: localStorage.getItem('e'),
+        }
+
+        axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/get_object_comments', formInfo)
+            .then(response => {
+
+                //console.log(response.data);
+
+                const { commentsSection } = response.data;
+
+                this.setState({
+                    comments: [... response.data.comments],
+                    ratedComments: [... response.data.ratedComments],
+
+                    [ commentsSection + "Comments" ]: [... response.data.comments],
+                    [ commentsSection + "RatedComments" ]: [... response.data.ratedComments],
+
+                    clicked: true,
+                    pageLoaded: true,
+                    loaded: true,
+
+                    [ commentsSection + 'SectionLoaded' ]: true,
+
+                    currentCommentSection: commentsSection,
+                    userCommentSection: commentsSection,
+                    controlCommentSection: commentsSection,
+                }, () => {
+                    let formInfo
+
+                    this.state.comments.map(comment => {
+                        if(comment.comments.length === 1) {
+                            formInfo = {
+                                id: comment._id,
+                                sessionId: localStorage.getItem('e'),
+                            }
+                    
+                            axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/get_comment_comments', formInfo)
+                                .then(response => {
+                                    this.setState({
+                                        [ comment._id + "Comments" ]: response.data.comments,
+                                        [ comment._id + "RatedComments" ]: response.data.ratedComments,
+                                        [ comment._id + "Length" ]: comment.comments.length,
+                                    })
+                                })
+                                .catch(err => console.log(err));
+                        }
+
+                        else {
+                            this.setState({
+                                [ comment._id + "Length" ]: comment.comments.length,
+                                [ comment._id + "Comments" ]: [],
+                            })
+                        }
+                    })
+                })
+            })
+            .catch(err => console.log(err));
+
+        if(!localStorage.getItem('language')) {
+            localStorage.setItem('language', navigator.language);
+        }
+    }
+
+    handleChange = e => {
+        this.setState({
+            [ e.target.name ]: e.target.value
+        })
+    }
+
+    showDeleteDiv(id) {
+        this.deleteDiv.current.style.display = "block";
+
+        this.setState({
+            commentToDeleteId: id,
+        })
+    }
+
+    hideDeleteDiv() {
+        this.deleteDiv.current.style.display = "none";
+    }
+    
+    deleteComment() {
+        axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/delete_comment', { id: this.state.commentToDeleteId })
+            .then(() => {
+                const id = this.state.commentToDeleteId;
+                
+                this.setState({
+                    comments: this.state.comments.filter(comment => {
+                        if(!(comment._id === id)) {
+                            return comment
+                        }
+                    })
+                }, () => {
+                    this.hideDeleteDiv();
+                })
+            })
+            .catch(err => console.log(err));
+    }
+
+    async loadComments() {
+
+        const { currentCommentSection } = this.state;
+
+        if(this.state[ currentCommentSection + 'SectionLoaded']) {
+            this.setState({
+                comments: [... this.state[ currentCommentSection + "Comments" ]],
+                ratedComments: [... this.state[ currentCommentSection + "RatedComments" ]],
+                loaded: true,
+            })
+        }
+
+        else {
+            const formInfo = {
+                sessionId: localStorage.getItem('e'),
+            }
+    
+            axios.post(
+                process.env.REACT_APP_SERVER_ADDRESS +
+                '/get_object_comments_by_section/' + this.props.nickname + '&' + currentCommentSection,
+                formInfo
+            )
+                .then(response => {
+    
+                    //console.log(response.data);
+    
+                    this.setState({
+                        comments: [... response.data.comments],
+                        ratedComments: [... response.data.ratedComments],
+    
+                        [ currentCommentSection + "Comments" ]: [... response.data.comments],
+                        [ currentCommentSection + "RatedComments" ]: [... response.data.ratedComments],
+    
+                        clicked: true,
+                        loaded: true,
+                    }, () => {
+                        let formInfo
+    
+                        this.state.comments.map(comment => {
+                            if(comment.comments.length === 1) {
+                                formInfo = {
+                                    id: comment._id,
+                                    sessionId: localStorage.getItem('e'),
+                                }
+                        
+                                axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/get_comment_comments', formInfo)
+                                    .then(response => {
+                                        this.setState({
+                                            [ comment._id + "Comments" ]: response.data.comments,
+                                            [ comment._id + "RatedComments" ]: response.data.ratedComments,
+                                            [ comment._id + "Length" ]: comment.comments.length,
+                                        })
+                                    })
+                                    .catch(err => console.log(err));
+                            }
+    
+                            else {
+                                this.setState({
+                                    [ comment._id + "Length" ]: comment.comments.length,
+                                    [ comment._id + "Comments" ]: [],
+                                })
+                            }
+                        })
+                    })
+                })
+                .catch(err => console.log(err));
+        }
+    }
+
+    showRatingSlider(id) {
+        if(!(this.state.ratedComments.includes(id))) {
+            return <RatingSlider id={id} type={'comment'} />;
+        }
+    }
+
+    showEditableDiv() {
+        
+        this.editableDivContainer.current.style.display = "block";
+        this.textarea.current.focus();
+        this.editableDivCaption.current.innerText = 'Add a comment';
+        this.showCommentDivButton.current.style.display = "none";
+
+        this.setState({
+            controlId: this.props.id,
+            controlCaption: 'Add a comment',
+        })
+    }
+
+    showEditableDivForComment(id, username) {
+        
+        this.editableDivContainer.current.style.display = "block";
+        this.textarea.current.focus();
+        this.editableDivCaption.current.innerText = 'Reply to @' + username;
+        this.showCommentDivButton.current.style.display = "none";
+
+        this.setState({
+            controlId: id,
+            controlType: 'comment',
+            controlCaption: 'Reply to @' + username,
+        })
+    }
+
+    showEditableDivForComment(id, username) {
+        
+        this.editableDivContainer.current.style.display = "block";
+        this.textarea.current.focus();
+        this.editableDivCaption.current.innerText = 'Reply to @' + username;
+        this.showCommentDivButton.current.style.display = "none";
+
+        this.setState({
+            controlId: id,
+            controlType: 'comment',
+            controlCaption: 'Reply to @' + username,
+        })
+    }
+
+    sendComment(e) {
+        e.preventDefault();
+
+        const {
+            comment,
+            userCommentSection,
+            currentCommentSection,
+        } = this.state;
+
+        console.log('submitted');
+
+        if(!comment.trim().length) {
+            this.setState({
+                comment: comment.trim(),
+            })
+        }
+
+        else if(
+            (
+                // common user can comment on common section only
+                (userCommentSection === 'common' && currentCommentSection === 'common') ||
+                // hater user can comment on both common and hater section
+                (userCommentSection === 'hater' && 
+                (currentCommentSection === 'hater' || currentCommentSection === 'common')) ||
+                // lover user can comment on both common and lover section
+                (userCommentSection === 'lover' && 
+                (currentCommentSection === 'lover' || currentCommentSection === 'common'))
+            )
+        ) {
+
+            if(this.showFormDiv.current) {
+                const { staticText } = this.state;
+
+                this.showFormDiv.current.style.display = 'block';
+                this.textarea.current.placeholder = (
+                    (staticText[localStorage.getItem('language')]) ?
+                    staticText[localStorage.getItem('language')].placeholder[0] + this.props.name +
+                    staticText[localStorage.getItem('language')].placeholder[1][this.state.currentCommentSection]
+                    :
+                    staticText['en-US'].placeholder[0] + this.props.name +
+                    staticText['en-US'].placeholder[1][this.state.currentCommentSection]
+                );
+                this.formDiv.current.style.display = 'none';
+            }
+
+            //if the user is commenting on another comment
+            if(this.state.replyOnInnerComment) {
+                const formInfo = {
+                    sessionId: localStorage.getItem('e'),
+                    content: '@' + this.state.replyedUserUsername + ' ' + comment,
+                    replyedUserUsername: this.state.replyedUserUsername,
+                    parentId: this.state.controlId,
+                };
+                
+                this.editableDivContainer.current.style.display = "none";
+                this.showCommentDivButton.current.style.display = "inline-block";
+
+                this.setState({
+                    replyOnInnerComment: false,
+                    comment: '',
+                })
+
+                console.log(formInfo);
+
+                axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/reply_on_for_you_inner_comment', formInfo)
+                    .then(response => {
+                        console.log(response.data);
+
+                        let tempComms = this.state[ this.state.controlId ] || [];
+                        let tempRatedComms = this.state[ this.state.controlId + "RatedComments" ] || [];
+                        let tempCommsLen = this.state[this.state.controlId + "Length"] || 0;
+
+                        tempComms.unshift(response.data.comment);
+                        tempRatedComms.unshift(response.data.comment._id);
+                        
+                        this.setState({
+                            replyOnInnerComment: false,
+
+                            [ this.state.controlId ]: tempComms,
+                            [ this.state.controlId + "RatedComments" ]: tempRatedComms,
+                            [ this.state.controlId + "Length" ]: tempCommsLen + 1,
+                        })
+                    })
+                    .catch(err => console.log(err));
+            }
+
+            //if the user is commenting on the object or outter comment
+            else {
+                const formInfo = {
+                    id: this.state.controlId,
+                    content: comment,
+                    commentSection: this.state.controlCommentSection,
+                    sessionId: localStorage.getItem('e'),
+                };
+
+                this.setState({
+                    comment: '',
+                });
+
+                axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/comment_on_' + this.state.controlType, formInfo)
+                    .then(response => {
+                        //console.log(response.data);
+
+                        //if the user is commenting on the object
+                        if(this.state.controlId === this.props.id && this.state.controlType === 'object') {
+                            const { controlCommentSection } = this.state;
+
+                            this.state.comments.unshift(response.data);
+                            this.state.ratedComments.unshift(response.data._id);
+
+                            this.state[ controlCommentSection + "Comments" ].unshift(response.data);
+                            this.state[ controlCommentSection + "RatedComments" ].unshift(response.data._id);
+
+                            this.setState({});
+                        }
+                        
+                        //if the user is commenting on an outter comment
+                        else {
+                            let tempComments = this.state[ this.state.controlId + "Comments" ] || [];
+                            let tempRatedComments = this.state[ this.state.controlId + "RatedComments" ] || [];
+                            let tempCommentsLen = this.state[this.state.controlId + "Length"] || 0;
+
+                            tempComments.unshift(response.data.comment);
+                            tempRatedComments.unshift(response.data.comment._id);
+
+                            this.setState({
+                                [ this.state.controlId + "Comments" ]: tempComments,
+                                [ this.state.controlId + "RatedComments" ]: tempRatedComments,
+                                [ this.state.controlId + "Length" ]: tempCommentsLen + 1,
+                            })
+                        }
+                    })
+                    .catch(err => console.log(err));
+            }
+        }
+    }
+
+    onClickCloseAddCommentButton() {
+        this.editableDivContainer.current.style.display = "none";
+        this.showCommentDivButton.current.style.display = "inline-block";
+    }
+
+    onClickToShowReplies(id) {
+        const formInfo = {
+            id: id,
+            sessionId: localStorage.getItem('e'),
+        }
+        
+        axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/get_comment_comments', formInfo)
+            .then(response => {
+                this.setState({
+                    [ id ]: response.data.comments,
+                    [ id + "RatedComments" ]: response.data.ratedComments,
+                    [ id + "Clicked" ]: true,
+                })
+            })
+            .catch(err => console.log(err));
+    }
+
+    hideReplies(id) {
+        this.setState({
+            [ id + "Clicked" ]: false,
+        })
+    }
+
+    redirectTo(id) {
+        this.setState({
+            redirectTo: '/comment/' + id
+        })
+    }
+
+    innerComments(id, comms, clicked, commsLength, ratedComments) {
+        function showRatingSlider(id) {
+            if(!(ratedComments.includes(id))) {
+                return <RatingSlider id={id} type={'comment'} />;
+            }
+        }
+
+        if(commsLength) {
+            if((1 <= comms.length) && (comms.length <= 3)) {
+                return(
+                    <div className="cmm-n-cmm-shwandpst-container">
+                        <div>
+                            {
+                                comms.map(comm => {
+                                    return(
+                                        <div key={comm._id}>
+                                            <div
+                                                className="cmmwprgnrspc-fy"
+                                                onClick={() => {
+                                                    this.redirectTo(comm._id);
+                                                }}
+                                            >
+                                                <ShowMediaAndContent resource={comm} />
+                                            </div>
+    
+                                            <div>
+                                                <div>
+                                                    {
+                                                        showRatingSlider(comm._id)
+                                                    }
+    
+                                                    <button className="rtstr-button" onClick={() => {
+                                                        this.setState({
+                                                            replyOnInnerComment: true,
+                                                            replyedId: comm._id,
+                                                            replyedUserUsername: comm.userUsername,
+                                                        }, () => {
+                                                            this.showEditableDivForComment(id, comm.userUsername);
+                                                        })
+                                                    }}>
+                                                        <FaRegCommentAlt className="ccn-spcts" />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
+                    </div>
+                )
+            }
+    
+            else {
+                if(clicked) {
+                    return(
+                        <div>
+                            <button onClick={() => {
+                                this.hideReplies(id)
+                            }}>
+                                hide replies
+                            </button>
+    
+                            <div className="cmm-n-cmm-shwandpst-container">
+                                <div>
+                                    {
+                                        comms.map(comm => {
+                                            return(
+                                                <div key={comm._id}>
+                                                    <div
+                                                        className="cmmwprgnrspc-fy"
+                                                        onClick={() => {
+                                                            this.redirectTo(comm._id);
+                                                        }}
+                                                    >
+                                                        <ShowMediaAndContent resource={comm} />
+                                                    </div>
+            
+                                                    <div>
+                                                        <div>
+                                                            {
+                                                                showRatingSlider(comm._id)
+                                                            }
+            
+                                                            <button className="rtstr-button" onClick={() => {
+                                                                this.setState({
+                                                                    replyOnInnerComment: true,
+                                                                    replyedId: comm._id,
+                                                                    replyedUserUsername: comm.userUsername,
+                                                                }, () => {
+                                                                    this.showEditableDivForComment(id, comm.userUsername);
+                                                                })
+                                                            }}>
+                                                                <FaRegCommentAlt className="ccn-spcts" />
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
+    
+                else {
+                    return (
+                        <button onClick={() => {
+                            this.onClickToShowReplies(id)
+                        }}>
+                            show replies ({ commsLength })
+                        </button>
+                    );
+                }
+            }
+        }
+    
+        else {
+            return '';
+        }
+    }
+
+    render() {
+        
+        const {
+            comments,
+            comment,
+
+            pageLoaded,
+            loaded,
+
+            staticText,
+
+            userCommentSection,
+            currentCommentSection,
+        } = this.state;
+
+        // console.log(this.state);
+
+        if(this.state.redirectTo) {
+            return <Redirect to={this.state.redirectTo} />
+        }
+
+        if(!pageLoaded) {
+            return(
+                <div className="comment-on-object-outter-container">
+                    <div className="comment-on-object-inner-container">
+                        
+                    </div>
+                </div>
+            )
+        }
+
+        if(comments.length) {
+            return(
+                <div className="comment-on-object-outter-container">
+                    <button className="comment-on-object-close-button-outter-container"
+                        onClick={() => {
+                            this.props.setComponentToNull()
+                        }}
+                    >
+                        <MdClose />
+                    </button>
+
+                    <div className="comment-on-object-sections-outter-container">
+                        <div
+                            className={
+                                (currentCommentSection === 'hater')
+                                ?
+                                'comment-on-object-section-highlighted hater-highlighted'
+                                :
+                                'comment-on-object-section hater'
+                            }
+                            onClick={async () => {
+                                const { currentCommentSection } = this.state;
+
+                                if(currentCommentSection !== 'hater') {
+                                    await this.setState({
+                                        currentCommentSection: 'hater',
+                                        controlCommentSection: 'hater',
+                                        loaded: false,
+                                    })
+    
+                                    this.loadComments()
+                                }
+                            }}
+                        >
+                            <span>
+                                HATERS
+                            </span>
+                        </div>
+
+                        <div
+                            className={
+                                (currentCommentSection === 'common')
+                                ?
+                                'comment-on-object-section-highlighted common-highlighted'
+                                :
+                                'comment-on-object-section common'
+                            }
+                            onClick={async () => {
+                                const { currentCommentSection } = this.state;
+
+                                if(currentCommentSection !== 'common') {
+                                    await this.setState({
+                                        currentCommentSection: 'common',
+                                        controlCommentSection: 'common',
+                                        loaded: false,
+                                    })
+    
+                                    this.loadComments()
+                                }
+                            }}
+                        >
+                            <span>
+                                COMMON
+                            </span>
+                        </div>
+
+                        <div
+                            className={
+                                (currentCommentSection === 'lover')
+                                ?
+                                'comment-on-object-section-highlighted lover-highlighted'
+                                :
+                                'comment-on-object-section lover'
+                            }
+                            onClick={async () => {
+                                const { currentCommentSection } = this.state;
+
+                                if(currentCommentSection !== 'lover') {
+                                    await this.setState({
+                                        currentCommentSection: 'lover',
+                                        controlCommentSection: 'lover',
+                                        loaded: false,
+                                    })
+    
+                                    this.loadComments()
+                                }
+                            }}
+                        >
+                            <span>
+                                LOVERS
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="comment-on-object-inner-container">
+                        {
+                            (!loaded) 
+                            ?
+                            (
+                                <div className="loading-icon-outter-container">
+                                    <img
+                                        src={loadingIcon}
+                                        alt="Loading"
+                                    />
+                                </div>
+                            )
+                            :
+                            (
+                                <div className="comment-on-object-comments-outter-container">
+                                    {
+                                        comments.map((comment, index) => {
+
+                                            // console.log(comment._id);
+                                            // console.log((this.state[ comment._id + "Length" ]) ? true : false);
+
+                                            return (
+                                                <div className="comment-on-object-single-comment-outter-container" key={index}>
+                                                    <div className="show-media-and-content-header-outter-container">
+                                                        <div
+                                                            className="comment-on-object-single-comment-profile-picture-container"
+                                                            style={{
+                                                                backgroundImage: `url(${comment.userProfilePictureUrl})`
+                                                            }}
+                                                        >
+                                                        </div>
+
+                                                        <div className="comment-on-object-single-comment-name-and-username-outter-container">
+                                                            <div className="comment-on-object-single-comment-name-outter-container">
+                                                                <Link to={"/profile/" + comment.userUsername}>
+                                                                    { comment.userName }
+                                                                </Link>
+                                                            </div>
+
+                                                            <div className="comment-on-object-single-comment-username-outter-container">
+                                                                <Link to={"/profile/" + comment.userUsername}>
+                                                                    @{ comment.userUsername }
+                                                                </Link>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="comment-on-object-single-comment-content-outter-container">
+                                                        <Linkify>
+                                                            { `${comment.content.text}` }
+                                                        </Linkify>
+                                                    </div>
+
+                                                    <div className="comment-on-object-single-comment-rate-and-comment-outter-container ">
+                                                        <RateType1
+                                                            rate={comment.rate.$numberDecimal}
+                                                            rateNumber={comment.rateNumber}
+                                                            isRated={this.state.ratedComments.includes(comment._id)}
+
+                                                            type={comment.type}
+                                                            id={comment._id}
+                                                        />
+
+                                                        <div className="comment-on-object-single-comment-main-icon">
+                                                            <FaRegCommentAlt
+                                                                onClick={() => {
+                                                                    this.showFormDiv.current.style.display = 'none';
+                                                                    this.textarea.current.placeholder = (
+                                                                        (staticText[localStorage.getItem('language')]) ?
+                                                                        staticText[localStorage.getItem('language')].placeholderReply
+                                                                        :
+                                                                        staticText['en-US'].placeholderReply
+                                                                    ) + comment.userUsername;
+                                                                    this.formDiv.current.style.display = 'flex';
+
+                                                                    this.setState({
+                                                                        controlId: comment._id,
+                                                                        controlType: 'comment',
+                                                                    })
+                                                                }}
+                                                            />
+                                                        </div>
+                                                    </div>
+
+                                                    {
+                                                        (this.state[ comment._id + "Length" ]) ?
+                                                        (
+                                                            <div className="comment-on-object-replies-outter-container">
+                                                                <div
+                                                                    className={
+                                                                        (this.state[ comment._id + "Length" ] === 1)
+                                                                        ?
+                                                                        'comment-on-object-replies-number-outter-container-not-show'
+                                                                        :
+                                                                        'comment-on-object-replies-number-outter-container'
+                                                                    }
+                                                                    id={'comment-on-object-replies-number-outter-container-' + index}
+                                                                    onClick={async () => {
+
+                                                                        if(document.getElementById('comment-on-object-replies-inner-container-1-' + index).style.display === 'none' || 
+                                                                            document.getElementById('comment-on-object-replies-inner-container-1-' + index).style.display === '') {
+
+                                                                            if(!this.state[ comment._id + "Comments" ].length) {
+                                                                                await this.setState({
+                                                                                    controlId: comment._id,
+                                                                                });
+
+                                                                                await this.loadComments();
+                                                                            }
+
+                                                                            document.getElementById('comment-on-object-replies-inner-container-1-' + index).style.display = 'flex';
+                                                                            document.getElementById('comment-on-object-replies-number-outter-container-' + index).innerText = 
+                                                                            (
+                                                                                (staticText[localStorage.getItem('language')]) ?
+                                                                                staticText[localStorage.getItem('language')].hideReply
+                                                                                :
+                                                                                staticText['en-US'].hideReply
+                                                                            );
+                                                                        }
+
+                                                                        else {
+                                                                            document.getElementById('comment-on-object-replies-inner-container-1-' + index).style.display = 'none';
+                                                                            document.getElementById('comment-on-object-replies-number-outter-container-' + index).innerText = 
+                                                                                (
+                                                                                    (staticText[localStorage.getItem('language')]) ?
+                                                                                    staticText[localStorage.getItem('language')].showReply + ` (${this.state[ comment._id + "Length" ]})`
+                                                                                    :
+                                                                                    staticText['en-US'].showReply + ` (${this.state[ comment._id + "Length" ]})`
+                                                                                )
+                                                                        }
+                                                                    }}
+                                                                >
+                                                                    {
+                                                                        (!document.getElementById('comment-on-object-replies-inner-container-1-' + index) ||
+                                                                        (document.getElementById('comment-on-object-replies-inner-container-1-' + index).style.display === 'none' || 
+                                                                        document.getElementById('comment-on-object-replies-inner-container-1-' + index).style.display === ''))
+                                                                        ?
+                                                                        (
+                                                                            (staticText[localStorage.getItem('language')]) ?
+                                                                            staticText[localStorage.getItem('language')].showReply + ` (${this.state[ comment._id + "Length" ]})`
+                                                                            :
+                                                                            staticText['en-US'].showReply + ` (${this.state[ comment._id + "Length" ]})`
+                                                                        )
+                                                                        :
+                                                                        (
+                                                                            (staticText[localStorage.getItem('language')]) ?
+                                                                            staticText[localStorage.getItem('language')].hideReply
+                                                                            :
+                                                                            staticText['en-US'].hideReply
+                                                                        )
+                                                                    }
+                                                                </div>
+
+                                                                <div
+                                                                    className={
+                                                                        (this.state[ comment._id + "Length" ] === 1)
+                                                                        ?
+                                                                        'comment-on-object-replies-inner-container-1-show'
+                                                                        :
+                                                                        'comment-on-object-replies-inner-container-1'
+                                                                    }
+                                                                    id={'comment-on-object-replies-inner-container-1-' + index}
+                                                                >
+                                                                    <div className="comment-on-object-replies-vertical-rectangle-outter-container">
+                                                                        <div></div>
+                                                                    </div>
+
+                                                                    <div className="comment-on-object-replies-inner-container-2">
+                                                                        {
+                                                                            this.state[ comment._id + "Comments" ].map((reply, index1) => {
+                                                                                return (
+                                                                                    <div className="comment-on-object-reply-outter-container" key={`${index}-${index1}`}>
+                                                                                        <div className="show-media-and-content-header-outter-container">
+                                                                                            <div
+                                                                                                className="comment-on-object-reply-profile-picture-container"
+                                                                                                style={{
+                                                                                                    backgroundImage: `url(${reply.userProfilePictureUrl})`
+                                                                                                }}
+                                                                                            >
+                                                                                            </div>
+
+                                                                                            <div className="comment-on-object-reply-name-and-username-outter-container">
+                                                                                                <div className="comment-on-object-reply-name-outter-container">
+                                                                                                    <Link to={"/profile/" + reply.userUsername}>
+                                                                                                        { reply.userName }
+                                                                                                    </Link>
+                                                                                                </div>
+
+                                                                                                <div className="comment-on-object-reply-username-outter-container">
+                                                                                                    <Link to={"/profile/" + reply.userUsername}>
+                                                                                                        @{ reply.userUsername }
+                                                                                                    </Link>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div className="comment-on-object-reply-content-outter-container">
+                                                                                            <Linkify>
+                                                                                                { `${reply.content.text}` }
+                                                                                            </Linkify>
+                                                                                        </div>
+
+                                                                                        <div className="comment-on-object-reply-rate-and-comment-outter-container ">
+                                                                                            <RateType1
+                                                                                                rate={reply.rate.$numberDecimal}
+                                                                                                rateNumber={reply.rateNumber}
+                                                                                                isRated={this.state[comment._id + "RatedComments"].includes(reply._id)}
+
+                                                                                                type={reply.type}
+                                                                                                id={reply._id}
+                                                                                            />
+
+                                                                                            <div className="comment-on-object-reply-main-icon">
+                                                                                                <FaRegCommentAlt
+                                                                                                    // onClick={() => {
+                                                                                                    //     this.showFormDiv.current.style.display = 'none';
+                                                                                                    //     this.textarea.current.placeholder = 'Reply to @' + reply.userUsername;
+                                                                                                    //     this.formDiv.current.style.display = 'flex';
+
+                                                                                                    //     this.setState({
+                                                                                                    //         controlId: reply._id,
+                                                                                                    //         controlType: 'comment',
+                                                                                                    //     })
+                                                                                                    // }}
+                                                                                                />
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                )
+                                                                            })
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                        :
+                                                        ''
+                                                    }
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            )
+                        }
+                    </div>
+
+                    <div className="comment-on-object-form-outter-container" ref={this.formDiv}>
+                        <button className="comment-on-object-form-close-button-outter-container">
+                            <MdClose
+                                onClick={() => {
+
+                                    this.setState({
+                                        controlId: this.props.id,
+                                        controlType: 'object',
+                                    })
+
+                                    this.showFormDiv.current.style.display = 'block';
+                                    this.formDiv.current.style.display = 'none';
+                                    this.textarea.current.placeholder = (
+                                        (staticText[localStorage.getItem('language')]) ?
+                                        staticText[localStorage.getItem('language')].placeholder[0] + this.props.name +
+                                        staticText[localStorage.getItem('language')].placeholder[1][this.state.currentCommentSection]
+                                        :
+                                        staticText['en-US'].placeholder[0] + this.props.name +
+                                        staticText['en-US'].placeholder[1][this.state.currentCommentSection]
+                                    );
+                                }}
+                            />
+                        </button>
+
+                        <form onSubmit={this.sendComment}>
+                            <textarea
+                                type="text"
+                                name="comment"
+
+                                placeholder={
+                                    (staticText[localStorage.getItem('language')]) ?
+                                    staticText[localStorage.getItem('language')].placeholder[0] + this.props.name +
+                                    staticText[localStorage.getItem('language')].placeholder[1][this.state.currentCommentSection]
+                                    :
+                                    staticText['en-US'].placeholder[0] + this.props.name +
+                                    staticText['en-US'].placeholder[1][this.state.currentCommentSection]
+                                }
+
+                                ref={ this.textarea }
+                                
+                                required
+                                minLength="3"
+                                maxLength="547"
+
+                                value={comment}
+                                onChange={this.handleChange}
+                            />
+
+                            <button
+                                type="submit"
+                            >
+                                <IoMdSend />
+                            </button>
+                        </form>
+                    </div>
+
+                    {
+                        (
+                            // common user can comment on common section only
+                            (userCommentSection === 'common' && currentCommentSection === 'common') ||
+                            // hater user can comment on both common and hater section
+                            (userCommentSection === 'hater' && 
+                            (currentCommentSection === 'hater' || currentCommentSection === 'common')) ||
+                            // lover user can comment on both common and lover section
+                            (userCommentSection === 'lover' && 
+                            (currentCommentSection === 'lover' || currentCommentSection === 'common'))
+                        )
+                        ?
+                        (
+                            <div className="comment-on-object-add-comment-icon-outter-container" ref={this.showFormDiv}>
+                                <FaRegCommentAlt
+                                    onClick={() => {
+                                        this.showFormDiv.current.style.display = 'none';
+                                        this.formDiv.current.style.display = 'flex';
+                                    }}
+                                />
+                            </div> 
+                        )
+                        :
+                        ''
+                    }
+                </div>
+                // <div className="comment-outter-container">
+                //     <div className="delete-warning-container" ref={this.deleteDiv}>
+                //         <div>
+                //             Delete comment?
+                //         </div>
+
+                //         <div>
+                //             You can't retrieve this comment after it is deleted.
+                //         </div>
+
+                //         <div>
+                //             <button onClick={this.deleteComment}>
+                //                 Yes
+                //             </button>
+
+                //             <button onClick={this.hideDeleteDiv}>
+                //                 No
+                //             </button>
+                //         </div>
+                //     </div>
+
+                //     <div>
+                //         <div>
+
+                //             <button className="rtstr-button cl" onClick={() => {
+                //                 this.setState({
+                //                     clicked: false,
+                //                 }, () => {
+                //                     this.state = {};
+                //                 })
+                //             }}>
+                //                 <MdClose className="ccn-spcts" />
+                //             </button>
+
+                //             <div className="message-outter-container">
+                //                 <div>
+                //                     {
+                //                         comments.map((comm, index) => {
+                //                         //console.log(comm._id);
+                //                         //if(comm.type === 'comment') {
+                //                             return (
+                //                                 <div key={comm._id} className="fy-cmmnt-container" >
+                //                                     <button className="dlt-cmmnt-bt-fy" onClick={() => {
+                //                                         this.showDeleteDiv(comm._id)
+                //                                     }}>
+                //                                         <RiDeleteBin6Line className="dlt-cmmnt-ico-fy" />
+                //                                     </button>
+
+                //                                     <div
+                //                                         className="cmmwprgnrspc-fy"
+                //                                         onClick={() => {
+                //                                             this.redirectTo(comm._id);
+                //                                         }}
+                //                                     >
+                //                                         <ShowMediaAndContent
+                //                                             resource={comm}
+                //                                             type={comm.type}
+                //                                             index={index}
+                //                                         />
+                //                                     </div>
+
+                //                                     <div>
+                //                                         <div>
+                //                                             {
+                //                                                 this.showRatingSlider(comm._id)
+                //                                             }
+
+                //                                             <button className="rtstr-button" onClick={() => {
+                //                                                 this.showEditableDivForComment(comm._id, comm.userUsername);
+                //                                             }}>
+                //                                                 <FaRegCommentAlt className="ccn-spcts" />
+                //                                             </button>
+                //                                         </div>
+                //                                     </div>
+
+                //                                     {
+                //                                         //id, comms, clicked, commsLength, ratedComments
+                //                                         this.innerComments(
+                //                                             comm._id, this.state[comm._id] || [],
+                //                                             this.state[comm._id + "Clicked"] || false, this.state[comm._id + "Length"]
+                //                                             || comm.comments.length,
+                //                                             this.state[comm._id + "RatedComments"] || [])
+                //                                     }
+                                                    
+                //                                     {/* <InnerComments
+                //                                         id={comm._id}
+                //                                         comms={this.state[comm._id] || []}
+                                                        
+                //                                         clicked={this.state[comm._id + "Clicked"] || false}
+                //                                         commsLength={comm.comments.length}
+                                                        
+                //                                         ratedComments={this.state[comm._id + "RatedComments"] || []}
+
+                //                                         showEditableDivForComment={this.showEditableDivForComment}
+
+                //                                         onClick={this.onClickToShowReplies}
+                //                                         hideReplies={this.hideReplies}
+                //                                     /> */}
+
+                //                                 </div>
+                //                             )
+                //                         })
+                //                     }
+                //                 </div>
+                //             </div>
+
+                //             <div className="comment-on-object-on-for-you-editable-container"  ref={ this.editableDivContainer }>
+                //                 <button className="rtstr-button cl" onClick={this.onClickCloseAddCommentButton}>
+                //                     <MdClose className="ccn-spcts" />
+                //                 </button>
+
+                //                 <div className="comment-on-object-on-for-you-editable-caption" ref={ this.editableDivCaption }>
+                                    
+                //                 </div>
+
+                //                 <form
+                //                     id="comment-on-object-on-for-you-form"
+                //                 >
+                //                     <textarea
+                //                         type="text"
+                //                         name="comment"
+                //                         className="comment-on-object-on-for-you-textarea"
+
+                //                         ref={ this.textarea }
+                //                         required
+                //                         maxLength="319"
+
+                //                         value={comment}
+                //                         onChange={this.handleChange}
+                //                     />
+                                    
+                //                 </form>
+
+                //                 <button
+                //                     type="submit"
+                //                     form="comment-on-object-on-for-you-form"
+
+                //                     className="send-cm-button"
+                //                     onClick={this.sendComment}
+                //                 >
+                //                     <IoMdSend className="send-cm-icon" />
+                //                 </button>
+                //             </div>
+                        
+                //             <button  ref={ this.showCommentDivButton } className="rtstr-button" onClick={this.showEditableDiv}>
+                //                 <FaRegCommentAlt className="ddccmm" />
+                //             </button>
+                //         </div>
+                //     </div>
+                // </div>
+            )
+        }
+
+        else {
+            return(
+                <div className="comment-on-object-outter-container">
+                    <button className="comment-on-object-close-button-outter-container"
+                        onClick={() => {
+                            this.props.setComponentToNull()
+                        }}
+                    >
+                        <MdClose />
+                    </button>
+
+                    <div className="comment-on-object-sections-outter-container">
+                        <div
+                            className={
+                                (currentCommentSection === 'hater')
+                                ?
+                                'comment-on-object-section-highlighted hater-highlighted'
+                                :
+                                'comment-on-object-section hater'
+                            }
+                            onClick={async () => {
+                                const { currentCommentSection } = this.state;
+
+                                if(currentCommentSection !== 'hater') {
+                                    await this.setState({
+                                        currentCommentSection: 'hater',
+                                        controlCommentSection: 'hater',
+                                        loaded: false,
+                                    })
+    
+                                    this.loadComments()
+                                }
+                            }}
+                        >
+                            <span>
+                                HATERS
+                            </span>
+                        </div>
+
+                        <div
+                            className={
+                                (currentCommentSection === 'common')
+                                ?
+                                'comment-on-object-section-highlighted common-highlighted'
+                                :
+                                'comment-on-object-section common'
+                            }
+                            onClick={async () => {
+                                const { currentCommentSection } = this.state;
+
+                                if(currentCommentSection !== 'common') {
+                                    await this.setState({
+                                        currentCommentSection: 'common',
+                                        controlCommentSection: 'common',
+                                        loaded: false,
+                                    })
+    
+                                    this.loadComments()
+                                }
+                            }}
+                        >
+                            <span>
+                                COMMON
+                            </span>
+                        </div>
+
+                        <div
+                            className={
+                                (currentCommentSection === 'lover')
+                                ?
+                                'comment-on-object-section-highlighted lover-highlighted'
+                                :
+                                'comment-on-object-section lover'
+                            }
+                            onClick={async () => {
+                                const { currentCommentSection } = this.state;
+
+                                if(currentCommentSection !== 'lover') {
+                                    await this.setState({
+                                        currentCommentSection: 'lover',
+                                        controlCommentSection: 'lover',
+                                        loaded: false,
+                                    })
+    
+                                    this.loadComments()
+                                }
+                            }}
+                        >
+                            <span>
+                                LOVERS
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="comment-on-object-inner-container">
+                        <div className="comment-on-object-message-outter-container">
+                            {
+                                (staticText[localStorage.getItem('language')]) ?
+                                staticText[localStorage.getItem('language')].noCommentsMessage
+                                :
+                                staticText['en-US'].noCommentsMessage
+                            }
+                        </div>
+                    </div>
+
+                    {
+                        (
+                            // common user can comment on common section only
+                            (userCommentSection === 'common' && currentCommentSection === 'common') ||
+                            // hater user can comment on both common and hater section
+                            (userCommentSection === 'hater' && 
+                            (currentCommentSection === 'hater' || currentCommentSection === 'common')) ||
+                            // lover user can comment on both common and lover section
+                            (userCommentSection === 'lover' && 
+                            (currentCommentSection === 'lover' || currentCommentSection === 'common'))
+                        )
+                        ?
+                        (
+                            <div className="comment-on-object-no-comments-form-outter-container">
+                                <form onSubmit={this.sendComment}>
+                                    <textarea
+                                        type="text"
+                                        name="comment"
+
+                                        placeholder={
+                                            (staticText[localStorage.getItem('language')]) ?
+                                            staticText[localStorage.getItem('language')].placeholder[0] + this.props.name +
+                                            staticText[localStorage.getItem('language')].placeholder[1][this.state.currentCommentSection]
+                                            :
+                                            staticText['en-US'].placeholder[0] + this.props.name +
+                                            staticText['en-US'].placeholder[1][this.state.currentCommentSection]
+                                        }
+
+                                        ref={this.textarea}
+                                        
+                                        required
+                                        minLength="3"
+                                        maxLength="547"
+
+                                        value={comment}
+                                        onChange={this.handleChange}
+                                    />
+
+                                    <button
+                                        type="submit"
+                                    >
+                                        <IoMdSend />
+                                    </button>
+                                </form>
+                            </div>
+                        )
+                        :
+                        ''
+                    }
+                </div>
+            )
+        }
+    }
+}
