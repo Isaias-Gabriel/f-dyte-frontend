@@ -4,11 +4,11 @@
     z-index: 81;
     background-color: white;
 
-    top: 7vh;
+    top: 5vh;
     left: 6vw;
+    bottom: 5vh;
 
     min-height: 300px;
-    height: 86vh;
     min-width: 200px;
     width: 88vw;
 
@@ -33,7 +33,7 @@
 .comment-inner-container {
     position: relative;
 
-    height: calc(86vh - (2px + 7.6vh + 5.4vw));
+    height: calc(86vh - (1px + 6.7vh));
     width: 100%;
 
     padding: 0 calc(1px + 2.3vh + 1.7vw);
@@ -239,7 +239,6 @@
 .comment-replies-number-outter-container {
     width: 100%;
 
-    /* border-top: solid calc(1px + 0.01vh + 0.05vw) rgb(200, 200, 200); */
     padding: calc(1px + 0.1vh + 0.3vw) 0;
 
     font-size: 0.9rem;
