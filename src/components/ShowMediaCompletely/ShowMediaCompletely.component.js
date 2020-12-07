@@ -38,7 +38,8 @@ export default class ShowMediaCompletely extends Component {
 
         return (
             <div className="show-media-completely-outter-container">
-                <button className="show-media-completely-close-button-outter-container"
+                <button
+                    className="show-media-completely-close-button-outter-container"
                     onClick={() => {
                         this.props.setComponentToNull()
                     }}
@@ -46,10 +47,20 @@ export default class ShowMediaCompletely extends Component {
                     <MdClose />
                 </button>
 
+                <div
+                    className="show-media-completely-aux-div"
+                    onClick={() => {
+                        this.props.setComponentToNull()
+                    }}
+                >
+                </div>
+
+                <span>
+                    <img src={this.props.url} alt="complete"/>
+                </span>
+
                 <div className="show-media-completely-inner-container">
-                    <span>
-                        <img src={this.props.url} alt="complete"/>
-                    </span>
+                    
                 </div>
             </div>
         )

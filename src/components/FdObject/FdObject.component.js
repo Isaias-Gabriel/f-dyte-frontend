@@ -5,7 +5,7 @@ import axios from 'axios';
 import { w3cwebsocket as W3CWebSocket } from 'websocket';
 
 import { FaRegCommentAlt } from 'react-icons/fa';
-import { RiUserFollowLine } from 'react-icons/ri';
+import { BsPerson } from 'react-icons/bs';
 import { HiOutlineStar } from 'react-icons/hi';
 
 import Menu from '../Menu/Menu.component';
@@ -128,6 +128,8 @@ export default class FdObject extends Component {
                 object: this.props.data[0][1],
             }, () => {
 
+                document.getElementsByTagName('title')[0].innerText = this.state.object.name + ' - object - f Dyte';
+
                 let temp_rate = this.state.object.rate.$numberDecimal;
                 let rateIntegerPart, rateFirst2Decimals;
 
@@ -174,6 +176,8 @@ export default class FdObject extends Component {
         else {
             axios.get(process.env.REACT_APP_SERVER_ADDRESS + '/complete_object_info/' + this.props.match.params.nickname)
             .then(response => {
+
+                document.getElementsByTagName('title')[0].innerText = response.data.object.name + ' - object - f Dyte';
 
                 this.setState({
                     object: response.data.object,
@@ -512,7 +516,7 @@ export default class FdObject extends Component {
                                 />
 
                                 <div className="object-main-icons">
-                                    <RiUserFollowLine />
+                                    <BsPerson />
                                 </div>
                             </div>
 

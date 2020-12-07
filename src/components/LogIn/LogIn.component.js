@@ -72,6 +72,26 @@ export default class Home extends Component {
     //'daily'
 
     componentDidMount() {
+
+        //this.props.location.search should be on the form "?key=value"
+        //put the string on the form [[key, value], ..., [nKey, nValue]]
+        const auxArray = this.props.location.search.split('?');
+
+        auxArray.shift();
+
+        let counter = 0;
+
+        for(let element of auxArray) {
+            auxArray[counter] = element.split('=');
+            counter += 1;
+        }
+
+        if(auxArray[0]) {
+            this.setState({
+                redirectTo: auxArray[0][1],
+            })
+        }
+
         // this.submitButton.current.disabled = true;
         // console.log(new Date().getHours().toString() + ':' + new Date().getMinutes().toString());
 
@@ -124,13 +144,8 @@ export default class Home extends Component {
 
                     let url = '/';
 
-                    if(this.props.url) {
-                        const temp_url = this.props.url;
-                        
-                        if(temp_url.includes('/profile/')) {
-                            url = '/redirect_to_profile/' + temp_url.substring(9, temp_url.length);
-                        }
-                        //url = this.props.url;
+                    if(this.state.redirectTo) {
+                        url = this.state.redirectTo;
                     }
 
                     this.setState({

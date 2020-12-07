@@ -78,11 +78,18 @@ export default class MainHub extends Component {
     }
     
     render() {
-
         if(localStorage.getItem('e')) {
             if(this.props.match.path === '/profile/:username') {
                 return(
                     <Feed
+                        match={this.props.match}
+                    />
+                )
+            }
+
+            else if(this.props.match.path === '/object/:nickname') {
+                return(
+                    <FdObject
                         match={this.props.match}
                     />
                 )
@@ -93,6 +100,14 @@ export default class MainHub extends Component {
             if(this.props.match.path === '/profile/:username') {
                 return(
                     <NotLoggedInFeed
+                        match={this.props.match}
+                    />
+                )
+            }
+
+            else if(this.props.match.path === '/object/:nickname') {
+                return(
+                    <NotLoggedInFdObject
                         match={this.props.match}
                     />
                 )

@@ -173,6 +173,8 @@
     font-size: calc(1px + 1vh + 0.7vw);
 
     background: rgb(184, 37, 11);
+
+    z-index: 3;
 }
 
 .more-icon svg {
@@ -369,6 +371,8 @@
     min-height: 27px;
     height: 7.3vh;
     width: 100%;
+
+    cursor: pointer;
 
     font-size: calc(3px + 1.9vh + 1.7vw);
 }

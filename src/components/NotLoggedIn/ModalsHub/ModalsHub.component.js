@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import ShowAndPostComments from '../ShowAndPostComments/ShowAndPostComments.component';
 
+import LogInSignUpMessage from '../LogInSignUpMessage/LogInSignUpMessage.component';
+
 require('dotenv/config');
 
 export default class Test extends Component {
@@ -31,6 +33,8 @@ export default class Test extends Component {
 
         const { whichComponent } = this.props;
 
+        console.log(whichComponent)
+
         if(whichComponent) {
             if(whichComponent === 'comment') {
                 const { id, type } = this.props.componentProps;
@@ -42,6 +46,14 @@ export default class Test extends Component {
                     />;
             }
 
+            else if(whichComponent === 'logInSignUpMessage') {
+                const { nickname } = this.props.componentProps;
+
+                return <LogInSignUpMessage
+                        nickname={nickname}
+                        setComponentToNull={this.props.setComponentToNull}
+                    />;
+            }
             return '';
         }
 

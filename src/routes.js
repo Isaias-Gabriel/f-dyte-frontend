@@ -42,7 +42,7 @@ export default function Routes() {
             <Route path="/notifications" component={Notification} />
 
             <Route path="/create_object" component={CreateObject} />
-            <Route path="/object/:nickname" component={FdObject} />
+            <Route path="/object/:nickname" component={MainHub} />
             <Route path="/redirect_to_object/:nickname" component={RedirectToObject} />
 
             <Route path="/profile/:username" exact component={MainHub} />

@@ -5,7 +5,7 @@ import axios from 'axios';
 import { w3cwebsocket as W3CWebSocket } from 'websocket';
 
 import { FaRegCommentAlt } from 'react-icons/fa';
-import { RiUserFollowLine } from 'react-icons/ri';
+import { BsPerson } from 'react-icons/bs';
 import { HiOutlineStar } from 'react-icons/hi';
 
 import Menu from '../Menu/Menu.component';
@@ -14,6 +14,8 @@ import CommentOnObject from '../Comment/CommentOnObject.component';
 import FollowObject from '../FollowObject/FollowObject.component';
 
 import RateType2 from '../RatingSlider/RateType2.component';
+
+import ModalsHub from '../ModalsHub/ModalsHub.component';
 
 //import './styles.css';
 
@@ -60,6 +62,8 @@ export default class FdObject extends Component {
 
         this.updateRate = this.updateRate.bind(this);
 
+        this.setComponentToNull = this.setComponentToNull.bind(this);
+
         this.state = {
             objectFound: true,
 
@@ -82,6 +86,8 @@ export default class FdObject extends Component {
             rateFirst2Decimals: '00',
 
             rateSubmitted: null,
+
+            whichComponent: null,
         }
     }
 
@@ -97,29 +103,31 @@ export default class FdObject extends Component {
             objectNickname = this.props.match.params.nickname;
         }
 
-        const client = new W3CWebSocket('ws://127.0.0.1:8000/');
+        // const client = new W3CWebSocket('ws://127.0.0.1:8000/');
 
-        client.onopen = () => {
-            client.send(JSON.stringify({
-                type: 'objectConnection',
-                sessionId: localStorage.getItem('e'),
-                objectNickname: objectNickname,
-            }))
-            console.log('Websocket client - object connected');
-        };
+        // client.onopen = () => {
+        //     client.send(JSON.stringify({
+        //         type: 'objectConnection',
+        //         sessionId: localStorage.getItem('e'),
+        //         objectNickname: objectNickname,
+        //     }))
+        //     console.log('Websocket client - object connected');
+        // };
 
-        client.onmessage = (message) => {
-            const dataFromServer = JSON.parse(message.data);
-            console.log(dataFromServer)
-            this.setState({
-                object: dataFromServer.object,
-            })
-        }
+        // client.onmessage = (message) => {
+        //     const dataFromServer = JSON.parse(message.data);
+        //     console.log(dataFromServer)
+        //     this.setState({
+        //         object: dataFromServer.object,
+        //     })
+        // }
 
         if(this.props.data) {
             this.setState({
                 object: this.props.data[0][1],
             }, () => {
+
+                document.getElementsByTagName('title')[0].innerText = this.state.object.name + ' - object - f Dyte';
 
                 let temp_rate = parseFloat(this.state.object.rate.$numberDecimal);
                 let rateIntegerPart, rateFirst2Decimals;
@@ -155,24 +163,14 @@ export default class FdObject extends Component {
                     sessionId: localStorage.getItem('e'),
                 };
 
-                //if the user can rate the object from the profile, it will return true, else, return false :v
-                axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/user_can_rate_or_follow_object', formInfo)
-                    .then(res => {
-                        this.setState({
-                            //if canBeRated is true then isRated is false '-' (yeah, confusing and clearly a mistake, I know)
-                            isRated: !(res.data.canBeRated),
-                            followersNumber: this.state.object.followedBy.length,
-                            isFollowed: res.data.isFollowed,
-                        })
-                    })
-                    .catch(err => console.log(err));
-
             })
         }
 
         else {
             axios.get(process.env.REACT_APP_SERVER_ADDRESS + '/complete_object_info/' + this.props.match.params.nickname)
             .then(response => {
+
+                document.getElementsByTagName('title')[0].innerText = response.data.object.name + ' - object - f Dyte';
 
                 this.setState({
                     object: response.data.object,
@@ -423,6 +421,12 @@ export default class FdObject extends Component {
         })
     }
 
+    setComponentToNull() {
+        this.setState({
+            whichComponent: null,
+        })
+    }
+
     render() {
         const { objectFound } = this.state;
 
@@ -507,17 +511,30 @@ export default class FdObject extends Component {
 
                         <div className="object-main-content-outter-container">
                             <div className="object-rate-comment-and-follow-outter-container">
-                                <RateType2
-                                    isRated={isRated}
-
-                                    updateRate={this.updateRate}
-
-                                    type={'object'}
-                                    id={id}
-                                />
+                                <div className="object-main-icons">
+                                    <HiOutlineStar
+                                        onClick={() => {
+                                            this.setState({
+                                                whichComponent: 'logInSignUpMessage',
+                                                componentProps: {
+                                                    nickname,
+                                                }
+                                            });
+                                        }}
+                                    />
+                                </div>
 
                                 <div className="object-main-icons">
-                                    <RiUserFollowLine />
+                                    <BsPerson
+                                        onClick={() => {
+                                            this.setState({
+                                                whichComponent: 'logInSignUpMessage',
+                                                componentProps: {
+                                                    nickname,
+                                                }
+                                            });
+                                        }}
+                                    />
                                 </div>
                             </div>
 
@@ -598,9 +615,25 @@ export default class FdObject extends Component {
                         </div>
                     </div>
 
-                    <div className="object-main-icons">
-                        <FaRegCommentAlt />
+                    <div className="object-comment-icon-outter-container">
+                        <FaRegCommentAlt
+                            onClick={() => {
+                                this.setState({
+                                    whichComponent: 'logInSignUpMessage',
+                                    componentProps: {
+                                        nickname,
+                                    }
+                                });
+                            }}
+                        />
                     </div>
+
+                    <ModalsHub 
+                        whichComponent={this.state.whichComponent}
+                        componentProps={this.state.componentProps}
+
+                        setComponentToNull={this.setComponentToNull}
+                    />
                 </div>
                 
                 

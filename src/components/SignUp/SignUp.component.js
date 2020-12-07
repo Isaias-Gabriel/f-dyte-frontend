@@ -137,6 +137,25 @@ export default class SignUp extends Component {
     componentDidMount() {
         document.getElementById("sgnp-submit-button").disabled = true;
 
+        //this.props.location.search should be on the form "?key=value"
+        //put the string on the form [[key, value], ..., [nKey, nValue]]
+        const auxArray = this.props.location.search.split('?');
+
+        auxArray.shift();
+
+        let counter = 0;
+
+        for(let element of auxArray) {
+            auxArray[counter] = element.split('=');
+            counter += 1;
+        }
+
+        if(auxArray[0]) {
+            this.setState({
+                redirectTo: auxArray[0][1],
+            })
+        }
+
         this.setState({
             currentStyle: dailyOrNightly(),
         })
@@ -365,24 +384,28 @@ export default class SignUp extends Component {
             axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/sign_up', evaluator)
                 .then(res => {
     
-                    const client = new W3CWebSocket('ws://127.0.0.1:8000/');
+                    // const client = new W3CWebSocket('ws://127.0.0.1:8000/');
     
-                    client.onopen = () => {
-                        client.send(JSON.stringify({
-                            type: 'userConnection',
-                            sessionId: res.data.sessionId,
-                        }))
-                        console.log('Websocket client - user connected');
-                    };
+                    // client.onopen = () => {
+                    //     client.send(JSON.stringify({
+                    //         type: 'userConnection',
+                    //         sessionId: res.data.sessionId,
+                    //     }))
+                    //     console.log('Websocket client - user connected');
+                    // };
     
                     localStorage.setItem("e", res.data.sessionId);
                     localStorage.setItem(res.data.sessionId, res.data.sessionId);
     
+                    let url = '/';
+
+                    if(this.state.redirectTo) {
+                        url = this.state.redirectTo;
+                    }
+
                     this.setState({
-                        logged: '/',
-                    }, () => {
-                        return <Redirect to={this.state.logged} />;
-                    })
+                        logged: url,
+                    });
                 })
                 .catch(err => console.log(err));
         }
@@ -392,6 +415,7 @@ export default class SignUp extends Component {
     }
     
     render() {
+
         if(localStorage.getItem(localStorage.getItem('e'))) {
             return <Redirect to={this.state.logged} />;
         }

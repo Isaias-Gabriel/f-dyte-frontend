@@ -103,8 +103,7 @@
     min-height: 170px;
     height: 47vh;
 
-    overflow-y: scroll;
-    overflow-x: hidden;
+    overflow: hidden;
 
     background:  rgb(255, 247, 233);
     background: linear-gradient(331deg,
@@ -190,7 +189,12 @@
 
     justify-content: center;
 
+    height: 31vh;
+
     padding: 0 calc(2px + 2vw + 1vh);
+
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .object-default-description-outter-container, .object-volatile-description-outter-container {
