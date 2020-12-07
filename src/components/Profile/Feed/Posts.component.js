@@ -326,15 +326,13 @@ export default class Posts extends Component {
         })
     }
 
-    deletePost() {
-        const { idToDelete: id, typeToDelete } = this.state;
-
+    deletePost(id, type, username) {
         const formInfo = {
-            username: this.props.username,
+            username,
             id,
         }
 
-        axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/delete_' + typeToDelete, formInfo)
+        axios.post(process.env.REACT_APP_SERVER_ADDRESS + '/delete_' + type, formInfo)
             .then(() => this.filterPosts(id))
             .catch(err => console.log(err));
     }
@@ -1348,103 +1346,22 @@ export default class Posts extends Component {
                                                 key={index}
                                                 className="profile-posts-display-single-post-outter-container"
                                             >
-                                                <div
-                                                    className="user-options-aux-div"
-                                                    id={"user-options-aux-div-" + index}
-                                                    onClick={() => {
-                                                        document.getElementById(`delete-message-div-${index}`).style.display = 'none';
-                                                        document.getElementById(`user-options-aux-div-${index}`).style.display = 'none';
-                                                        document.getElementById(`user-options-div-${index}`).style.display = 'none';
-                                                        document.getElementById(`user-options-icon-${index}`).style.display = 'block';
-                                                    }}
-                                                >
-                                                </div>
-
-                                                <div className="user-options-icon-outter-container" id={"user-options-icon-" + index}>
+                                                <div className="user-options-icon-outter-container">
                                                     <BsThreeDots
+                                                        className="user-options-svg"
                                                         onClick={() => {
-                                                            document.getElementById(`user-options-aux-div-${index}`).style.display = 'block';
-                                                            document.getElementById(`user-options-div-${index}`).style.display = 'block';
-                                                            document.getElementById(`user-options-icon-${index}`).style.display = 'none';
-
                                                             this.setState({
-                                                                idToDelete: post._id,
-                                                                typeToDelete: post.type,
-                                                            })
+                                                                whichComponent: 'profileOptions',
+                                                                componentProps: {
+                                                                    id: post._id,
+                                                                    type: post.type,
+                                                                    visitorUsername,
+                                                                    visitedUsername,
+                                                                    deletePost: this.deletePost,
+                                                                }
+                                                            });
                                                         }}
                                                     />
-                                                </div>
-
-                                                <div
-                                                    className="delete-message-outter-container"
-                                                    id={"delete-message-div-" + index}
-                                                >
-                                                    <div className="delete-message-inner-container">
-                                                        {
-                                                            (staticText[localStorage.getItem('language')]) ?
-                                                            staticText[localStorage.getItem('language')].optionsDelete
-                                                            :
-                                                            staticText['en-US'].optionsDelete
-                                                        }
-                                                        ?
-                                                    </div>
-
-                                                    <div className="delete-message-buttons-outter-container">
-                                                        <button
-                                                            className="delete-message-button"
-                                                            onClick={() => {
-                                                                document.getElementById(`delete-message-div-${index}`).style.display = 'none';
-                                                                document.getElementById(`user-options-aux-div-${index}`).style.display = 'none';
-                                                                document.getElementById(`user-options-div-${index}`).style.display = 'none';
-                                                                document.getElementById(`user-options-icon-${index}`).style.display = 'block';
-
-                                                                this.deletePost();
-                                                            }}
-                                                        >
-                                                            {
-                                                                (staticText[localStorage.getItem('language')]) ?
-                                                                staticText[localStorage.getItem('language')].yes
-                                                                :
-                                                                staticText['en-US'].yes
-                                                            }
-                                                        </button>
-
-                                                        <button
-                                                            className="delete-message-button"
-                                                            onClick={() => {
-                                                                document.getElementById(`delete-message-div-${index}`).style.display = 'none';
-                                                                document.getElementById(`user-options-aux-div-${index}`).style.display = 'none';
-                                                                document.getElementById(`user-options-div-${index}`).style.display = 'none';
-                                                                document.getElementById(`user-options-icon-${index}`).style.display = 'block';
-                                                            }}
-                                                        >
-                                                            {
-                                                                (staticText[localStorage.getItem('language')]) ?
-                                                                staticText[localStorage.getItem('language')].no
-                                                                :
-                                                                staticText['en-US'].no
-                                                            }
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-                                                <div className="user-options-outter-container" id={"user-options-div-" + index}>
-                                                    {
-                                                        (visitorUsername === visitedUsername) &&
-                                                        <div
-                                                            className="user-option"
-                                                            onClick={() => {
-                                                                document.getElementById(`delete-message-div-${index}`).style.display = 'flex';
-                                                            }}
-                                                        >
-                                                            {
-                                                                (staticText[localStorage.getItem('language')]) ?
-                                                                staticText[localStorage.getItem('language')].optionsDelete
-                                                                :
-                                                                staticText['en-US'].optionsDelete
-                                                            }
-                                                        </div>
-                                                    }
                                                 </div>
 
                                                 <div className="profile-posts-display-single-post-inner-container">

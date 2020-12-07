@@ -1097,6 +1097,10 @@ export default class ShowAndPostCommentsOnObject extends Component {
                                     onClick={() => {
                                         this.showFormDiv.current.style.display = 'none';
                                         this.formDiv.current.style.display = 'flex';
+                                        
+                                        if(document.getElementsByTagName('textarea')) {
+                                            document.getElementsByTagName('textarea')[0].focus();
+                                        }
                                     }}
                                 />
                             </div> 
@@ -1259,6 +1263,7 @@ export default class ShowAndPostCommentsOnObject extends Component {
         }
 
         else {
+
             return(
                 <div className="comment-on-object-outter-container">
                     <button className="comment-on-object-close-button-outter-container"
@@ -1396,6 +1401,8 @@ export default class ShowAndPostCommentsOnObject extends Component {
                                         required
                                         minLength="3"
                                         maxLength="547"
+
+                                        autoFocus
 
                                         value={comment}
                                         onChange={this.handleChange}

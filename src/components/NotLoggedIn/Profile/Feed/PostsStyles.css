@@ -409,8 +409,8 @@
 }
 
 .user-options-icon-outter-container svg {
-    height: 4.3vh;
-    width: 4.3vh;
+    height: 3.3vh;
+    width: 3.3vh;
 
     fill: rgba(190, 0, 48, 0.849);
 }
@@ -625,7 +625,7 @@
 
 .profile-posts-display-single-post-name-and-username-outter-container {
     height: calc(7.5vh + 4.5vw);
-    max-width: 61vw;
+    max-width: 57vw;
 }
 
 .profile-posts-display-single-post-name-outter-container,

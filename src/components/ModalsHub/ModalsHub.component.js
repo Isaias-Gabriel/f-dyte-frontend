@@ -5,6 +5,8 @@ import ShowAndPostCommentsOnObject from '../ShowAndPostComments/ShowAndPostComme
 
 import ShowMediaCompletely from '../ShowMediaCompletely/ShowMediaCompletely.component';
 
+import ProfileOptions from '../ProfileOptions/ProfileOptions.component';
+
 require('dotenv/config');
 
 export default class Test extends Component {
@@ -61,6 +63,19 @@ export default class Test extends Component {
 
                 return <ShowMediaCompletely
                         url={url}
+                        setComponentToNull={this.props.setComponentToNull}
+                    />;
+            }
+            
+            else if(whichComponent === 'profileOptions') {
+                const { id, type, visitorUsername, visitedUsername, deletePost} = this.props.componentProps;
+
+                return <ProfileOptions
+                        id={id}
+                        type={type}
+                        visitorUsername={visitorUsername}
+                        visitedUsername={visitedUsername}
+                        deletePost={deletePost}
                         setComponentToNull={this.props.setComponentToNull}
                     />;
             }

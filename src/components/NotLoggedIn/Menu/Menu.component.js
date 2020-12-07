@@ -14,8 +14,6 @@ import { MdClose } from 'react-icons/md';
 import LogOut from '../LogOut/LogOut.component';
 import Notification from '../Notification/Notification.component';
 
-import getUserUsername from '../../../functions/getUserUsername';
-
 import './styles.css';
 
 require('dotenv/config');
@@ -56,7 +54,10 @@ export default class Menu extends Component {
                     languages: [
                         ['inglês', 'english'],
                         ['português', 'português'],
-                    ]
+                    ],
+
+                    logIn: 'Entrar',
+                    signUp: 'Criar conta',
                 },
                 'en-US': {
                     searchPlaceholder: 'search for objects or users',
@@ -68,16 +69,16 @@ export default class Menu extends Component {
                     languages: [
                         ['english', 'english'],
                         ['portuguese', 'português'],
-                    ]
+                    ],
+
+                    logIn: 'Log in',
+                    signUp: 'Sign Up',
                 },
             }
         }
     }
 
     async componentDidMount() {
-        this.setState({
-            userUsername: await getUserUsername(),
-        })
 
         if(localStorage.getItem('language')) {
             for(let option of document.getElementsByTagName('option')) {
@@ -131,7 +132,6 @@ export default class Menu extends Component {
 
     render() {
         const {
-            userUsername,
             searchString,
             resultsFromSearch,
 
@@ -252,28 +252,6 @@ export default class Menu extends Component {
                             />
                         </div>
 
-                        <Link to='/edit_profile'>
-                            <div className="other-option-outter-container">
-                                {
-                                    (staticText[localStorage.getItem('language')]) ?
-                                    staticText[localStorage.getItem('language')].editProfile
-                                    :
-                                    staticText['en-US'].editProfile
-                                }
-                            </div>
-                        </Link>
-
-                        <Link to='/create_object'>
-                            <div className="other-option-outter-container">
-                                {
-                                    (staticText[localStorage.getItem('language')]) ?
-                                    staticText[localStorage.getItem('language')].createObject
-                                    :
-                                    staticText['en-US'].createObject
-                                }
-                            </div>
-                        </Link>
-
                         <div className="other-option-outter-container language-option">
                             {
                                 (staticText[localStorage.getItem('language')]) ?
@@ -317,9 +295,27 @@ export default class Menu extends Component {
                             </select>
                         </div>
 
-                        <div className="other-option-outter-container">
-                            <LogOut />
-                        </div>
+                        <Link to='/log_in'>
+                            <div className="other-option-outter-container">
+                                {
+                                    (staticText[localStorage.getItem('language')]) ?
+                                    staticText[localStorage.getItem('language')].logIn
+                                    :
+                                    staticText['en-US'].logIn
+                                }
+                            </div>
+                        </Link>
+
+                        <Link to='/sign_up'>
+                            <div className="other-option-outter-container">
+                                {
+                                    (staticText[localStorage.getItem('language')]) ?
+                                    staticText[localStorage.getItem('language')].signUp
+                                    :
+                                    staticText['en-US'].signUp
+                                }
+                            </div>
+                        </Link>
                     </div>
 
                     <div className="menu-icons-outter-container">
@@ -338,8 +334,6 @@ export default class Menu extends Component {
                             </div>
                         </Link>
 
-                        {/* <IoMdNotificationsOutline  /> */}
-
                         <div className="icon-outter-container search-icon">
                             <FiSearch
                                 onClick={() => {
@@ -349,19 +343,6 @@ export default class Menu extends Component {
                                 }}
                             />
                         </div>
-
-                        {
-                            (userUsername) &&
-                            (
-                                <Link to={"/redirect_to_profile/" + userUsername}>
-                                    <div className="icon-outter-container profile-icon">
-                                        <BsPerson />
-                                    </div>
-                                </Link>
-                            )
-                        }
-
-                        <Notification />
 
                         <div className="icon-outter-container more-icon">
                             <MdAdd

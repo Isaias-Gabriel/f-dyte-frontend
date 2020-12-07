@@ -823,6 +823,8 @@ export default class ShowAndPostComments extends Component {
                                 type="text"
                                 name="comment"
 
+                                id="comment-textarea"
+
                                 placeholder={
                                     (staticText[localStorage.getItem('language')]) ?
                                     staticText[localStorage.getItem('language')].placeholder
@@ -853,6 +855,10 @@ export default class ShowAndPostComments extends Component {
                             onClick={() => {
                                 this.showFormDiv.current.style.display = 'none';
                                 this.formDiv.current.style.display = 'flex';
+
+                                if(document.getElementById('comment-textarea')) {
+                                    document.getElementById('comment-textarea').focus();
+                                }
                             }}
                         />
                     </div>
@@ -1050,6 +1056,8 @@ export default class ShowAndPostComments extends Component {
                                 required
                                 minLength="3"
                                 maxLength="547"
+
+                                autoFocus
 
                                 value={comment}
                                 onChange={this.handleChange}
